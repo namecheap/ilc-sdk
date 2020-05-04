@@ -92,5 +92,32 @@ describe('IlcSdk', () => {
     });
 
 
+    describe('processResponse', () => {
+        it('should not fail on regular request', () => {
+            const req = new MockReq(merge({}, defReq));
+            const res = new MockRes();
+
+            const pRes = ilcSdk.processRequest(req);
+            ilcSdk.processResponse(pRes, res);
+        });
+
+        it('should set page title', () => {
+            const req = new MockReq(merge({}, defReq));
+            const res = new MockRes();
+
+            const pRes = ilcSdk.processRequest(req);
+            ilcSdk.processResponse(pRes, res, {pageTitle: 'Test title'});
+            expect(res.getHeader('x-head-title')).to.eq(Buffer.from('<title>Test title</title>', 'utf8').toString('base64'));
+        });
+
+        it('should set page meta tags', () => {
+            const req = new MockReq(merge({}, defReq));
+            const res = new MockRes();
+
+            const pRes = ilcSdk.processRequest(req);
+            ilcSdk.processResponse(pRes, res, {pageMetaTags: '<meta charset="utf-8">'});
+            expect(res.getHeader('x-head-meta')).to.eq(Buffer.from('<meta charset="utf-8">', 'utf8').toString('base64'));
+        });
+    })
 
 });

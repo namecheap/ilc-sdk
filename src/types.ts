@@ -15,5 +15,5 @@ export interface AppAssets {
 export interface ResponseData {
     appAssets?: AppAssets;
     pageTitle?: string;
-    pageMetaTags: string;
+    pageMetaTags?: string;
 }

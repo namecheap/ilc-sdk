@@ -26,12 +26,18 @@ export default class IlcSdk {
         };
     };
 
-    public processResponse(reqData: types.RequestData, res: ServerResponse, data: types.ResponseData): void {
+    public processResponse(reqData: types.RequestData, res: ServerResponse, data?: types.ResponseData): void {
+        if (!data) {
+            return;
+        }
+        if (res.headersSent) {
+            throw new Error('Unable to set all necessary headers as they were already sent');
+        }
         if (data.pageTitle) {
-            res.setHeader('x-head-title', new Buffer(`<title>${data.pageTitle}</title>`).toString('base64'))
+            res.setHeader('x-head-title', Buffer.from(`<title>${data.pageTitle}</title>`, 'utf8').toString('base64'))
         }
         if (data.pageMetaTags) {
-            res.setHeader('x-head-meta', new Buffer(data.pageMetaTags).toString('base64'))
+            res.setHeader('x-head-meta', Buffer.from(data.pageMetaTags, 'utf8').toString('base64'))
         }
         if (data.appAssets) {
             const publicPath = (reqData.getCurrentPathProps() as any).publicPath;

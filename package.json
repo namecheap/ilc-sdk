@@ -10,6 +10,7 @@
   "scripts": {
     "build": "tsc",
     "test": "mocha -r ts-node/register **/*.spec.ts",
+    "coverage": "nyc npm run test",
     "format": "prettier --write \"src/**/*.ts\" \"src/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"src/*.ts\"",
     "lint": "tslint -p tsconfig.json"
@@ -34,6 +35,7 @@
     "lodash.merge": "^4.6.2",
     "mocha": "^7.1.2",
     "mock-http": "^1.1.0",
+    "nyc": "^15.0.1",
     "prettier": "^2.0.5",
     "sinon": "^9.0.2",
     "ts-node": "^8.10.1",

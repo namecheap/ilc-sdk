@@ -5,7 +5,7 @@
     "declaration": true,
     "outDir": "./dist",
     "strict": true,
-    "types" : ["node"],
+    "types" : ["node", "mocha"],
     "esModuleInterop": true
   },
   "include": ["src"],

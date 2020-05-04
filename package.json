@@ -1,0 +1,38 @@
+{
+  "name": "ilc-server-sdk",
+  "version": "1.0.0",
+  "description": "SDK for server side communication with Isomorphic Layout Composer",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write \"src/**/*.ts\" \"src/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"src/*.ts\"",
+    "lint": "tslint -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/namecheap/ilc-server-sdk.git"
+  },
+  "author": "Namecheap, Inc",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/namecheap/ilc-server-sdk/issues"
+  },
+  "homepage": "https://github.com/namecheap/ilc-server-sdk#readme",
+  "devDependencies": {
+    "@types/node": "^13.13.4",
+    "prettier": "^2.0.5",
+    "tslint": "^6.1.2",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@types/url-join": "^4.0.0",
+    "url-join": "^4.0.1"
+  }
+}

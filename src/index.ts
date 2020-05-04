@@ -9,7 +9,7 @@ export default class IlcSdk {
     private log: Console;
     private defaultPublicPath: string;
 
-    constructor({logger = console, publicPath = '/'}) {
+    constructor({logger = console, publicPath = '/'} = {}) {
         this.log = logger;
         this.defaultPublicPath = publicPath;
     }

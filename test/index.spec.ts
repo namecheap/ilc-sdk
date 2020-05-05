@@ -137,7 +137,7 @@ describe('IlcSdk', () => {
             const pRes = ilcSdk.processRequest(req);
             ilcSdk.processResponse(pRes, res, { pageTitle: '<title>Test title</title>' });
             expect(Buffer.from(res.getHeader('x-head-title') as string, 'base64').toString('utf8')).to.eq(
-                '<title>Test title</title>'
+                '<title>Test title</title>',
             );
         });
 
@@ -255,10 +255,10 @@ describe('IlcSdk', () => {
             const res = new MockRes();
 
             ilcSdk.assetsDiscoveryHandler(req, res, {
-                spaBundle: 'my.js'
+                spaBundle: 'my.js',
             });
             const resBody = JSON.parse(res._internal.buffer.toString('utf8'));
-            expect(resBody).to.eql({spaBundle:'/my.js',dependencies:{}});
+            expect(resBody).to.eql({ spaBundle: '/my.js', dependencies: {} });
         });
 
         it('should work with CSS & deps', () => {
@@ -269,16 +269,16 @@ describe('IlcSdk', () => {
                 spaBundle: 'my.js',
                 cssBundle: 'my.css',
                 dependencies: {
-                    react: 'react.js'
-                }
+                    react: 'react.js',
+                },
             });
             const resBody = JSON.parse(res._internal.buffer.toString('utf8'));
             expect(resBody).to.eql({
-                spaBundle:'/my.js',
+                spaBundle: '/my.js',
                 cssBundle: '/my.css',
-                dependencies:{
-                    react: '/react.js'
-                }
+                dependencies: {
+                    react: '/react.js',
+                },
             });
         });
 
@@ -295,16 +295,16 @@ describe('IlcSdk', () => {
                 spaBundle: 'my.js',
                 cssBundle: '/tst/my.css',
                 dependencies: {
-                    react: 'react.js'
-                }
+                    react: 'react.js',
+                },
             });
             const resBody = JSON.parse(res._internal.buffer.toString('utf8'));
             expect(resBody).to.eql({
-                spaBundle:'https://tst.com/mypath/my.js',
+                spaBundle: 'https://tst.com/mypath/my.js',
                 cssBundle: 'https://tst.com/mypath/tst/my.css',
-                dependencies:{
-                    react: 'https://tst.com/mypath/react.js'
-                }
+                dependencies: {
+                    react: 'https://tst.com/mypath/react.js',
+                },
             });
         });
     });

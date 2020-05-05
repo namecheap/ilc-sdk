@@ -53,6 +53,37 @@ export default class IlcSdk {
         }
     }
 
+    /**
+     * Correctly responds to ILC for the assets discovery request.
+     *
+     * **WARNING:** this method should never be used in production if application is running in more than a single instance
+     */
+    public assetsDiscoveryHandler(req: IncomingMessage, res: ServerResponse, appAssets: types.AppAssets) {
+        const url = this.parseUrl(req);
+        const publicPath = this.getPassedProps(url).publicPath;
+
+        const resData: any = {
+            spaBundle: this.buildLink(appAssets.spaBundle, publicPath),
+            dependencies: {},
+        };
+        if (appAssets.cssBundle) {
+            resData.cssBundle = this.buildLink(appAssets.cssBundle, publicPath);
+        }
+        if (appAssets.dependencies) {
+            for (const k in appAssets.dependencies) {
+                /* istanbul ignore if */
+                if (!appAssets.dependencies.hasOwnProperty(k)) {
+                    continue;
+                }
+
+                resData.dependencies[k] = this.buildLink(appAssets.dependencies[k], publicPath);
+            }
+        }
+
+        res.statusCode = 200;
+        res.end(JSON.stringify(resData));
+    }
+
     private getRequestUrls(url: URL) {
         const res = {
             // Base path used for links on the page, should be relative. Can be ignored if memory routing is in use

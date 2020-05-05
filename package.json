@@ -11,9 +11,10 @@
     "build": "tsc",
     "test": "mocha -r ts-node/register **/*.spec.ts",
     "coverage": "nyc npm run test",
-    "format": "prettier --write \"src/**/*.ts\" \"src/*.ts\"",
-    "format:check": "prettier --check \"src/**/*.ts\" \"src/*.ts\"",
-    "lint": "tslint -p tsconfig.json"
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json",
+    "preversion": "npm run format:check && npm test"
   },
   "repository": {
     "type": "git",

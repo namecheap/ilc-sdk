@@ -1,4 +1,4 @@
-import {IncomingMessage, ServerResponse} from "http";
+import { IncomingMessage, ServerResponse } from 'http';
 import * as path from 'path';
 import * as types from './types';
 import urljoin from 'url-join';
@@ -9,7 +9,7 @@ export default class IlcSdk {
     private log: Console;
     private defaultPublicPath: string;
 
-    constructor({logger = console, publicPath = '/'} = {}) {
+    constructor({ logger = console, publicPath = '/' } = {}) {
         this.log = logger;
         this.defaultPublicPath = publicPath;
     }
@@ -24,7 +24,7 @@ export default class IlcSdk {
             getCurrentBasePath: () => requestedUrls.basePageUrl,
             getCurrentPathProps: () => passedProps,
         };
-    };
+    }
 
     public processResponse(reqData: types.RequestData, res: ServerResponse, data?: types.ResponseData): void {
         if (!data) {
@@ -34,10 +34,10 @@ export default class IlcSdk {
             throw new Error('Unable to set all necessary headers as they were already sent');
         }
         if (data.pageTitle) {
-            res.setHeader('x-head-title', Buffer.from(`<title>${data.pageTitle}</title>`, 'utf8').toString('base64'))
+            res.setHeader('x-head-title', Buffer.from(`<title>${data.pageTitle}</title>`, 'utf8').toString('base64'));
         }
         if (data.pageMetaTags) {
-            res.setHeader('x-head-meta', Buffer.from(data.pageMetaTags, 'utf8').toString('base64'))
+            res.setHeader('x-head-meta', Buffer.from(data.pageMetaTags, 'utf8').toString('base64'));
         }
         if (data.appAssets) {
             const publicPath = (reqData.getCurrentPathProps() as any).publicPath;
@@ -55,7 +55,9 @@ export default class IlcSdk {
         };
 
         if (url.searchParams.has('routerProps')) {
-            const routerProps = JSON.parse(Buffer.from(url.searchParams.get('routerProps')!, 'base64').toString('utf-8'));
+            const routerProps = JSON.parse(
+                Buffer.from(url.searchParams.get('routerProps')!, 'base64').toString('utf-8'),
+            );
 
             res.basePageUrl = routerProps.basePath;
             res.requestUrl = '/' + path.relative(routerProps.basePath, routerProps.reqUrl);
@@ -64,7 +66,7 @@ export default class IlcSdk {
         }
 
         return res;
-    };
+    }
 
     private getPassedProps(url: URL) {
         if (!url.searchParams.has('appProps')) {
@@ -72,13 +74,13 @@ export default class IlcSdk {
         }
 
         try {
-            return JSON.parse(Buffer.from(url.searchParams.get('appProps')!, 'base64').toString('utf-8'))
+            return JSON.parse(Buffer.from(url.searchParams.get('appProps')!, 'base64').toString('utf-8'));
         } catch (e) {
             this.log.warn(`Error while parsing passed props. Falling back to empty object...`, e);
 
             return {};
         }
-    };
+    }
 
     private parseUrl(req: IncomingMessage) {
         return new URL(req.url!, `http://${req.headers.host}`);
@@ -86,7 +88,10 @@ export default class IlcSdk {
 
     private getLinkHeader(appAssets: types.AppAssets, publicPath?: string) {
         const links = [
-            `<${this.buildLink(appAssets.spaBundle, publicPath)}>; rel="fragment-script"; as="script"; crossorigin="anonymous"`
+            `<${this.buildLink(
+                appAssets.spaBundle,
+                publicPath,
+            )}>; rel="fragment-script"; as="script"; crossorigin="anonymous"`,
         ];
 
         if (appAssets.cssBundle) {
@@ -99,11 +104,13 @@ export default class IlcSdk {
                 continue;
             }
 
-            links.push(`<${this.buildLink(appAssets.dependencies[k], publicPath)}>; rel="fragment-dependency"; name="${k}"`);
+            links.push(
+                `<${this.buildLink(appAssets.dependencies[k], publicPath)}>; rel="fragment-dependency"; name="${k}"`,
+            );
         }
 
         return links.join(',');
-    };
+    }
 
     private buildLink(path: string, publicPath?: string) {
         if (path.includes('http://') || path.includes('https://')) {

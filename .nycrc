@@ -1,3 +1,9 @@
 {
-  "reporter": ["html"]
+  "reporter": ["html"],
+  "check-coverage": true,
+  "per-file": true,
+  "branches": 90,
+  "lines": 90,
+  "functions": 90,
+  "statements": 90
 }

@@ -94,6 +94,7 @@ export default class IlcSdk {
         }
 
         for (let k in appAssets.dependencies) {
+            /* istanbul ignore if */
             if (!appAssets.dependencies.hasOwnProperty(k)) {
                 continue;
             }

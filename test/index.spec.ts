@@ -23,6 +23,14 @@ describe('IlcSdk', () => {
         (sinon as any).restoreObject(fakeCons);
     });
 
+    describe('constructor options', () => {
+        it('should correctly set default options', () => {
+            const ilcSdk = new IlcSdk();
+            expect((<any>ilcSdk).log).equal(console);
+            expect((<any>ilcSdk).defaultPublicPath).equal('/');
+        });
+    });
+
     describe('processRequest', () => {
         it('should not fail on regular request', () => {
             const req = new MockReq(merge({}, defReq));
@@ -117,6 +125,92 @@ describe('IlcSdk', () => {
             const pRes = ilcSdk.processRequest(req);
             ilcSdk.processResponse(pRes, res, {pageMetaTags: '<meta charset="utf-8">'});
             expect(res.getHeader('x-head-meta')).to.eq(Buffer.from('<meta charset="utf-8">', 'utf8').toString('base64'));
+        });
+
+        describe('appAssets', () => {
+            it('should handle absolute URLs', () => {
+                const req = new MockReq(merge({}, defReq));
+                const res = new MockRes();
+
+                const pRes = ilcSdk.processRequest(req);
+                ilcSdk.processResponse(pRes, res, {
+                    appAssets: {
+                        spaBundle: 'http://example.com/my.js',
+                        cssBundle: 'http://example.com/my.css',
+                        dependencies: {react: 'http://cdn.com/react.js'}
+                    }
+                });
+                expect(res.getHeader('Link')).to.eq([
+                    '<http://example.com/my.js>; rel="fragment-script"; as="script"; crossorigin="anonymous"',
+                    '<http://example.com/my.css>; rel="stylesheet"',
+                    '<http://cdn.com/react.js>; rel="fragment-dependency"; name="react"',
+                ].join(','));
+            });
+
+            it('should handle relative URLs using defaultPublicPath', () => {
+                const req = new MockReq(merge({}, defReq));
+                const res = new MockRes();
+
+                const ilcSdk = new IlcSdk({logger: fakeCons, publicPath: 'https://tst.com/mypath/'});
+
+                const pRes = ilcSdk.processRequest(req);
+                ilcSdk.processResponse(pRes, res, {
+                    appAssets: {
+                        spaBundle: '/lol/my.js',
+                        cssBundle: 'my.css',
+                        dependencies: {react: '/react.js'}
+                    }
+                });
+                expect(res.getHeader('Link')).to.eq([
+                    '<https://tst.com/mypath/lol/my.js>; rel="fragment-script"; as="script"; crossorigin="anonymous"',
+                    '<https://tst.com/mypath/my.css>; rel="stylesheet"',
+                    '<https://tst.com/mypath/react.js>; rel="fragment-dependency"; name="react"',
+                ].join(','));
+            });
+
+            it('should handle relative URLs using passed publicPath property', () => {
+                const appProps = JSON.stringify({publicPath: 'https://tst.com/mypath/'});
+                const req = new MockReq(merge({}, defReq, {
+                    url: `/tst?appProps=${Buffer.from(appProps, 'utf8').toString('base64')}`
+                }));
+                const res = new MockRes();
+
+                const pRes = ilcSdk.processRequest(req);
+                ilcSdk.processResponse(pRes, res, {
+                    appAssets: {
+                        spaBundle: '/lol/my.js',
+                        cssBundle: 'my.css',
+                        dependencies: {react: '/react.js'}
+                    }
+                });
+                expect(res.getHeader('Link')).to.eq([
+                    '<https://tst.com/mypath/lol/my.js>; rel="fragment-script"; as="script"; crossorigin="anonymous"',
+                    '<https://tst.com/mypath/my.css>; rel="stylesheet"',
+                    '<https://tst.com/mypath/react.js>; rel="fragment-dependency"; name="react"',
+                ].join(','));
+            });
+
+            it('should handle spaBundle only', () => {
+                const req = new MockReq(merge({}, defReq));
+                const res = new MockRes();
+
+                const pRes = ilcSdk.processRequest(req);
+                ilcSdk.processResponse(pRes, res, {
+                    appAssets: {
+                        spaBundle: '/lol/my.js',
+                    }
+                });
+                expect(res.getHeader('Link')).to.eq('</lol/my.js>; rel="fragment-script"; as="script"; crossorigin="anonymous"');
+            });
+        });
+
+        it('should cause an error if headers have already been sent', () => {
+            const req = new MockReq(merge({}, defReq));
+            const res = new MockRes();
+            res.end();
+
+            const pRes = ilcSdk.processRequest(req);
+            expect(() => ilcSdk.processResponse(pRes, res, {pageTitle: 'tst'})).to.throw();
         });
     })
 

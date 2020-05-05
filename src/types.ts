@@ -7,7 +7,7 @@ export interface RequestData {
 
 
 export interface AppAssets {
-    spaBundle?: string;
+    spaBundle: string;
     cssBundle?: string;
     dependencies?: {[key: string]: string};
 }

@@ -84,14 +84,13 @@ export default class IlcSdk {
         return new URL(req.url!, `http://${req.headers.host}`);
     }
 
-    private getLinkHeader (appAssets: types.AppAssets, publicPath?: string) {
-        const links = [];
+    private getLinkHeader(appAssets: types.AppAssets, publicPath?: string) {
+        const links = [
+            `<${this.buildLink(appAssets.spaBundle, publicPath)}>; rel="fragment-script"; as="script"; crossorigin="anonymous"`
+        ];
 
         if (appAssets.cssBundle) {
             links.push(`<${this.buildLink(appAssets.cssBundle, publicPath)}>; rel="stylesheet"`);
-        }
-        if (appAssets.spaBundle) {
-            links.push(`<${this.buildLink(appAssets.spaBundle, publicPath)}>; rel="fragment-script"; as="script"; crossorigin="anonymous"`);
         }
 
         for (let k in appAssets.dependencies) {

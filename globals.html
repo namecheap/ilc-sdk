@@ -2754,6 +2754,10 @@ img {
 <span class="hljs-keyword">const</span> {createBundleRenderer} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'vue-server-renderer'</span>);
 <span class="hljs-keyword">const</span> bundle = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./dist/vue-ssr-server-bundle.json'</span>);
 <span class="hljs-keyword">const</span> clientManifest = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./dist/vue-ssr-client-manifest.json'</span>);
+<span class="hljs-keyword">const</span> appAssets = {
+    <span class="hljs-attr">spaBundle</span>: clientManifest.all.find(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v.endsWith(<span class="hljs-string">'.js'</span>)),
+    <span class="hljs-attr">cssBundle</span>: clientManifest.all.find(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v.endsWith(<span class="hljs-string">'.css'</span>))
+};
 
 <span class="hljs-keyword">const</span> IlcSdk = <span class="hljs-built_in">require</span>(<span class="hljs-string">'ilc-server-sdk'</span>);
 <span class="hljs-keyword">const</span> ilcSdk = <span class="hljs-keyword">new</span> IlcSdk({ <span class="hljs-attr">publicPath</span>: clientManifest.publicPath });
@@ -2764,6 +2768,8 @@ img {
     <span class="hljs-attr">runInNewContext</span>: <span class="hljs-literal">false</span>,
     <span class="hljs-attr">inject</span>: <span class="hljs-literal">false</span>
 });
+
+server.get(<span class="hljs-string">'/_ilc/assets-discovery'</span>, (req, res) =&gt; ilcSdk.assetsDiscoveryHandler(req, res, appAssets));
 
 server.get(<span class="hljs-string">'*'</span>, (req, res) =&gt; {
     res.setHeader(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'text/html'</span>);
@@ -2783,10 +2789,7 @@ server.get(<span class="hljs-string">'*'</span>, (req, res) =&gt; {
         ilcSdk.processResponse(ilcData, res, {
             <span class="hljs-attr">pageTitle</span>: context.meta.inject().title.text(),
             <span class="hljs-attr">pageMetaTags</span>: context.meta.inject().meta.text(),
-            <span class="hljs-attr">appAssets</span>: {
-                <span class="hljs-attr">spaBundle</span>: clientManifest.all.find(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v.endsWith(<span class="hljs-string">'.js'</span>)),
-                <span class="hljs-attr">cssBundle</span>: clientManifest.all.find(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v.endsWith(<span class="hljs-string">'.css'</span>))
-            }
+            appAssets,
         });
         res.send(html);
     });

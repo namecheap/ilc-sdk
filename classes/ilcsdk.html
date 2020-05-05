@@ -2729,6 +2729,9 @@ img {
 					<a href="ilcsdk.html#constructor" class="tsd-kind-icon">constructor</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="ilcsdk.html#assetsdiscoveryhandler" class="tsd-kind-icon">assets<wbr>Discovery<wbr>Handler</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="ilcsdk.html#processrequest" class="tsd-kind-icon">process<wbr>Request</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -2770,6 +2773,7 @@ img {
 					<section class="tsd-index-section ">
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="ilcsdk.html#assetsdiscoveryhandler" class="tsd-kind-icon">assets<wbr>Discovery<wbr>Handler</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="ilcsdk.html#processrequest" class="tsd-kind-icon">process<wbr>Request</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="ilcsdk.html#processresponse" class="tsd-kind-icon">process<wbr>Response</a></li>
 						</ul>
@@ -2789,7 +2793,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/99559ab/src/index.ts#L10">index.ts:10</a></li>
+								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/4c4f4be/src/index.ts#L11">index.ts:11</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2814,6 +2818,41 @@ img {
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Methods</h2>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="assetsdiscoveryhandler" class="tsd-anchor"></a>
+				<h3>assets<wbr>Discovery<wbr>Handler</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">assets<wbr>Discovery<wbr>Handler<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServerResponse</span>, appAssets<span class="tsd-signature-symbol">: </span><a href="../interfaces/appassets.html" class="tsd-signature-type">AppAssets</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/4c4f4be/src/index.ts#L66">index.ts:66</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Correctly responds to ILC for the assets discovery request.</p>
+							</div>
+							<p><strong>WARNING:</strong> this method should never be used in production if application is running in more than a single instance</p>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
+							</li>
+							<li>
+								<h5>res: <span class="tsd-signature-type">ServerResponse</span></h5>
+							</li>
+							<li>
+								<h5>appAssets: <a href="../interfaces/appassets.html" class="tsd-signature-type">AppAssets</a></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 				<a name="processrequest" class="tsd-anchor"></a>
 				<h3>process<wbr>Request</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -2823,7 +2862,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/99559ab/src/index.ts#L20">index.ts:20</a></li>
+								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/4c4f4be/src/index.ts#L21">index.ts:21</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2851,7 +2890,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/99559ab/src/index.ts#L37">index.ts:37</a></li>
+								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/4c4f4be/src/index.ts#L38">index.ts:38</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">

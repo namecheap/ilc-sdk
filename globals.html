@@ -2746,7 +2746,56 @@ img {
 			<a href="#quick-start" id="quick-start" style="color: inherit; text-decoration: none;">
 				<h2>Quick start</h2>
 			</a>
-			<pre><code class="language-javascript">TBD...</code></pre>
+			<p>Vue.js example: </p>
+			<pre><code class="language-javascript"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
+<span class="hljs-keyword">const</span> server = express();
+
+<span class="hljs-keyword">const</span> {createBundleRenderer} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'vue-server-renderer'</span>);
+<span class="hljs-keyword">const</span> bundle = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./dist/vue-ssr-server-bundle.json'</span>);
+<span class="hljs-keyword">const</span> clientManifest = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./dist/vue-ssr-client-manifest.json'</span>);
+
+<span class="hljs-keyword">const</span> IlcSdk = <span class="hljs-built_in">require</span>(<span class="hljs-string">'ilc-server-sdk'</span>);
+<span class="hljs-keyword">const</span> ilcSdk = <span class="hljs-keyword">new</span> IlcSdk({ <span class="hljs-attr">publicPath</span>: clientManifest.publicPath });
+
+<span class="hljs-keyword">const</span> renderer = createBundleRenderer(bundle, {
+    <span class="hljs-attr">template</span>: fs.readFileSync(<span class="hljs-string">'./index.template.html'</span>, <span class="hljs-string">'utf-8'</span>),
+    <span class="hljs-attr">clientManifest</span>: clientManifest,
+    <span class="hljs-attr">runInNewContext</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">inject</span>: <span class="hljs-literal">false</span>
+});
+
+server.get(<span class="hljs-string">'*'</span>, (req, res) =&gt; {
+    res.setHeader(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'text/html'</span>);
+
+    <span class="hljs-keyword">const</span> ilcData = ilcSdk.processRequest(req);
+
+    <span class="hljs-keyword">const</span> context = {
+        <span class="hljs-attr">url</span>: ilcData.getCurrentReqUrl(),
+    };
+
+    renderer.renderToString(context, (err, html) =&gt; {
+        <span class="hljs-keyword">if</span> (err) {
+            <span class="hljs-comment">// ...</span>
+            <span class="hljs-keyword">return</span>;
+        } 
+
+        ilcSdk.processResponse(ilcData, res, {
+            <span class="hljs-attr">pageTitle</span>: context.meta.inject().title.text(),
+            <span class="hljs-attr">pageMetaTags</span>: context.meta.inject().meta.text(),
+            <span class="hljs-attr">appAssets</span>: {
+                <span class="hljs-attr">spaBundle</span>: clientManifest.all.find(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v.endsWith(<span class="hljs-string">'.js'</span>)),
+                <span class="hljs-attr">cssBundle</span>: clientManifest.all.find(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v.endsWith(<span class="hljs-string">'.css'</span>))
+            }
+        });
+        res.send(html);
+    });
+
+});</code></pre>
+			<a href="#js-docs" id="js-docs" style="color: inherit; text-decoration: none;">
+				<h2>JS docs</h2>
+			</a>
+			<p>See <a href="https://namecheap.github.io/ilc-server-sdk/">https://namecheap.github.io/ilc-server-sdk/</a></p>
 		</div>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>

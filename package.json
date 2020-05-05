@@ -1,6 +1,6 @@
 {
   "name": "ilc-server-sdk",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "SDK for server side communication with Isomorphic Layout Composer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,7 +14,9 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
-    "preversion": "npm run format:check && npm test"
+    "docs": "typedoc --out docs src --excludePrivate --excludeNotExported --mode file --theme minimal",
+    "preversion": "npm run format:check && npm test",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -42,6 +44,7 @@
     "ts-node": "^8.10.1",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
+    "typedoc": "^0.17.6",
     "typescript": "^3.8.3"
   },
   "dependencies": {

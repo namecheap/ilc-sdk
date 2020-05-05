@@ -14,6 +14,9 @@ export default class IlcSdk {
         this.defaultPublicPath = publicPath;
     }
 
+    /**
+     * Processes incoming request and returns object that can be used to fetch information passed by ILC to the application.
+     */
     public processRequest(req: IncomingMessage): types.RequestData {
         const url = this.parseUrl(req);
         const requestedUrls = this.getRequestUrls(url);
@@ -26,6 +29,11 @@ export default class IlcSdk {
         };
     }
 
+    /**
+     * Processes outgoing response and allow conveniently pass information from application back to ILC.
+     *
+     * **WARNING:** this method should be called before response headers were send.
+     */
     public processResponse(reqData: types.RequestData, res: ServerResponse, data?: types.ResponseData): void {
         if (!data) {
             return;
@@ -98,7 +106,7 @@ export default class IlcSdk {
             links.push(`<${this.buildLink(appAssets.cssBundle, publicPath)}>; rel="stylesheet"`);
         }
 
-        for (let k in appAssets.dependencies) {
+        for (const k in appAssets.dependencies) {
             /* istanbul ignore if */
             if (!appAssets.dependencies.hasOwnProperty(k)) {
                 continue;
@@ -112,13 +120,13 @@ export default class IlcSdk {
         return links.join(',');
     }
 
-    private buildLink(path: string, publicPath?: string) {
-        if (path.includes('http://') || path.includes('https://')) {
-            return path;
+    private buildLink(url: string, publicPath?: string) {
+        if (url.includes('http://') || url.includes('https://')) {
+            return url;
         }
 
         const pp = publicPath ? publicPath : this.defaultPublicPath;
 
-        return urljoin(pp, path);
+        return urljoin(pp, url);
     }
 }

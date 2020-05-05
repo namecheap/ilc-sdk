@@ -8,6 +8,7 @@ export * from './types';
 export default class IlcSdk {
     private log: Console;
     private defaultPublicPath: string;
+    private titleRegex = /<title\s*>.*<\/title\s*>/s;
 
     constructor({ logger = console, publicPath = '/' } = {}) {
         this.log = logger;
@@ -42,7 +43,11 @@ export default class IlcSdk {
             throw new Error('Unable to set all necessary headers as they were already sent');
         }
         if (data.pageTitle) {
-            res.setHeader('x-head-title', Buffer.from(`<title>${data.pageTitle}</title>`, 'utf8').toString('base64'));
+            let title = data.pageTitle;
+            if (!this.titleRegex.test(data.pageTitle)) {
+                title = `<title>${title}</title>`;
+            }
+            res.setHeader('x-head-title', Buffer.from(title, 'utf8').toString('base64'));
         }
         if (data.pageMetaTags) {
             res.setHeader('x-head-meta', Buffer.from(data.pageMetaTags, 'utf8').toString('base64'));

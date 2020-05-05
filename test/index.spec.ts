@@ -130,6 +130,17 @@ describe('IlcSdk', () => {
             );
         });
 
+        it('should set page title formatted as HTML', () => {
+            const req = new MockReq(merge({}, defReq));
+            const res = new MockRes();
+
+            const pRes = ilcSdk.processRequest(req);
+            ilcSdk.processResponse(pRes, res, { pageTitle: '<title>Test title</title>' });
+            expect(Buffer.from(res.getHeader('x-head-title') as string, 'base64').toString('utf8')).to.eq(
+                '<title>Test title</title>'
+            );
+        });
+
         it('should set page meta tags', () => {
             const req = new MockReq(merge({}, defReq));
             const res = new MockRes();

@@ -27,17 +27,20 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npm run coverage
-      - uses: actions/upload-artifact@v2
+      - if: matrix.node-version == '12.x'
+        uses: actions/upload-artifact@v2
         with:
           name: Code coverage
           path: coverage/
-      - run: npm run docs
-      - uses: actions/upload-artifact@v2
+      - if: matrix.node-version == '12.x'
+        run: npm run docs
+      - if: matrix.node-version == '12.x'
+        uses: actions/upload-artifact@v2
         with:
           name: Documentation
           path: docs/
       - name: Deploy Docs
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' && matrix.node-version == '12.x'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

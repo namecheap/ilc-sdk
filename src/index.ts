@@ -56,6 +56,8 @@ export default class IlcSdk {
             const publicPath = (reqData.getCurrentPathProps() as any).publicPath;
             res.setHeader('Link', this.getLinkHeader(data.appAssets, publicPath));
         }
+
+        res.setHeader('content-type', 'text/html');
     }
 
     /**
@@ -86,6 +88,7 @@ export default class IlcSdk {
         }
 
         res.statusCode = 200;
+        res.setHeader('content-type', 'application/json; charset=utf-8');
         res.end(JSON.stringify(resData));
     }
 

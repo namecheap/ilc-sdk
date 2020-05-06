@@ -17,7 +17,7 @@ const appAssets = {
     cssBundle: clientManifest.all.find(v => v.endsWith('.css'))
 };
 
-const IlcSdk = require('ilc-server-sdk');
+const IlcSdk = require('ilc-server-sdk').default;
 const ilcSdk = new IlcSdk({ publicPath: clientManifest.publicPath });
 
 const renderer = createBundleRenderer(bundle, {

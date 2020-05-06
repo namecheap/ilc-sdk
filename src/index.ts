@@ -9,10 +9,12 @@ export default class IlcSdk {
     private log: Console;
     private defaultPublicPath: string;
     private titleRegex = /<title\s*>.*<\/title\s*>/s;
+    private publicPathProperyName: string;
 
-    constructor({ logger = console, publicPath = '/' } = {}) {
+    constructor({ logger = console, publicPath = '/', publicPathProperyName = 'publicPath' } = {}) {
         this.log = logger;
         this.defaultPublicPath = publicPath;
+        this.publicPathProperyName = publicPathProperyName;
     }
 
     /**
@@ -53,7 +55,7 @@ export default class IlcSdk {
             res.setHeader('x-head-meta', Buffer.from(data.pageMetaTags, 'utf8').toString('base64'));
         }
         if (data.appAssets) {
-            const publicPath = (reqData.getCurrentPathProps() as any).publicPath;
+            const publicPath = (reqData.getCurrentPathProps() as any)[this.publicPathProperyName];
             res.setHeader('Link', this.getLinkHeader(data.appAssets, publicPath));
         }
 
@@ -67,7 +69,7 @@ export default class IlcSdk {
      */
     public assetsDiscoveryHandler(req: IncomingMessage, res: ServerResponse, appAssets: types.AppAssets) {
         const url = this.parseUrl(req);
-        const publicPath = this.getPassedProps(url).publicPath;
+        const publicPath = this.getPassedProps(url)[this.publicPathProperyName];
 
         const resData: any = {
             spaBundle: this.buildLink(appAssets.spaBundle, publicPath),

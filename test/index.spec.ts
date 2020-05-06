@@ -223,6 +223,34 @@ describe('IlcSdk', () => {
                 );
             });
 
+            it('should handle relative URLs using custom passed publicPath property', () => {
+                const appProps = JSON.stringify({ assetsPath: 'https://tst.com/mypath/' });
+                const req = new MockReq(
+                    merge({}, defReq, {
+                        url: `/tst?appProps=${Buffer.from(appProps, 'utf8').toString('base64')}`,
+                    }),
+                );
+                const res = new MockRes();
+
+                const ilcSdk = new IlcSdk({ logger: fakeCons, publicPathProperyName: 'assetsPath' });
+
+                const pRes = ilcSdk.processRequest(req);
+                ilcSdk.processResponse(pRes, res, {
+                    appAssets: {
+                        spaBundle: '/lol/my.js',
+                        cssBundle: 'my.css',
+                        dependencies: { react: '/react.js' },
+                    },
+                });
+                expect(res.getHeader('Link')).to.eq(
+                    [
+                        '<https://tst.com/mypath/lol/my.js>; rel="fragment-script"; as="script"; crossorigin="anonymous"',
+                        '<https://tst.com/mypath/my.css>; rel="stylesheet"',
+                        '<https://tst.com/mypath/react.js>; rel="fragment-dependency"; name="react"',
+                    ].join(','),
+                );
+            });
+
             it('should handle spaBundle only', () => {
                 const req = new MockReq(merge({}, defReq));
                 const res = new MockRes();
@@ -290,6 +318,34 @@ describe('IlcSdk', () => {
                 }),
             );
             const res = new MockRes();
+
+            ilcSdk.assetsDiscoveryHandler(req, res, {
+                spaBundle: 'my.js',
+                cssBundle: '/tst/my.css',
+                dependencies: {
+                    react: 'react.js',
+                },
+            });
+            const resBody = JSON.parse(res._internal.buffer.toString('utf8'));
+            expect(resBody).to.eql({
+                spaBundle: 'https://tst.com/mypath/my.js',
+                cssBundle: 'https://tst.com/mypath/tst/my.css',
+                dependencies: {
+                    react: 'https://tst.com/mypath/react.js',
+                },
+            });
+        });
+
+        it('should correctly handle passed by ILC custom publicPath property', () => {
+            const appProps = JSON.stringify({ assetsPath: 'https://tst.com/mypath/' });
+            const req = new MockReq(
+                merge({}, defReq, {
+                    url: `/tst?appProps=${Buffer.from(appProps, 'utf8').toString('base64')}`,
+                }),
+            );
+            const res = new MockRes();
+
+            const ilcSdk = new IlcSdk({ logger: fakeCons, publicPathProperyName: 'assetsPath' });
 
             ilcSdk.assetsDiscoveryHandler(req, res, {
                 spaBundle: 'my.js',

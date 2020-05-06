@@ -2759,7 +2759,7 @@ img {
     <span class="hljs-attr">cssBundle</span>: clientManifest.all.find(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v.endsWith(<span class="hljs-string">'.css'</span>))
 };
 
-<span class="hljs-keyword">const</span> IlcSdk = <span class="hljs-built_in">require</span>(<span class="hljs-string">'ilc-server-sdk'</span>);
+<span class="hljs-keyword">const</span> IlcSdk = <span class="hljs-built_in">require</span>(<span class="hljs-string">'ilc-server-sdk'</span>).default;
 <span class="hljs-keyword">const</span> ilcSdk = <span class="hljs-keyword">new</span> IlcSdk({ <span class="hljs-attr">publicPath</span>: clientManifest.publicPath });
 
 <span class="hljs-keyword">const</span> renderer = createBundleRenderer(bundle, {

@@ -36,13 +36,23 @@ export default class IlcSdk {
      */
     public processRequest(req: IncomingMessage): types.RequestData {
         const url = this.parseUrl(req);
-        const requestedUrls = this.getRequestUrls(url);
+        const routerProps = this.parseRouterProps(url);
+        const requestedUrls = this.getRequestUrls(url, routerProps);
         const passedProps = this.getPassedProps(url);
+
+        let appId: string;
+        if (routerProps.fragmentName) {
+            appId = routerProps.fragmentName;
+        } else {
+            appId = 'dumbId';
+            this.log.warn(`Missing "appId" information for "${url.href}" request. Falling back to dumb ID.`);
+        }
 
         return {
             getCurrentReqUrl: () => requestedUrls.requestUrl,
             getCurrentBasePath: () => requestedUrls.basePageUrl,
             getCurrentPathProps: () => passedProps,
+            appId,
         };
     }
 
@@ -108,7 +118,15 @@ export default class IlcSdk {
         res.end(JSON.stringify(resData));
     }
 
-    private getRequestUrls(url: URL) {
+    private parseRouterProps(url: URL) {
+        if (url.searchParams.has('routerProps')) {
+            return JSON.parse(Buffer.from(url.searchParams.get('routerProps')!, 'base64').toString('utf-8'));
+        } else {
+            return {};
+        }
+    }
+
+    private getRequestUrls(url: URL, routerProps: any) {
         const res = {
             // Base path used for links on the page, should be relative. Can be ignored if memory routing is in use
             // More info: https://collab.namecheap.net/x/myZdCw
@@ -117,11 +135,7 @@ export default class IlcSdk {
             requestUrl: '/', // basePageUrl should be deducted from it
         };
 
-        if (url.searchParams.has('routerProps')) {
-            const routerProps = JSON.parse(
-                Buffer.from(url.searchParams.get('routerProps')!, 'base64').toString('utf-8'),
-            );
-
+        if (routerProps.basePath && routerProps.reqUrl) {
             res.basePageUrl = routerProps.basePath;
             res.requestUrl = '/' + path.relative(routerProps.basePath, routerProps.reqUrl);
         } else {

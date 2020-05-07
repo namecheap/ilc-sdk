@@ -32,6 +32,37 @@ describe('IlcSdk', () => {
     });
 
     describe('processRequest', () => {
+        describe('appId', () => {
+            it('should parse appId correctly', () => {
+                const routerProps = JSON.stringify({
+                    basePath: '/base/path/',
+                    reqUrl: '/base/path/a/b/c?a=1&b=a',
+                    fragmentName: 'testId',
+                });
+                const req = new MockReq(
+                    merge({}, defReq, {
+                        url: `/tst?routerProps=${Buffer.from(routerProps, 'utf8').toString('base64')}`,
+                    }),
+                );
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.appId).to.eq('testId');
+                sinon.assert.notCalled(stubCons.warn);
+            });
+
+            it('should fallback to dumb appId if not passed', () => {
+                const req = new MockReq(merge({}, defReq));
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.appId).to.eq('dumbId');
+                sinon.assert.calledTwice(stubCons.warn);
+                sinon.assert.calledWith(
+                    stubCons.warn,
+                    'Missing "appId" information for "http://example.com/tst" request. Falling back to dumb ID.',
+                );
+            });
+        });
+
         it('should not fail on regular request', () => {
             const req = new MockReq(merge({}, defReq));
             const res = ilcSdk.processRequest(req);
@@ -39,7 +70,7 @@ describe('IlcSdk', () => {
             expect(res.getCurrentPathProps()).to.eql({});
             expect(res.getCurrentBasePath()).to.eq('/');
             expect(res.getCurrentReqUrl()).to.eq('/');
-            sinon.assert.calledOnceWithExactly(
+            sinon.assert.calledWith(
                 stubCons.warn,
                 'Missing "routerProps" for "http://example.com/tst" request. Fallback to / & /',
             );
@@ -50,6 +81,7 @@ describe('IlcSdk', () => {
                 const routerProps = JSON.stringify({
                     basePath: '/base/path/',
                     reqUrl: '/base/path/a/b/c?a=1&b=a',
+                    fragmentName: 'testId',
                 });
                 const req = new MockReq(
                     merge({}, defReq, {
@@ -67,6 +99,7 @@ describe('IlcSdk', () => {
                 const routerProps = JSON.stringify({
                     basePath: '/base/path',
                     reqUrl: '/base/path/a/b/c?a=1&b=a',
+                    fragmentName: 'testId',
                 });
                 const req = new MockReq(
                     merge({}, defReq, {

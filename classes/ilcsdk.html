@@ -2787,28 +2787,41 @@ img {
 				<a name="constructor" class="tsd-anchor"></a>
 				<h3>constructor</h3>
 				<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">new <wbr>Ilc<wbr>Sdk<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>logger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Console</span><span class="tsd-signature-symbol">; </span>publicPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>publicPathProperyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ilcsdk.html" class="tsd-signature-type">IlcSdk</a></li>
+					<li class="tsd-signature tsd-kind-icon">new <wbr>Ilc<wbr>Sdk<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Console</span><span class="tsd-signature-symbol">; </span>publicPath<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>publicPathProperyName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ilcsdk.html" class="tsd-signature-type">IlcSdk</a></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/333639c/src/index.ts#L12">index.ts:12</a></li>
+								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/b91fc60/src/index.ts#L12">index.ts:12</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> __namedParameters: <span class="tsd-signature-symbol">{ </span>logger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Console</span><span class="tsd-signature-symbol">; </span>publicPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>publicPathProperyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {}</span></h5>
+								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <span class="tsd-signature-symbol">{ </span>logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Console</span><span class="tsd-signature-symbol">; </span>publicPath<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>publicPathProperyName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {}</span></h5>
 								<ul class="tsd-parameters">
 									<li class="tsd-parameter">
-										<h5>logger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Console</span></h5>
+										<h5><span class="tsd-flag ts-flagOptional">Optional</span> logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Console</span></h5>
+										<div class="tsd-comment tsd-typography">
+											<p>  <strong>Default value:</strong> <code>console</code></p>
+										</div>
 									</li>
 									<li class="tsd-parameter">
-										<h5>public<wbr>Path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+										<h5><span class="tsd-flag ts-flagOptional">Optional</span> public<wbr>Path<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+										<div class="tsd-comment tsd-typography">
+											<p>Default value that will be used if no &quot;publicPath&quot; were defined in app&#39;s props inside ILC Registry.</p>
+											<p> <strong>Default value:</strong> <code>/</code></p>
+										</div>
 									</li>
 									<li class="tsd-parameter">
-										<h5>public<wbr>Path<wbr>Propery<wbr>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+										<h5><span class="tsd-flag ts-flagOptional">Optional</span> public<wbr>Path<wbr>Propery<wbr>Name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+										<div class="tsd-comment tsd-typography">
+											<p>Allows to use other then <code>publicPath</code> key for the property that will be used to determine micro frontend&#39;s public path.</p>
+											<p> <strong>Default value:</strong> <code>publicPath</code></p>
+										</div>
 									</li>
 								</ul>
 							</li>
@@ -2830,7 +2843,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/333639c/src/index.ts#L70">index.ts:70</a></li>
+								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/b91fc60/src/index.ts#L84">index.ts:84</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2865,7 +2878,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/333639c/src/index.ts#L23">index.ts:23</a></li>
+								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/b91fc60/src/index.ts#L37">index.ts:37</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2893,7 +2906,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/333639c/src/index.ts#L40">index.ts:40</a></li>
+								<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/b91fc60/src/index.ts#L54">index.ts:54</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">

@@ -2732,6 +2732,9 @@ img {
 			<a href="requestdata.html" class="tsd-kind-icon">Request<wbr>Data</a>
 			<ul>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="requestdata.html#appid" class="tsd-kind-icon">app<wbr>Id</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
 					<a href="requestdata.html#getcurrentbasepath" class="tsd-kind-icon">get<wbr>Current<wbr>Base<wbr>Path</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -2771,6 +2774,7 @@ img {
 					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="requestdata.html#appid" class="tsd-kind-icon">app<wbr>Id</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="requestdata.html#getcurrentbasepath" class="tsd-kind-icon">get<wbr>Current<wbr>Base<wbr>Path</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="requestdata.html#getcurrentpathprops" class="tsd-kind-icon">get<wbr>Current<wbr>Path<wbr>Props</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="requestdata.html#getcurrentrequrl" class="tsd-kind-icon">get<wbr>Current<wbr>Req<wbr>Url</a></li>
@@ -2782,12 +2786,27 @@ img {
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Properties</h2>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="appid" class="tsd-anchor"></a>
+				<h3>app<wbr>Id</h3>
+				<div class="tsd-signature tsd-kind-icon">app<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/c67ba11/src/types.ts#L10">types.ts:10</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Unique application ID, if same app will be rendered twice on a page - it will get different IDs</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 				<a name="getcurrentbasepath" class="tsd-anchor"></a>
 				<h3>get<wbr>Current<wbr>Base<wbr>Path</h3>
 				<div class="tsd-signature tsd-kind-icon">get<wbr>Current<wbr>Base<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/b91fc60/src/types.ts#L6">types.ts:6</a></li>
+						<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/c67ba11/src/types.ts#L6">types.ts:6</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -2812,9 +2831,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">get<wbr>Current<wbr>Path<wbr>Props<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/b91fc60/src/types.ts#L7">types.ts:7</a></li>
+						<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/c67ba11/src/types.ts#L8">types.ts:8</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Returns <em>Props</em> that were assigned to app in ILC Registry for the current path</p>
+					</div>
+				</div>
 				<div class="tsd-type-declaration">
 					<h4>Type declaration</h4>
 					<ul class="tsd-parameters">
@@ -2837,7 +2861,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">get<wbr>Current<wbr>Req<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/b91fc60/src/types.ts#L5">types.ts:5</a></li>
+						<li>Defined in <a href="https://github.com/namecheap/ilc-server-sdk/blob/c67ba11/src/types.ts#L5">types.ts:5</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">

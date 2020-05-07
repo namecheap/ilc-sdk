@@ -11,10 +11,24 @@ export default class IlcSdk {
     private titleRegex = /<title\s*>.*<\/title\s*>/s;
     private publicPathProperyName: string;
 
-    constructor({ logger = console, publicPath = '/', publicPathProperyName = 'publicPath' } = {}) {
-        this.log = logger;
-        this.defaultPublicPath = publicPath;
-        this.publicPathProperyName = publicPathProperyName;
+    /**
+     *
+     * @param options
+     * @param options.logger
+     *
+     *   **Default value:** `console`
+     * @param options.publicPath Default value that will be used if no "publicPath" were defined in app's props inside ILC Registry.
+     *
+     *  **Default value:** `/`
+     *
+     * @param options.publicPathProperyName Allows to use other then `publicPath` key for the property that will be used to determine micro frontend's public path.
+     *
+     *  **Default value:** `publicPath`
+     */
+    constructor(options: { logger?: Console; publicPath?: string; publicPathProperyName?: string } = {}) {
+        this.log = options.logger || console;
+        this.defaultPublicPath = options.publicPath || '/';
+        this.publicPathProperyName = options.publicPathProperyName || 'publicPath';
     }
 
     /**

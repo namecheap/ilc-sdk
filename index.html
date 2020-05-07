@@ -2799,6 +2799,53 @@ server.get(<span class="hljs-string">'*'</span>, (req, res) =&gt; {
 				<h2>JS docs</h2>
 			</a>
 			<p>See <a href="https://namecheap.github.io/ilc-server-sdk/">https://namecheap.github.io/ilc-server-sdk/</a></p>
+			<a href="#low-level-ilc-lt-gt-micro-frontend-interface" id="low-level-ilc-lt-gt-micro-frontend-interface" style="color: inherit; text-decoration: none;">
+				<h2>Low level ILC &lt;-&gt; Micro Frontend interface</h2>
+			</a>
+			<p>This is the description of the server side ILC &lt;-&gt; Micro Frontend interface which is implemented by this library in a form
+			of SDK.</p>
+			<a href="#input-interface-ilc--gt-micro-frontend" id="input-interface-ilc--gt-micro-frontend" style="color: inherit; text-decoration: none;">
+				<h3>Input interface ILC -&gt; Micro Frontend</h3>
+			</a>
+			<p>With every request for SSR content from the app ILC sends the following meta-information:</p>
+			<ol>
+				<li><p>Query parameter <code>routerProps</code></p>
+					<p>Contains base64 encoded JSON object with the following keys:</p>
+					<ul>
+						<li><p><code>basePath</code> - Base path that is relative to the matched route.</p>
+							<p>  So for <code>reqUrl = /a/b/c?d=1</code> &amp; matched route <code>/a/*</code> base path will be <code>/a/</code>.
+							While for <code>reqUrl = /a/b/c?d=1</code> &amp; matched route <code>/a/b/c</code> base path will be <code>/a/b/c</code>.</p>
+						</li>
+						<li><p><code>reqUrl</code> - Request URL string. This contains only the URL that is present in the actual HTTP request.</p>
+							<p>  <code>reqUrl</code> = <code>/status?name=ryan</code> if the request is:</p>
+							<pre><code>  GET /status?name=ryan HTTP/1.1<span class="hljs-tag">\<span class="hljs-name">r</span></span><span class="hljs-tag">\<span class="hljs-name">n</span></span>
+  Accept: text/plain<span class="hljs-tag">\<span class="hljs-name">r</span></span><span class="hljs-tag">\<span class="hljs-name">n</span></span>
+  <span class="hljs-tag">\<span class="hljs-name">r</span></span><span class="hljs-tag">\<span class="hljs-name">n</span></span></code></pre></li>
+						<li><p><em>(legacy)</em> <code>fragmentName</code> - string with name of the fragment</p>
+						</li>
+					</ul>
+				</li>
+				<li><p>Query parameter <code>appProps</code></p>
+					<p>Sent only if app has some <em>Props</em> defined at the app or route slot level.
+					Contains base64 encoded JSON object with defined <em>Props</em>.</p>
+				</li>
+				<li><p>Header <code>x-request-uri</code>. Request URL string. This contains only the URL that is present in the actual HTTP request.</p>
+				</li>
+			</ol>
+			<p>Both query params mentioned here can be decoded in the following manner:</p>
+			<pre><code class="language-javascript"><span class="hljs-built_in">JSON</span>.parse(Buffer.from(req.query.routerProps, <span class="hljs-string">'base64'</span>).toString(<span class="hljs-string">'utf-8'</span>))</code></pre>
+			<a href="#response-interface-micro-frontend--gt-ilc" id="response-interface-micro-frontend--gt-ilc" style="color: inherit; text-decoration: none;">
+				<h3>Response interface Micro Frontend -&gt; ILC</h3>
+			</a>
+			<p>App possible response headers:</p>
+			<ul>
+				<li><code>Link</code> - Check <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link">reference</a>.</li>
+				<li><code>x-head-title</code> - <em>(only primary app)</em> Page title encoded with base64. Will be injected onto <code>&lt;head&gt;</code> tag.
+				Ex: <code>Buffer.from(&#39;&lt;title&gt;Page title&lt;/title&gt;&#39;, &#39;utf-8&#39;).toString(&#39;base64&#39;)</code></li>
+				<li><code>x-head-meta</code> - <em>(only primary app)</em> Page <a href="https://www.w3schools.com/tags/tag_meta.asp">meta tags</a> encoded with base64.
+				Ex: <code>Buffer.from(&#39;&lt;meta name=&quot;description&quot; content=&quot;Free Web tutorials&quot;&gt;&lt;meta name=&quot;keywords&quot; content=&quot;HTML,CSS,XML,JavaScript&quot;&gt;&#39;, &#39;utf-8&#39;).toString(&#39;base64&#39;)</code></li>
+			</ul>
+			<p>HTTP status code from the primary app will be used to define HTTP status code of the requested page.</p>
 		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">

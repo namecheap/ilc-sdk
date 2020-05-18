@@ -5,7 +5,7 @@ export interface RequestData {
     getCurrentReqUrl: () => string;
     getCurrentBasePath: () => string;
     /** Returns _Props_ that were assigned to app in ILC Registry for the current path */
-    getCurrentPathProps: () => object;
+    getCurrentPathProps: () => { [key: string]: any };
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     appId: string;
 }

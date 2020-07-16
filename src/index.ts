@@ -8,7 +8,7 @@ export * from './types';
 export default class IlcSdk {
     private log: Console;
     private defaultPublicPath: string;
-    private titleRegex = /<title\s*>.*<\/title\s*>/s;
+    private titleRegex = /<title.*>.*<\/title\s*>/s;
     private publicPathProperyName: string;
 
     /**

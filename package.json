@@ -1,6 +1,6 @@
 {
   "name": "ilc-server-sdk",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "SDK for server side communication with Isomorphic Layout Composer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

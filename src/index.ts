@@ -1,5 +1,4 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import * as path from 'path';
 import * as types from './types';
 import urljoin from 'url-join';
 
@@ -137,7 +136,7 @@ export default class IlcSdk {
 
         if (routerProps.basePath && routerProps.reqUrl) {
             res.basePageUrl = routerProps.basePath;
-            res.requestUrl = '/' + path.relative(routerProps.basePath, routerProps.reqUrl);
+            res.requestUrl = urljoin('/', routerProps.reqUrl.replace(routerProps.basePath, ''));
         } else {
             this.log.warn(`Missing "routerProps" for "${url.href}" request. Fallback to / & /`);
         }

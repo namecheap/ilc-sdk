@@ -1,4 +1,4 @@
-import IlcSdk from '../src/index';
+import IlcSdk from '../src/server/index';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { Request as MockReq, Response as MockRes } from 'mock-http';
@@ -8,7 +8,7 @@ import fakeCons from './utils/console';
 
 const defReq = Object.freeze({
     url: '/tst',
-    headers: { host: 'example.com' },
+    headers: { host: 'example.com', 'z-lang': 'en-US' },
 });
 
 describe('IlcSdk', () => {

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "umd",
+    "declaration": true,
+    "outDir": "../../dist/client",
+    "strict": true,
+    "types" : ["mocha"],
+    "esModuleInterop": true
+  },
+  "include": ["./"],
+  "exclude": ["node_modules", "**/__tests__/*"]
+}

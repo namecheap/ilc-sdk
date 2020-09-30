@@ -44,6 +44,7 @@ server.get('*', (req, res) => {
     const ilcData = ilcSdk.processRequest(req);
 
     const context = {
+        ilcData,
         url: ilcData.getCurrentReqUrl(),
     };
 
@@ -62,6 +63,18 @@ server.get('*', (req, res) => {
     });
 
 });
+
+
+/////
+
+
+import IlcAppSdk from 'ilc-server-sdk/dist/client';
+
+//SSR
+const intl = new IlcAppSdk(context.ilcData);
+
+//CSR
+const intl = new IlcAppSdk(window.ILC.intl);
 ```
 
 ## JS docs

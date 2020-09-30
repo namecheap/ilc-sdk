@@ -2,13 +2,13 @@
   "name": "ilc-server-sdk",
   "version": "1.2.3",
   "description": "SDK for server side communication with Isomorphic Layout Composer",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/server/index.js",
+  "types": "dist/server/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p ./src/server && tsc -p ./src/client",
     "test": "mocha -r ts-node/register **/*.spec.ts",
     "coverage": "nyc npm run test",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

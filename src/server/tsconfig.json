@@ -5,7 +5,7 @@
     "declaration": true,
     "outDir": "../../dist/server",
     "strict": true,
-    "types" : ["node", "mocha"],
+    "types" : ["node"],
     "esModuleInterop": true,
     "resolveJsonModule": true
   },

@@ -47,11 +47,14 @@ export default class IlcSdk {
             this.log.warn(`Missing "appId" information for "${url.href}" request. Falling back to dumb ID.`);
         }
 
+
+
         return {
             getCurrentReqUrl: () => requestedUrls.requestUrl,
             getCurrentBasePath: () => requestedUrls.basePageUrl,
             getCurrentPathProps: () => passedProps,
             appId,
+            intl: this.parseIntl(req),
         };
     }
 
@@ -115,6 +118,20 @@ export default class IlcSdk {
         res.statusCode = 200;
         res.setHeader('content-type', 'application/json; charset=utf-8');
         res.end(JSON.stringify(resData));
+    }
+
+    private parseIntl(req: IncomingMessage) {
+        let currLocale = req.headers['z-lang'] as string|undefined;
+        if (currLocale === undefined) {
+            currLocale = 'en-US';
+            this.log.warn(`Missing locale information for "${req.url}" request. Falling back to dumb one "${currLocale}".`);
+        }
+
+        return {
+            get: () => ({locale: currLocale as string, currency: 'USD'}),
+            getDefault: () => ({locale: 'en-US', currency: 'USD'}),
+            getSupported: () => ({locale: ['en-US', 'fr-FR', 'en-GB'], currency: ['USD', 'EUR', 'GBP']})
+        }
     }
 
     private parseRouterProps(url: URL) {

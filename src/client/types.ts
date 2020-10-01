@@ -5,12 +5,13 @@ export interface IntlAdapter {
     get: () => { locale: string, currency: string };
     getDefault: () => { locale: string, currency: string };
     getSupported: () => { locale: string[], currency: string[] };
-    set?: (p: {locale?: string, currency?: string}) => void; // Passed only at CSR
+    set?: (p: {locale?: string, currency?: string}) => Promise<void>; // Passed only at CSR
 }
 
 export interface IntlUpdateEvent extends CustomEvent {
     detail: {
         locale: string;
+        currency: string;
         addPendingResources: (promise: Promise<any>) => void
         onAllResourcesReady: () => Promise<void>
     }

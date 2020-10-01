@@ -5,6 +5,7 @@ export * from './types';
 class IlcIntl {
     private adapter: types.IntlAdapter;
     private listeners: any[] = [];
+    private static eventName = 'ilc:intl-update';
 
     constructor(adapter: types.IntlAdapter) {
         this.adapter = adapter;
@@ -22,12 +23,12 @@ class IlcIntl {
         return this.adapter.getSupported();
     }
 
-    public set(p: {locale?: string, currency?: string}) {
+    public set(p: {locale?: string, currency?: string}): Promise<void> {
         if (!this.adapter.set) {
             throw new Error('Looks like you\'re trying to call CSR only method during SSR.');
         }
 
-        this.adapter.set(p);
+        return this.adapter.set(p);
     }
 
     /**
@@ -35,11 +36,15 @@ class IlcIntl {
      * @param localeOverride
      */
     public localizeUrl(url: URL|string, localeOverride?: string): URL {
-        url = this.getUrlCopy(url);
+        url = this.parseUrl(url).cleanUrl;
 
-        const loc = localeOverride || this.adapter.get().locale;
+        const loc = this.getCanonicalLocale(localeOverride || this.adapter.get().locale);
+        if (loc === null) {
+            throw new Error(`Unsupported locale passed. Received: ${loc}`);
+        }
+
         if (loc !== this.adapter.getDefault().locale) {
-            url.pathname = `/${loc}${url}`;
+            url.pathname = `/${this.getShortenedLocale(loc)}${url.pathname}`;
         }
 
         return url;
@@ -48,9 +53,11 @@ class IlcIntl {
     public parseUrl(url: URL|string): {locale: string, cleanUrl: URL} {
         url = this.getUrlCopy(url);
 
-        const [, lang, ...path] = url.pathname.split('/');
+        let [, lang, ...path] = url.pathname.split('/');
 
-        if (this.adapter.getSupported().locale.indexOf(lang) !== -1) {
+        lang = this.getCanonicalLocale(lang) as string;
+
+        if (lang !== null && this.adapter.getSupported().locale.indexOf(lang) !== -1) {
             url.pathname = `/${path.join('/')}`;
 
             return { cleanUrl: url, locale: lang };
@@ -64,7 +71,7 @@ class IlcIntl {
             throw new Error('Looks like you\'re trying to call CSR only method during SSR.');
         }
 
-        window.addEventListener('ilc:intl-update', callback as EventListener);
+        window.addEventListener(IlcIntl.eventName, callback as EventListener);
         this.listeners.push(callback);
     }
 
@@ -74,7 +81,7 @@ class IlcIntl {
         }
 
         for (let callback of this.listeners) {
-            window.removeEventListener('ilc:intl-update', callback);
+            window.removeEventListener(IlcIntl.eventName, callback);
         }
     }
 
@@ -85,6 +92,57 @@ class IlcIntl {
 
         // Creating a copy of the original object
         return new URL(url.toString());
+    }
+
+    private getCanonicalLocale(locale: string) {
+        const supportedLocales = this.adapter.getSupported().locale;
+        const supportedLangs = supportedLocales
+            .map(v => v.split('-')[0])
+            .filter((v, i, a) => a.indexOf(v) === i);
+
+        const locData = locale.split('-');
+        if (locData.length === 2) {
+            locale = locData[0].toLowerCase() + '-' + locData[1].toUpperCase();
+        } else if (locData.length === 1) {
+            locale = locData[0].toLowerCase();
+        } else {
+            throw new Error(`Unexpected locale format. Received: ${locale}`);
+        }
+
+        if (supportedLangs.indexOf(locale.toLowerCase()) !== -1) {
+            for (let v of supportedLocales) {
+                if (v.split('-')[0] === locale) {
+                    locale = v;
+                    break;
+                }
+            }
+        } else if (supportedLocales.indexOf(locale) === -1) {
+            return null;
+        }
+
+        return locale;
+    }
+
+    private getShortenedLocale(canonicalLocale: string) {
+        const supportedLocales = this.adapter.getSupported().locale;
+
+        if (supportedLocales.indexOf(canonicalLocale) === -1) {
+            throw new Error(`Unsupported locale passed. Received: ${canonicalLocale}`);
+        }
+
+        for (let loc of supportedLocales) {
+            if (loc.split('-')[0] !== canonicalLocale.split('-')[0]) {
+                continue;
+            }
+
+            if (loc === canonicalLocale) {
+                return loc.split('-')[0];
+            } else {
+                return canonicalLocale;
+            }
+        }
+
+        return canonicalLocale;
     }
 }
 

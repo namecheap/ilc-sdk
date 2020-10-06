@@ -1,4 +1,4 @@
-import {IlcSdk} from './IlcSdk';
+import { IlcSdk } from './IlcSdk';
 
 export * from './types';
 export * from './WebpackPlugins';

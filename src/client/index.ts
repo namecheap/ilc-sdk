@@ -23,9 +23,9 @@ class IlcIntl {
         return this.adapter.getSupported();
     }
 
-    public set(p: {locale?: string, currency?: string}): Promise<void> {
+    public set(p: { locale?: string; currency?: string }): Promise<void> {
         if (!this.adapter.set) {
-            throw new Error('Looks like you\'re trying to call CSR only method during SSR.');
+            throw new Error("Looks like you're trying to call CSR only method during SSR.");
         }
 
         return this.adapter.set(p);
@@ -35,7 +35,7 @@ class IlcIntl {
      * @param url - absolute URL
      * @param localeOverride
      */
-    public localizeUrl(url: URL|string, localeOverride?: string): URL {
+    public localizeUrl(url: URL | string, localeOverride?: string): URL {
         url = this.parseUrl(url).cleanUrl;
 
         const loc = this.getCanonicalLocale(localeOverride || this.adapter.get().locale);
@@ -48,9 +48,9 @@ class IlcIntl {
         }
 
         return url;
-    };
+    }
 
-    public parseUrl(url: URL|string): {locale: string, cleanUrl: URL} {
+    public parseUrl(url: URL | string): { locale: string; cleanUrl: URL } {
         url = this.getUrlCopy(url);
 
         let [, lang, ...path] = url.pathname.split('/');
@@ -68,7 +68,7 @@ class IlcIntl {
 
     public watch(callback: (event: types.IntlUpdateEvent) => void) {
         if (!window.addEventListener) {
-            throw new Error('Looks like you\'re trying to call CSR only method during SSR.');
+            throw new Error("Looks like you're trying to call CSR only method during SSR.");
         }
 
         window.addEventListener(IlcIntl.eventName, callback as EventListener);
@@ -77,7 +77,7 @@ class IlcIntl {
 
     public unwatch() {
         if (!window.addEventListener) {
-            throw new Error('Looks like you\'re trying to call CSR only method during SSR.');
+            throw new Error("Looks like you're trying to call CSR only method during SSR.");
         }
 
         for (let callback of this.listeners) {
@@ -85,9 +85,9 @@ class IlcIntl {
         }
     }
 
-    private getUrlCopy(url: URL|string): URL {
+    private getUrlCopy(url: URL | string): URL {
         if (typeof url === 'string') {
-            return  new URL(url);
+            return new URL(url);
         }
 
         // Creating a copy of the original object
@@ -96,9 +96,7 @@ class IlcIntl {
 
     private getCanonicalLocale(locale: string) {
         const supportedLocales = this.adapter.getSupported().locale;
-        const supportedLangs = supportedLocales
-            .map(v => v.split('-')[0])
-            .filter((v, i, a) => a.indexOf(v) === i);
+        const supportedLangs = supportedLocales.map((v) => v.split('-')[0]).filter((v, i, a) => a.indexOf(v) === i);
 
         const locData = locale.split('-');
         if (locData.length === 2) {
@@ -148,7 +146,7 @@ class IlcIntl {
 
 export default class IlcAppSdk {
     private adapter: types.ClientSdkAdapter;
-    public intl: IlcIntl|null;
+    public intl: IlcIntl | null;
 
     constructor(adapter?: types.ClientSdkAdapter) {
         if (adapter) {

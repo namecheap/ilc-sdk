@@ -1,4 +1,4 @@
-import {IncomingMessage, ServerResponse} from 'http';
+import { IncomingMessage, ServerResponse } from 'http';
 import * as types from './types';
 import urljoin from 'url-join';
 
@@ -44,8 +44,6 @@ export class IlcSdk {
             appId = 'dumbId';
             this.log.warn(`Missing "appId" information for "${url.href}" request. Falling back to dumb ID.`);
         }
-
-
 
         return {
             getCurrentReqUrl: () => requestedUrls.requestUrl,
@@ -119,7 +117,7 @@ export class IlcSdk {
     }
 
     private parseIntl(req: IncomingMessage) {
-        const intlParams = req.headers['z-intl'] as string|undefined;
+        const intlParams = req.headers['z-intl'] as string | undefined;
         if (intlParams === undefined) {
             return null;
         }
@@ -129,10 +127,10 @@ export class IlcSdk {
         const currencyParams = paramsParts[1].split(':');
 
         return {
-            get: () => ({locale: localeParams[0], currency: currencyParams[0]}),
-            getDefault: () => ({locale: localeParams[1], currency: currencyParams[1]}),
-            getSupported: () => ({locale: localeParams[2].split(','), currency: currencyParams[2].split(',')})
-        }
+            get: () => ({ locale: localeParams[0], currency: currencyParams[0] }),
+            getDefault: () => ({ locale: localeParams[1], currency: currencyParams[1] }),
+            getSupported: () => ({ locale: localeParams[2].split(','), currency: currencyParams[2].split(',') }),
+        };
     }
 
     private parseRouterProps(url: URL) {

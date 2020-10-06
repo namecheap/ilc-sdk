@@ -8,13 +8,13 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "tsc -p ./src/server && tsc -p ./src/client",
+    "build": "tsc -p ./src/client && tsc -p ./src/server",
     "test": "mocha -r ts-node/register **/*.spec.ts",
     "coverage": "nyc npm run test",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
-    "docs": "typedoc --out docs src --excludePrivate --excludeNotExported --mode file --theme minimal",
+    "docs": "typedoc --out docs src/server/ --excludePrivate --excludeNotExported",
     "preversion": "npm run format:check && npm test",
     "prepublish": "npm run build"
   },
@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@types/url-join": "^4.0.0",
-    "url-join": "^4.0.1"
+    "url-join": "^4.0.1",
+    "wrapper-webpack-plugin": "^2.1.0"
   }
 }

@@ -10,5 +10,10 @@
     "resolveJsonModule": true
   },
   "include": ["./"],
-  "exclude": ["node_modules", "**/__tests__/*"]
+  "exclude": ["node_modules", "**/__tests__/*"],
+  "references": [
+    {
+      "path": "../client"
+    }
+  ]
 }

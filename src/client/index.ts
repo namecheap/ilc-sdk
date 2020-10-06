@@ -148,7 +148,7 @@ class IlcIntl {
 
 export default class IlcAppSdk {
     private adapter: types.ClientSdkAdapter;
-    public intl: IlcIntl;
+    public intl: IlcIntl|null;
 
     constructor(adapter?: types.ClientSdkAdapter) {
         if (adapter) {
@@ -159,6 +159,6 @@ export default class IlcAppSdk {
             throw new Error('Unable to determine adapter properly...');
         }
 
-        this.intl = new IlcIntl(this.adapter.intl);
+        this.intl = this.adapter.intl ? new IlcIntl(this.adapter.intl) : null;
     }
 }

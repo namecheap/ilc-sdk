@@ -121,16 +121,19 @@ export default class IlcSdk {
     }
 
     private parseIntl(req: IncomingMessage) {
-        let currLocale = req.headers['z-lang'] as string|undefined;
-        if (currLocale === undefined) {
-            currLocale = 'en-US';
-            this.log.warn(`Missing locale information for "${req.url}" request. Falling back to dumb one "${currLocale}".`);
+        const intlParams = req.headers['z-intl'] as string|undefined;
+        if (intlParams === undefined) {
+            return null;
         }
 
+        const paramsParts = intlParams.split(';');
+        const localeParams = paramsParts[0].split(':');
+        const currencyParams = paramsParts[1].split(':');
+
         return {
-            get: () => ({locale: currLocale as string, currency: 'USD'}),
-            getDefault: () => ({locale: 'en-US', currency: 'USD'}),
-            getSupported: () => ({locale: ['en-US', 'fr-FR', 'en-GB'], currency: ['USD', 'EUR', 'GBP']})
+            get: () => ({locale: localeParams[0], currency: currencyParams[0]}),
+            getDefault: () => ({locale: localeParams[1], currency: currencyParams[1]}),
+            getSupported: () => ({locale: localeParams[2].split(','), currency: currencyParams[2].split(',')})
         }
     }
 

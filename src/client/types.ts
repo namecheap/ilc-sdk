@@ -23,5 +23,5 @@ export interface IntlUpdateEvent extends CustomEvent {
 export interface ClientSdkAdapter {
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     appId?: string;
-    intl: IntlAdapter;
+    intl: IntlAdapter|null;
 }

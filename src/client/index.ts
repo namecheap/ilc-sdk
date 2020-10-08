@@ -35,7 +35,7 @@ class IlcIntl {
      * @param url - absolute URL
      * @param localeOverride
      */
-    public localizeUrl(url: URL | string, localeOverride?: string): URL {
+    public localizeUrl(url: string, localeOverride?: string): string {
         url = this.parseUrl(url).cleanUrl;
 
         const loc = this.getCanonicalLocale(localeOverride || this.adapter.get().locale);
@@ -44,23 +44,19 @@ class IlcIntl {
         }
 
         if (loc !== this.adapter.getDefault().locale) {
-            url.pathname = `/${this.getShortenedLocale(loc)}${url.pathname}`;
+            url = `/${this.getShortenedLocale(loc)}${url}`;
         }
 
         return url;
     }
 
-    public parseUrl(url: URL | string): { locale: string; cleanUrl: URL } {
-        url = this.getUrlCopy(url);
-
-        let [, lang, ...path] = url.pathname.split('/');
+    public parseUrl(url: string): { locale: string; cleanUrl: string } {
+        let [, lang, ...path] = url.split('/');
 
         lang = this.getCanonicalLocale(lang) as string;
 
         if (lang !== null && this.adapter.getSupported().locale.indexOf(lang) !== -1) {
-            url.pathname = `/${path.join('/')}`;
-
-            return { cleanUrl: url, locale: lang };
+            return { cleanUrl: `/${path.join('/')}`, locale: lang };
         }
 
         return { cleanUrl: url, locale: this.adapter.getDefault().locale };
@@ -83,15 +79,6 @@ class IlcIntl {
         for (let callback of this.listeners) {
             window.removeEventListener(IlcIntl.eventName, callback);
         }
-    }
-
-    private getUrlCopy(url: URL | string): URL {
-        if (typeof url === 'string') {
-            return new URL(url);
-        }
-
-        // Creating a copy of the original object
-        return new URL(url.toString());
     }
 
     private getCanonicalLocale(locale: string) {

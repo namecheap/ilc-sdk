@@ -5,8 +5,7 @@ export function WebpackPluginsFactory(jsFilesTest = /\.js$/) {
         new WrapperPlugin({
             test: jsFilesTest, // only wrap output of bundle files with '.js' extension
             header: '(function(define){\n',
-            footer:
-                '\n})((window.ILC && window.ILC.define) || window.define);',
+            footer: '\n})((window.ILC && window.ILC.define) || window.define);',
         }),
     ];
 }

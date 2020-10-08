@@ -4,6 +4,7 @@ import * as clientTypes from '../client/types';
  * Result of the "processRequest" method
  */
 export interface RequestData {
+    getCurrentReqHost: () => string;
     getCurrentReqUrl: () => string;
     getCurrentBasePath: () => string;
     /** Returns _Props_ that were assigned to app in ILC Registry for the current path */

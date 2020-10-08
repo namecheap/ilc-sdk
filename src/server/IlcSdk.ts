@@ -45,7 +45,16 @@ export class IlcSdk {
             this.log.warn(`Missing "appId" information for "${url.href}" request. Falling back to dumb ID.`);
         }
 
+        let host = req.headers['x-request-host'] as string;
+        if (host === undefined) {
+            this.log.warn(
+                `Missing "x-request-host" information for "${url.href}" request. Falling back to "localhost".`,
+            );
+            host = 'localhost';
+        }
+
         return {
+            getCurrentReqHost: () => host,
             getCurrentReqUrl: () => requestedUrls.requestUrl,
             getCurrentBasePath: () => requestedUrls.basePageUrl,
             getCurrentPathProps: () => passedProps,

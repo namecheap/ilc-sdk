@@ -8,7 +8,7 @@ import fakeCons from './utils/console';
 
 const defReq = Object.freeze({
     url: '/tst',
-    headers: { host: 'example.com', 'x-request-host': 'example.com', 'z-lang': 'en-US' },
+    headers: { host: 'example.com', 'x-request-host': 'example.com', 'z-lang': 'en-US', 'x-request-uri': '/tst' },
 });
 
 describe('IlcSdk', () => {

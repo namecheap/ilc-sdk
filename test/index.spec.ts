@@ -12,7 +12,8 @@ const defReq = Object.freeze({
 });
 
 describe('IlcSdk', () => {
-    let ilcSdk: IlcSdk, stubCons: sinon.SinonStubbedInstance<Console>;
+    let ilcSdk: IlcSdk;
+    let stubCons: sinon.SinonStubbedInstance<Console>;
 
     beforeEach(() => {
         stubCons = sinon.stub(fakeCons);
@@ -26,8 +27,8 @@ describe('IlcSdk', () => {
     describe('constructor options', () => {
         it('should correctly set default options', () => {
             const ilcSdk = new IlcSdk();
-            expect((<any>ilcSdk).log).equal(console);
-            expect((<any>ilcSdk).defaultPublicPath).equal('/');
+            expect((ilcSdk as any).log).equal(console);
+            expect((ilcSdk as any).defaultPublicPath).equal('/');
         });
     });
 

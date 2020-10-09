@@ -5,8 +5,12 @@ import * as clientTypes from '../client/types';
  */
 export interface RequestData {
     getCurrentReqHost: () => string;
+    /** Returns original URI that is present in the actual HTTP request. It DOES NOT contain information about locale. */
     getCurrentReqUrl: () => string;
+    /** Returns base path that is relative to the matched route. See README for more info. */
     getCurrentBasePath: () => string;
+    /** Returns original URI that is present in the actual HTTP request. It may contain information about locale. */
+    getCurrentReqOriginalUri: () => string;
     /** Returns _Props_ that were assigned to app in ILC Registry for the current path */
     getCurrentPathProps: () => { [key: string]: any };
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */

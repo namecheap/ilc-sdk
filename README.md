@@ -96,7 +96,7 @@ With every request for SSR content from the app ILC sends the following meta-inf
    
        So for `reqUrl = /a/b/c?d=1` & matched route `/a/*` base path will be `/a/`.
        While for `reqUrl = /a/b/c?d=1` & matched route `/a/b/c` base path will be `/a/b/c`.
-   * `reqUrl` - Request URL string. This contains only the URL that is present in the actual HTTP request.
+   * `reqUrl` - Request URL string. This contains only the URL that is present in the actual HTTP request. It **DOES NOT** contain information about locale.
        
        `reqUrl` = `/status?name=ryan` if the request is:
        ```
@@ -110,7 +110,7 @@ With every request for SSR content from the app ILC sends the following meta-inf
    Sent only if app has some _Props_ defined at the app or route slot level.
    Contains base64 encoded JSON object with defined _Props_.
   
-1. Header `x-request-uri`. Request URL string. This contains only the URL that is present in the actual HTTP request.
+1. Header `x-request-uri`. Request URL string. This contains only the URL that is present in the actual HTTP request. It **may contain** information about locale.
 
 Both query params mentioned here can be decoded in the following manner:
 ```javascript

@@ -53,10 +53,17 @@ export class IlcSdk {
             host = 'localhost';
         }
 
+        let originalUri = req.headers['x-request-uri'] as string;
+        if (originalUri === undefined) {
+            this.log.warn(`Missing "x-request-uri" information for "${url.href}" request. Falling back to "/".`);
+            originalUri = '/';
+        }
+
         return {
             getCurrentReqHost: () => host,
             getCurrentReqUrl: () => requestedUrls.requestUrl,
             getCurrentBasePath: () => requestedUrls.basePageUrl,
+            getCurrentReqOriginalUri: () => originalUri,
             getCurrentPathProps: () => passedProps,
             appId,
             intl: this.parseIntl(req),

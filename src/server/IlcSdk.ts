@@ -133,7 +133,7 @@ export class IlcSdk {
     }
 
     private parseIntl(req: IncomingMessage) {
-        const intlParams = req.headers['z-intl'] as string | undefined;
+        const intlParams = req.headers['x-request-intl'] as string | undefined;
         if (intlParams === undefined) {
             return null;
         }

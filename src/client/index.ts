@@ -18,4 +18,10 @@ export default class IlcAppSdk {
 
         this.intl = this.adapter.intl ? new IlcIntl(this.adapter.intl) : null;
     }
+
+    unmount() {
+        if (this.intl) {
+            this.intl.unmount();
+        }
+    }
 }

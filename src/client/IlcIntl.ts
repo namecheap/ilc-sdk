@@ -62,16 +62,26 @@ export default class IlcIntl {
         return { cleanUrl: url, locale: this.adapter.getDefault().locale };
     }
 
-    public watch(callback: (event: types.IntlUpdateEvent) => void) {
+    public watch(callback: (event: types.IntlUpdateEvent) => void): () => void {
         if (!window.addEventListener) {
             throw new Error("Looks like you're trying to call CSR only method during SSR.");
         }
 
         window.addEventListener(IlcIntl.eventName, callback as EventListener);
         this.listeners.push(callback);
+
+        return () => {
+            for (const row of this.listeners) {
+                if (row === callback) {
+                    window.removeEventListener(IlcIntl.eventName, row);
+                    this.listeners.slice(this.listeners.indexOf(callback), 1);
+                    break;
+                }
+            }
+        };
     }
 
-    public unwatch() {
+    public unmount() {
         if (!window.addEventListener) {
             throw new Error("Looks like you're trying to call CSR only method during SSR.");
         }
@@ -79,6 +89,8 @@ export default class IlcIntl {
         for (const callback of this.listeners) {
             window.removeEventListener(IlcIntl.eventName, callback);
         }
+
+        this.listeners = [];
     }
 
     private getCanonicalLocale(locale: string) {

@@ -23,7 +23,7 @@ export default class IlcIntl {
         return this.adapter.getSupported();
     }
 
-    public set(p: { locale?: string; currency?: string }): Promise<void> {
+    public set(p: types.IntlConfig): Promise<void> {
         if (!this.adapter.set) {
             throw new Error("Looks like you're trying to call CSR only method during SSR.");
         }
@@ -31,16 +31,13 @@ export default class IlcIntl {
         return this.adapter.set(p);
     }
 
-    /**
-     * @param url - absolute URL
-     * @param localeOverride
-     */
-    public localizeUrl(url: string, localeOverride?: string): string {
+    public localizeUrl(url: string, configOverride: types.IntlConfig = {}): string {
         url = this.parseUrl(url).cleanUrl;
 
-        const loc = this.getCanonicalLocale(localeOverride || this.adapter.get().locale);
+        const receivedLocale = configOverride.locale || this.adapter.get().locale;
+        const loc = this.getCanonicalLocale(receivedLocale);
         if (loc === null) {
-            throw new Error(`Unsupported locale passed. Received: ${loc}`);
+            throw new Error(`Unsupported locale passed. Received: "${receivedLocale}"`);
         }
 
         if (loc !== this.adapter.getDefault().locale) {
@@ -50,7 +47,7 @@ export default class IlcIntl {
         return url;
     }
 
-    public parseUrl(url: string): { locale: string; cleanUrl: string } {
+    public parseUrl(url: string): { locale: string; cleanUrl: string } { //TODO: what if currency is also a part of URL?
         const [, langPart, ...path] = url.split('/');
 
         const lang = this.getCanonicalLocale(langPart);

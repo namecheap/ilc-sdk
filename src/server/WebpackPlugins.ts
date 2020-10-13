@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 export function WebpackPluginsFactory(jsFilesTest = /\.js$/) {
     const WrapperPlugin = require('wrapper-webpack-plugin');
 

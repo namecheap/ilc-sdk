@@ -33,6 +33,30 @@ describe('IlcSdk', () => {
     });
 
     describe('processRequest', () => {
+        describe('getCurrentReqHost', () => {
+            it('should parse request host correctly', () => {
+                const req = new MockReq(
+                    merge({}, defReq),
+                );
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.getCurrentReqHost()).to.eq(defReq.headers['x-request-host']);
+            });
+
+            it('should fallback to dumb request host if not passed', () => {
+                const reqConf = merge({}, defReq);
+                delete reqConf.headers['x-request-host'];
+                const req = new MockReq(reqConf);
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.getCurrentReqHost()).to.eq('localhost');
+                sinon.assert.calledWith(
+                    stubCons.warn,
+                    'Missing "x-request-host" information for "http://example.com/tst" request. Falling back to "localhost".',
+                );
+            });
+        });
+
         describe('appId', () => {
             it('should parse appId correctly', () => {
                 const routerProps = JSON.stringify({
@@ -140,6 +164,28 @@ describe('IlcSdk', () => {
                 const res = ilcSdk.processRequest(req);
 
                 expect(res.getCurrentPathProps()).to.eql({});
+            });
+        });
+
+        describe('should parse intl info', () => {
+            it('should parse intl info correctly', () => {
+                const req = new MockReq(
+                    merge({}, defReq, {
+                        headers: {'x-request-intl': 'en-GB:en-US:en-US,en-GB;EUR:USD:USD,EUR;'}
+                    }),
+                );
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.intl!.get()).to.eql({locale: 'en-GB', currency: 'EUR'});
+                expect(res.intl!.getDefault()).to.eql({locale: 'en-US', currency: 'USD'});
+                expect(res.intl!.getSupported()).to.eql({locale: ['en-US', 'en-GB'], currency: ['USD', 'EUR']});
+            });
+
+            it('should not fail & skip intl if ILC haven\'t passed anything', () => {
+                const req = new MockReq(merge({}, defReq));
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.intl).to.eq(null);
             });
         });
     });

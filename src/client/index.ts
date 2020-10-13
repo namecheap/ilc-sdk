@@ -3,6 +3,9 @@ import IlcIntl from './IlcIntl';
 
 export * from './types';
 
+
+export const Intl = IlcIntl;
+
 export default class IlcAppSdk {
     private adapter: types.ClientSdkAdapter;
     public intl: IlcIntl | null;

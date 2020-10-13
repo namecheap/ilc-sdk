@@ -47,16 +47,20 @@ export default class IlcIntl {
         return url;
     }
 
-    public parseUrl(url: string): { locale: string; cleanUrl: string } { //TODO: what if currency is also a part of URL?
+    public static parseUrl(url: string, defaultLocale: string, supportedLocales: string[]): { locale: string; cleanUrl: string } { //TODO: what if currency is also a part of URL?
         const [, langPart, ...path] = url.split('/');
 
-        const lang = this.getCanonicalLocale(langPart);
+        const lang = IlcIntl.getCanonicalLocale(langPart, supportedLocales);
 
-        if (lang !== null && this.adapter.getSupported().locale.indexOf(lang) !== -1) {
+        if (lang !== null && supportedLocales.indexOf(lang) !== -1) {
             return { cleanUrl: `/${path.join('/')}`, locale: lang };
         }
 
-        return { cleanUrl: url, locale: this.adapter.getDefault().locale };
+        return { cleanUrl: url, locale: defaultLocale };
+    }
+
+    public parseUrl(url: string): { locale: string; cleanUrl: string } {
+        return IlcIntl.parseUrl(url, this.adapter.getDefault().locale, this.adapter.getSupported().locale);
     }
 
     public watch(callback: (event: types.IntlUpdateEvent) => void): () => void {
@@ -90,8 +94,7 @@ export default class IlcIntl {
         this.listeners = [];
     }
 
-    private getCanonicalLocale(locale: string) {
-        const supportedLocales = this.adapter.getSupported().locale;
+    public static getCanonicalLocale(locale: string, supportedLocales: string[]) {
         const supportedLangs = supportedLocales.map((v) => v.split('-')[0]).filter((v, i, a) => a.indexOf(v) === i);
 
         const locData = locale.split('-');
@@ -115,6 +118,10 @@ export default class IlcIntl {
         }
 
         return locale;
+    }
+
+    private getCanonicalLocale(locale: string) {
+        return IlcIntl.getCanonicalLocale(locale, this.adapter.getSupported().locale);
     }
 
     private getShortenedLocale(canonicalLocale: string) {

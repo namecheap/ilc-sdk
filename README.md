@@ -1,6 +1,6 @@
 # App development SDK for ILC
-[![NPM package](https://badgen.net/npm/v/ilc-server-sdk?color=red&icon=npm&label=)](https://www.npmjs.com/package/ilc-server-sdk)
-[![NPM downloads](https://badgen.net/npm/dt/ilc-server-sdk)](https://www.npmjs.com/package/ilc-server-sdk)
+[![NPM package](https://badgen.net/npm/v/ilc-sdk?color=red&icon=npm&label=)](https://www.npmjs.com/package/ilc-sdk)
+[![NPM downloads](https://badgen.net/npm/dt/ilc-sdk)](https://www.npmjs.com/package/ilc-sdk)
 
 SDK intended for use inside Micro Frontends to conveniently communicate with Isomorphic Layout Composer.
 

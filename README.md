@@ -1,13 +1,13 @@
-# Server side SDK for ILC
+# App development SDK for ILC
 [![NPM package](https://badgen.net/npm/v/ilc-server-sdk?color=red&icon=npm&label=)](https://www.npmjs.com/package/ilc-server-sdk)
 [![NPM downloads](https://badgen.net/npm/dt/ilc-server-sdk)](https://www.npmjs.com/package/ilc-server-sdk)
 
-Server side SDK intended for use inside Micro Frontends to conveniently communicate with Isomorphic Layout Composer.
+SDK intended for use inside Micro Frontends to conveniently communicate with Isomorphic Layout Composer.
 
 ## Installation
 
 ```bash
-$ npm i ilc-server-sdk
+$ npm i ilc-sdk
 ```
 
 ## Quick start

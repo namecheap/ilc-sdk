@@ -2,6 +2,9 @@ import { IncomingMessage, ServerResponse } from 'http';
 import * as types from './types';
 import urljoin from 'url-join';
 
+/**
+ * Entrypoint for SDK that should be used within application server that executes SSR bundle
+ */
 export class IlcSdk {
     private log: Console;
     private defaultPublicPath: string;

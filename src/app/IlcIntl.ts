@@ -23,12 +23,17 @@ export default class IlcIntl {
         return this.adapter.getSupported();
     }
 
-    public set(p: types.IntlConfig): Promise<void> {
+    /**
+     * Allows to change locale or currency for the whole page
+     *
+     * @param config
+     */
+    public set(config: types.IntlConfig): Promise<void> {
         if (!this.adapter.set) {
             throw new Error("Looks like you're trying to call CSR only method during SSR.");
         }
 
-        return this.adapter.set(p);
+        return this.adapter.set(config);
     }
 
     public localizeUrl(url: string, configOverride: types.IntlConfig = {}): string {
@@ -47,6 +52,13 @@ export default class IlcIntl {
         return url;
     }
 
+    /**
+     * Allows to parse URL and receive "unlocalized" URL and information about locale that was encoded in URL.
+     *
+     * @param url
+     * @param defaultLocale
+     * @param supportedLocales
+     */
     public static parseUrl(
         url: string,
         defaultLocale: string,
@@ -64,10 +76,19 @@ export default class IlcIntl {
         return { cleanUrl: url, locale: defaultLocale };
     }
 
+    /**
+     * Allows to parse URL and receive "unlocalized" URL and information about locale that was encoded in URL.
+     *
+     * @param url
+     */
     public parseUrl(url: string): { locale: string; cleanUrl: string } {
         return IlcIntl.parseUrl(url, this.adapter.getDefault().locale, this.adapter.getSupported().locale);
     }
 
+    /**
+     * [CSR ONLY] Allows to watch changes to locale or currency that are happening at the client side.
+     * @param callback
+     */
     public watch(callback: (event: types.IntlUpdateEvent) => void): () => void {
         if (!window.addEventListener) {
             throw new Error("Looks like you're trying to call CSR only method during SSR.");
@@ -87,6 +108,9 @@ export default class IlcIntl {
         };
     }
 
+    /**
+     * [CSR ONLY] In apps that are running under ILC it shouldn't be used directly.
+     */
     public unmount() {
         if (!window.addEventListener) {
             throw new Error("Looks like you're trying to call CSR only method during SSR.");
@@ -99,6 +123,13 @@ export default class IlcIntl {
         this.listeners = [];
     }
 
+    /**
+     * Returns properly formatted locale string.
+     * Ex: en -> en-US; en-gb -> en-GB
+     *
+     * @param locale
+     * @param supportedLocales
+     */
     public static getCanonicalLocale(locale: string, supportedLocales: string[]) {
         const supportedLangs = supportedLocales.map((v) => v.split('-')[0]).filter((v, i, a) => a.indexOf(v) === i);
 

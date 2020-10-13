@@ -5,6 +5,9 @@ export * from './types';
 
 export const Intl = IlcIntl;
 
+/**
+ * Entrypoint for SDK that should be used within application bundle
+ */
 export default class IlcAppSdk {
     private adapter: types.ClientSdkAdapter;
     public intl: IlcIntl | null;

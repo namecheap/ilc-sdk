@@ -14,7 +14,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "tslint -p ./src/app && tslint -p ./src/server",
-    "docs": "typedoc --out docs src/server/ --excludePrivate --excludeNotExported",
+    "docs": "typedoc --out docs src/ --excludePrivate --excludeNotExported",
     "preversion": "npm run format:check && npm run lint && npm test",
     "prepublish": "npm run build"
   },

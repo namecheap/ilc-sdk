@@ -3,7 +3,6 @@ import IlcIntl from './IlcIntl';
 
 export * from './types';
 
-
 export const Intl = IlcIntl;
 
 export default class IlcAppSdk {

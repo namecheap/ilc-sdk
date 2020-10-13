@@ -47,7 +47,12 @@ export default class IlcIntl {
         return url;
     }
 
-    public static parseUrl(url: string, defaultLocale: string, supportedLocales: string[]): { locale: string; cleanUrl: string } { //TODO: what if currency is also a part of URL?
+    public static parseUrl(
+        url: string,
+        defaultLocale: string,
+        supportedLocales: string[],
+    ): { locale: string; cleanUrl: string } {
+        // TODO: what if currency is also a part of URL?
         const [, langPart, ...path] = url.split('/');
 
         const lang = IlcIntl.getCanonicalLocale(langPart, supportedLocales);

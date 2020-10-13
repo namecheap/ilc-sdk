@@ -35,9 +35,7 @@ describe('IlcSdk', () => {
     describe('processRequest', () => {
         describe('getCurrentReqHost', () => {
             it('should parse request host correctly', () => {
-                const req = new MockReq(
-                    merge({}, defReq),
-                );
+                const req = new MockReq(merge({}, defReq));
                 const res = ilcSdk.processRequest(req);
 
                 expect(res.getCurrentReqHost()).to.eq(defReq.headers['x-request-host']);
@@ -171,17 +169,17 @@ describe('IlcSdk', () => {
             it('should parse intl info correctly', () => {
                 const req = new MockReq(
                     merge({}, defReq, {
-                        headers: {'x-request-intl': 'en-GB:en-US:en-US,en-GB;EUR:USD:USD,EUR;'}
+                        headers: { 'x-request-intl': 'en-GB:en-US:en-US,en-GB;EUR:USD:USD,EUR;' },
                     }),
                 );
                 const res = ilcSdk.processRequest(req);
 
-                expect(res.intl!.get()).to.eql({locale: 'en-GB', currency: 'EUR'});
-                expect(res.intl!.getDefault()).to.eql({locale: 'en-US', currency: 'USD'});
-                expect(res.intl!.getSupported()).to.eql({locale: ['en-US', 'en-GB'], currency: ['USD', 'EUR']});
+                expect(res.intl!.get()).to.eql({ locale: 'en-GB', currency: 'EUR' });
+                expect(res.intl!.getDefault()).to.eql({ locale: 'en-US', currency: 'USD' });
+                expect(res.intl!.getSupported()).to.eql({ locale: ['en-US', 'en-GB'], currency: ['USD', 'EUR'] });
             });
 
-            it('should not fail & skip intl if ILC haven\'t passed anything', () => {
+            it("should not fail & skip intl if ILC haven't passed anything", () => {
                 const req = new MockReq(merge({}, defReq));
                 const res = ilcSdk.processRequest(req);
 

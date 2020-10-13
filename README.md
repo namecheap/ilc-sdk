@@ -10,9 +10,20 @@ SDK intended for use inside Micro Frontends to conveniently communicate with Iso
 $ npm i ilc-sdk
 ```
 
-## Quick start
+## Node.js and app bundles
 
-Vue.js example: 
+This package features 2 bundles that are intented to being use in Node.js app that runs SSR bundle of your app and
+the application itself.
+
+### Node.js bundle
+
+It works only in Node.js and is designed to parse requests from ILC and form responses. It also provides adapter for application 
+bundle to work in Node.js environment.
+
+- How to use: `const IlcSdk = require('ilc-sdk').default;`
+- Documentation: https://namecheap.github.io/ilc-server-sdk/docs/classes/_server_ilcsdk_.ilcsdk.html
+
+**Vue.js example:**
 ```javascript
 const fs = require('fs');
 const express = require('express');
@@ -26,7 +37,7 @@ const appAssets = {
     cssBundle: clientManifest.all.find(v => v.endsWith('.css'))
 };
 
-const IlcSdk = require('ilc-server-sdk').default;
+const IlcSdk = require('ilc-sdk').default;
 const ilcSdk = new IlcSdk({ publicPath: clientManifest.publicPath });
 
 const renderer = createBundleRenderer(bundle, {
@@ -63,19 +74,15 @@ server.get('*', (req, res) => {
     });
 
 });
-
-
-/////
-
-
-import IlcAppSdk from 'ilc-server-sdk/dist/client';
-
-//SSR
-const intl = new IlcAppSdk(context.ilcData);
-
-//CSR
-const intl = new IlcAppSdk(window.ILC.intl);
 ```
+
+### Application bundle
+
+Provides SDK that should be used within your application bundle. It works well with server and client side rendering.
+
+- How to use: `import IlcAppSdk from 'ilc-sdk/dist/app';`
+- Documentation: https://namecheap.github.io/ilc-server-sdk/docs/classes/_app_index_.ilcappsdk.html
+
 
 ## JS docs
 

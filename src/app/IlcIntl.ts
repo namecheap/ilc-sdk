@@ -16,11 +16,11 @@ export default class IlcIntl {
     }
 
     public getDefault() {
-        return this.adapter.getDefault();
+        return this.adapter.config.default;
     }
 
     public getSupported() {
-        return this.adapter.getSupported();
+        return this.adapter.config.supported;
     }
 
     /**
@@ -37,52 +37,16 @@ export default class IlcIntl {
     }
 
     public localizeUrl(url: string, configOverride: types.IntlConfig = {}): string {
-        url = this.parseUrl(url).cleanUrl;
-
-        const receivedLocale = configOverride.locale || this.adapter.get().locale;
-        const loc = this.getCanonicalLocale(receivedLocale);
-        if (loc === null) {
-            throw new Error(`Unsupported locale passed. Received: "${receivedLocale}"`);
-        }
-
-        if (loc !== this.adapter.getDefault().locale) {
-            url = `/${this.getShortenedLocale(loc)}${url}`;
-        }
-
-        return url;
+        return IlcIntl.localizeUrl(this.adapter.config, url, { ...this.adapter.get(), ...configOverride });
     }
 
     /**
-     * Allows to parse URL and receive "unlocalized" URL and information about locale that was encoded in URL.
-     *
-     * @param url
-     * @param defaultLocale
-     * @param supportedLocales
-     */
-    public static parseUrl(
-        url: string,
-        defaultLocale: string,
-        supportedLocales: string[],
-    ): { locale: string; cleanUrl: string } {
-        // TODO: what if currency is also a part of URL?
-        const [, langPart, ...path] = url.split('/');
-
-        const lang = IlcIntl.getCanonicalLocale(langPart, supportedLocales);
-
-        if (lang !== null && supportedLocales.indexOf(lang) !== -1) {
-            return { cleanUrl: `/${path.join('/')}`, locale: lang };
-        }
-
-        return { cleanUrl: url, locale: defaultLocale };
-    }
-
-    /**
-     * Allows to parse URL and receive "unlocalized" URL and information about locale that was encoded in URL.
+     * Allows to parse URL and receive "non-localized" URL and information about locale that was encoded in URL.
      *
      * @param url
      */
     public parseUrl(url: string): { locale: string; cleanUrl: string } {
-        return IlcIntl.parseUrl(url, this.adapter.getDefault().locale, this.adapter.getSupported().locale);
+        return IlcIntl.parseUrl(this.adapter.config, url);
     }
 
     /**
@@ -123,6 +87,38 @@ export default class IlcIntl {
         this.listeners = [];
     }
 
+    static localizeUrl(config: types.IntlAdapterConfig, url: string, configOverride: types.IntlConfig = {}): string {
+        url = IlcIntl.parseUrl(config, url).cleanUrl;
+
+        const receivedLocale = configOverride.locale || config.default.locale;
+        const loc = IlcIntl.getCanonicalLocale(receivedLocale, config.supported.locale);
+        if (loc === null) {
+            throw new Error(`Unsupported locale passed. Received: "${receivedLocale}"`);
+        }
+
+        if (loc !== config.default.locale) {
+            url = `/${IlcIntl.getShortenedLocale(loc, config.supported.locale)}${url}`;
+        }
+
+        return url;
+    }
+
+    /**
+     * Allows to parse URL and receive "unlocalized" URL and information about locale that was encoded in URL.
+     */
+    static parseUrl(config: types.IntlAdapterConfig, url: string): { locale: string; cleanUrl: string } {
+        // TODO: what if currency is also a part of URL?
+        const [, langPart, ...path] = url.split('/');
+
+        const lang = IlcIntl.getCanonicalLocale(langPart, config.supported.locale);
+
+        if (lang !== null && config.supported.locale.indexOf(lang) !== -1) {
+            return { cleanUrl: `/${path.join('/')}`, locale: lang };
+        }
+
+        return { cleanUrl: url, locale: config.default.locale };
+    }
+
     /**
      * Returns properly formatted locale string.
      * Ex: en -> en-US; en-gb -> en-GB
@@ -130,7 +126,7 @@ export default class IlcIntl {
      * @param locale
      * @param supportedLocales
      */
-    public static getCanonicalLocale(locale: string, supportedLocales: string[]) {
+    static getCanonicalLocale(locale: string, supportedLocales: string[]) {
         const supportedLangs = supportedLocales.map((v) => v.split('-')[0]).filter((v, i, a) => a.indexOf(v) === i);
 
         const locData = locale.split('-');
@@ -156,13 +152,11 @@ export default class IlcIntl {
         return locale;
     }
 
-    private getCanonicalLocale(locale: string) {
-        return IlcIntl.getCanonicalLocale(locale, this.adapter.getSupported().locale);
-    }
-
-    private getShortenedLocale(canonicalLocale: string) {
-        const supportedLocales = this.adapter.getSupported().locale;
-
+    /**
+     * Returns properly formatted short form of locale string.
+     * Ex: en-US -> en, but en-GB -> en-GB
+     */
+    static getShortenedLocale(canonicalLocale: string, supportedLocales: string[]): string {
         if (supportedLocales.indexOf(canonicalLocale) === -1) {
             throw new Error(`Unsupported locale passed. Received: ${canonicalLocale}`);
         }

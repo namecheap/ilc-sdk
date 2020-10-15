@@ -2,10 +2,16 @@
  * Result of the "processRequest" method
  */
 export interface IntlAdapter {
+    config: IntlAdapterConfig;
+    /** Allows to get current Intl config */
     get: () => Required<IntlConfig>;
-    getDefault: () => Required<IntlConfig>;
-    getSupported: () => { locale: string[]; currency: string[] };
-    set?: (p: IntlConfig) => Promise<void>; // Passed only at CSR
+    /** [Passed only at CSR] Allows to change current Intl config */
+    set?: (p: IntlConfig) => Promise<void>;
+}
+
+export interface IntlAdapterConfig {
+    default: Required<IntlConfig>;
+    supported: { locale: string[]; currency: string[] };
 }
 
 export interface IntlUpdateEvent extends CustomEvent {

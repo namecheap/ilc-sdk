@@ -175,8 +175,8 @@ describe('IlcSdk', () => {
                 const res = ilcSdk.processRequest(req);
 
                 expect(res.intl!.get()).to.eql({ locale: 'en-GB', currency: 'EUR' });
-                expect(res.intl!.getDefault()).to.eql({ locale: 'en-US', currency: 'USD' });
-                expect(res.intl!.getSupported()).to.eql({ locale: ['en-US', 'en-GB'], currency: ['USD', 'EUR'] });
+                expect(res.intl!.config.default).to.eql({ locale: 'en-US', currency: 'USD' });
+                expect(res.intl!.config.supported).to.eql({ locale: ['en-US', 'en-GB'], currency: ['USD', 'EUR'] });
             });
 
             it("should not fail & skip intl if ILC haven't passed anything", () => {

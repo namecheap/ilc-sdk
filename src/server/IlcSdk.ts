@@ -147,8 +147,10 @@ export class IlcSdk {
 
         return {
             get: () => ({ locale: localeParams[0], currency: currencyParams[0] }),
-            getDefault: () => ({ locale: localeParams[1], currency: currencyParams[1] }),
-            getSupported: () => ({ locale: localeParams[2].split(','), currency: currencyParams[2].split(',') }),
+            config: {
+                default: { locale: localeParams[1], currency: currencyParams[1] },
+                supported: { locale: localeParams[2].split(','), currency: currencyParams[2].split(',') },
+            },
         };
     }
 

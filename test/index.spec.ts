@@ -55,6 +55,28 @@ describe('IlcSdk', () => {
             });
         });
 
+        describe('getCurrentReqOriginalUri', () => {
+            it('should parse x-request-uri correctly', () => {
+                const req = new MockReq(merge({}, defReq));
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.getCurrentReqOriginalUri()).to.eq(defReq.headers['x-request-uri']);
+            });
+
+            it('should fallback to dumb request URI if not passed', () => {
+                const reqConf = merge({}, defReq);
+                delete reqConf.headers['x-request-uri'];
+                const req = new MockReq(reqConf);
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.getCurrentReqOriginalUri()).to.eq('/');
+                sinon.assert.calledWith(
+                    stubCons.warn,
+                    'Missing "x-request-uri" information for "http://example.com/tst" request. Falling back to "/".',
+                );
+            });
+        });
+
         describe('appId', () => {
             it('should parse appId correctly', () => {
                 const routerProps = JSON.stringify({

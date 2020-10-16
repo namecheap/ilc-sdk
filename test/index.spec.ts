@@ -201,6 +201,24 @@ describe('IlcSdk', () => {
                 expect(res.intl!.config.supported).to.eql({ locale: ['en-US', 'en-GB'], currency: ['USD', 'EUR'] });
             });
 
+            it('should ignore invalid intl info', () => {
+                const req = new MockReq(
+                    merge({}, defReq, {
+                        headers: { 'x-request-intl': 'some random string' },
+                    }),
+                );
+                const res = ilcSdk.processRequest(req);
+                expect(res.intl).to.eq(null);
+
+                const req2 = new MockReq(
+                    merge({}, defReq, {
+                        headers: { 'x-request-intl': 'en-GB:en-US:en-US,en-GB;some random string' },
+                    }),
+                );
+                const res2 = ilcSdk.processRequest(req2);
+                expect(res2.intl).to.eq(null);
+            });
+
             it("should not fail & skip intl if ILC haven't passed anything", () => {
                 const req = new MockReq(merge({}, defReq));
                 const res = ilcSdk.processRequest(req);

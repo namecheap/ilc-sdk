@@ -142,8 +142,17 @@ export class IlcSdk {
         }
 
         const paramsParts = intlParams.split(';');
+        if (paramsParts.length < 2) {
+            // Incorrectly formatted data
+            return null;
+        }
+
         const localeParams = paramsParts[0].split(':');
         const currencyParams = paramsParts[1].split(':');
+        if (localeParams.length < 3 || currencyParams.length < 3) {
+            // Incorrectly formatted data
+            return null;
+        }
 
         return {
             get: () => ({ locale: localeParams[0], currency: currencyParams[0] }),

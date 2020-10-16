@@ -80,7 +80,7 @@ server.get('*', (req, res) => {
 
 Provides SDK that should be used within your application bundle. It works well with server and client side rendering.
 
-- How to use: `import IlcAppSdk from 'ilc-sdk/dist/app';`
+- How to use: `import IlcAppSdk from 'ilc-sdk/app';`
 - Documentation: https://namecheap.github.io/ilc-server-sdk/docs/classes/_app_index_.ilcappsdk.html
 
 

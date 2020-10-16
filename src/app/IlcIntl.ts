@@ -3,13 +3,12 @@ import * as types from './types';
 export * from './types';
 
 export default class IlcIntl {
-    private adapter: types.IntlAdapter;
     private listeners: any[] = [];
     private static eventName = 'ilc:intl-update';
 
-    constructor(adapter: types.IntlAdapter) {
-        this.adapter = adapter;
-    }
+    constructor(
+        private adapter: types.IntlAdapter
+    ) {}
 
     public get() {
         return this.adapter.get();

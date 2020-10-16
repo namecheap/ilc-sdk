@@ -6,9 +6,7 @@ export default class IlcIntl {
     private listeners: any[] = [];
     private static eventName = 'ilc:intl-update';
 
-    constructor(
-        private adapter: types.IntlAdapter
-    ) {}
+    constructor(private adapter: types.IntlAdapter) {}
 
     public get() {
         return this.adapter.get();

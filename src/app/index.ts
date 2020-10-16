@@ -11,9 +11,7 @@ export const Intl = IlcIntl;
 export default class IlcAppSdk {
     public intl: IlcIntl | null;
 
-    constructor(
-        private adapter: types.ClientSdkAdapter
-    ) {
+    constructor(private adapter: types.ClientSdkAdapter) {
         if (!this.adapter) {
             throw new Error('Unable to determine adapter properly...');
         }

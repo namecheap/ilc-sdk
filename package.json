@@ -5,7 +5,8 @@
   "main": "dist/server/index.js",
   "types": "dist/server/index.d.ts",
   "files": [
-    "dist/**"
+    "dist/**",
+    "app.js"
   ],
   "scripts": {
     "build": "tsc -p ./src/app && tsc -p ./src/server",

@@ -25,7 +25,7 @@ export default class IlcIntl {
      *
      * @param config
      */
-    public set(config: types.IntlConfig): Promise<void> {
+    public set(config: types.IntlConfig): void {
         if (!this.adapter.set) {
             throw new Error("Looks like you're trying to call CSR only method during SSR.");
         }

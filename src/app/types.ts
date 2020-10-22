@@ -6,7 +6,7 @@ export interface IntlAdapter {
     /** Allows to get current Intl config */
     get: () => Required<IntlConfig>;
     /** [Passed only at CSR] Allows to change current Intl config */
-    set?: (p: IntlConfig) => Promise<void>;
+    set?: (p: IntlConfig) => void;
 }
 
 export interface IntlAdapterConfig {

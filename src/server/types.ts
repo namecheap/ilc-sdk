@@ -1,4 +1,4 @@
-import * as clientTypes from '../app/types';
+import * as clientTypes from '../app/commonTypes';
 
 /**
  * Result of the "processRequest" method

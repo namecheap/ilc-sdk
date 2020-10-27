@@ -1,21 +1,22 @@
 {
-  "name": "ilc-server-sdk",
-  "version": "1.2.3",
-  "description": "SDK for server side communication with Isomorphic Layout Composer",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "name": "ilc-sdk",
+  "version": "2.0.0-alpha.5",
+  "description": "SDK for app development with Isomorphic Layout Composer",
+  "main": "dist/server/index.js",
+  "types": "dist/server/index.d.ts",
   "files": [
-    "dist/**"
+    "dist/**",
+    "app.js"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p ./src/app && tsc -p ./src/server",
     "test": "mocha -r ts-node/register **/*.spec.ts",
     "coverage": "nyc npm run test",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
-    "lint": "tslint -p tsconfig.json",
-    "docs": "typedoc --out docs src --excludePrivate --excludeNotExported --mode file --theme minimal",
-    "preversion": "npm run format:check && npm test",
+    "lint": "tslint -p ./src/app && tslint -p ./src/server",
+    "docs": "typedoc --out docs src/ --excludePrivate --excludeNotExported",
+    "preversion": "npm run format:check && npm run lint && npm test",
     "prepublish": "npm run build"
   },
   "repository": {
@@ -49,6 +50,7 @@
   },
   "dependencies": {
     "@types/url-join": "^4.0.0",
-    "url-join": "^4.0.1"
+    "url-join": "^4.0.1",
+    "wrapper-webpack-plugin": "^2.1.0"
   }
 }

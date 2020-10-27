@@ -1,4 +1,4 @@
-import IlcSdk from '../src/index';
+import IlcSdk from '../src/server/index';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { Request as MockReq, Response as MockRes } from 'mock-http';
@@ -8,11 +8,12 @@ import fakeCons from './utils/console';
 
 const defReq = Object.freeze({
     url: '/tst',
-    headers: { host: 'example.com' },
+    headers: { host: 'example.com', 'x-request-host': 'example.com', 'x-request-uri': '/tst' },
 });
 
 describe('IlcSdk', () => {
-    let ilcSdk: IlcSdk, stubCons: sinon.SinonStubbedInstance<Console>;
+    let ilcSdk: IlcSdk;
+    let stubCons: sinon.SinonStubbedInstance<Console>;
 
     beforeEach(() => {
         stubCons = sinon.stub(fakeCons);
@@ -26,12 +27,56 @@ describe('IlcSdk', () => {
     describe('constructor options', () => {
         it('should correctly set default options', () => {
             const ilcSdk = new IlcSdk();
-            expect((<any>ilcSdk).log).equal(console);
-            expect((<any>ilcSdk).defaultPublicPath).equal('/');
+            expect((ilcSdk as any).log).equal(console);
+            expect((ilcSdk as any).defaultPublicPath).equal('/');
         });
     });
 
     describe('processRequest', () => {
+        describe('getCurrentReqHost', () => {
+            it('should parse request host correctly', () => {
+                const req = new MockReq(merge({}, defReq));
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.getCurrentReqHost()).to.eq(defReq.headers['x-request-host']);
+            });
+
+            it('should fallback to dumb request host if not passed', () => {
+                const reqConf = merge({}, defReq);
+                delete reqConf.headers['x-request-host'];
+                const req = new MockReq(reqConf);
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.getCurrentReqHost()).to.eq('localhost');
+                sinon.assert.calledWith(
+                    stubCons.warn,
+                    'Missing "x-request-host" information for "http://example.com/tst" request. Falling back to "localhost".',
+                );
+            });
+        });
+
+        describe('getCurrentReqOriginalUri', () => {
+            it('should parse x-request-uri correctly', () => {
+                const req = new MockReq(merge({}, defReq));
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.getCurrentReqOriginalUri()).to.eq(defReq.headers['x-request-uri']);
+            });
+
+            it('should fallback to dumb request URI if not passed', () => {
+                const reqConf = merge({}, defReq);
+                delete reqConf.headers['x-request-uri'];
+                const req = new MockReq(reqConf);
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.getCurrentReqOriginalUri()).to.eq('/');
+                sinon.assert.calledWith(
+                    stubCons.warn,
+                    'Missing "x-request-uri" information for "http://example.com/tst" request. Falling back to "/".',
+                );
+            });
+        });
+
         describe('appId', () => {
             it('should parse appId correctly', () => {
                 const routerProps = JSON.stringify({
@@ -139,6 +184,46 @@ describe('IlcSdk', () => {
                 const res = ilcSdk.processRequest(req);
 
                 expect(res.getCurrentPathProps()).to.eql({});
+            });
+        });
+
+        describe('should parse intl info', () => {
+            it('should parse intl info correctly', () => {
+                const req = new MockReq(
+                    merge({}, defReq, {
+                        headers: { 'x-request-intl': 'en-GB:en-US:en-US,en-GB;EUR:USD:USD,EUR;' },
+                    }),
+                );
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.intl!.get()).to.eql({ locale: 'en-GB', currency: 'EUR' });
+                expect(res.intl!.config.default).to.eql({ locale: 'en-US', currency: 'USD' });
+                expect(res.intl!.config.supported).to.eql({ locale: ['en-US', 'en-GB'], currency: ['USD', 'EUR'] });
+            });
+
+            it('should ignore invalid intl info', () => {
+                const req = new MockReq(
+                    merge({}, defReq, {
+                        headers: { 'x-request-intl': 'some random string' },
+                    }),
+                );
+                const res = ilcSdk.processRequest(req);
+                expect(res.intl).to.eq(null);
+
+                const req2 = new MockReq(
+                    merge({}, defReq, {
+                        headers: { 'x-request-intl': 'en-GB:en-US:en-US,en-GB;some random string' },
+                    }),
+                );
+                const res2 = ilcSdk.processRequest(req2);
+                expect(res2.intl).to.eq(null);
+            });
+
+            it("should not fail & skip intl if ILC haven't passed anything", () => {
+                const req = new MockReq(merge({}, defReq));
+                const res = ilcSdk.processRequest(req);
+
+                expect(res.intl).to.eq(null);
             });
         });
     });

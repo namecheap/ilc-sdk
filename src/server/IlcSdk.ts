@@ -2,9 +2,10 @@ import { IncomingMessage, ServerResponse } from 'http';
 import * as types from './types';
 import urljoin from 'url-join';
 
-export * from './types';
-
-export default class IlcSdk {
+/**
+ * Entrypoint for SDK that should be used within application server that executes SSR bundle
+ */
+export class IlcSdk {
     private log: Console;
     private defaultPublicPath: string;
     private titleRegex = /<title.*>.*<\/title\s*>/s;
@@ -47,11 +48,28 @@ export default class IlcSdk {
             this.log.warn(`Missing "appId" information for "${url.href}" request. Falling back to dumb ID.`);
         }
 
+        let host = req.headers['x-request-host'] as string;
+        if (host === undefined) {
+            this.log.warn(
+                `Missing "x-request-host" information for "${url.href}" request. Falling back to "localhost".`,
+            );
+            host = 'localhost';
+        }
+
+        let originalUri = req.headers['x-request-uri'] as string;
+        if (originalUri === undefined) {
+            this.log.warn(`Missing "x-request-uri" information for "${url.href}" request. Falling back to "/".`);
+            originalUri = '/';
+        }
+
         return {
+            getCurrentReqHost: () => host,
             getCurrentReqUrl: () => requestedUrls.requestUrl,
             getCurrentBasePath: () => requestedUrls.basePageUrl,
+            getCurrentReqOriginalUri: () => originalUri,
             getCurrentPathProps: () => passedProps,
             appId,
+            intl: this.parseIntl(req),
         };
     }
 
@@ -115,6 +133,34 @@ export default class IlcSdk {
         res.statusCode = 200;
         res.setHeader('content-type', 'application/json; charset=utf-8');
         res.end(JSON.stringify(resData));
+    }
+
+    private parseIntl(req: IncomingMessage) {
+        const intlParams = req.headers['x-request-intl'] as string | undefined;
+        if (intlParams === undefined) {
+            return null;
+        }
+
+        const paramsParts = intlParams.split(';');
+        if (paramsParts.length < 2) {
+            // Incorrectly formatted data
+            return null;
+        }
+
+        const localeParams = paramsParts[0].split(':');
+        const currencyParams = paramsParts[1].split(':');
+        if (localeParams.length < 3 || currencyParams.length < 3) {
+            // Incorrectly formatted data
+            return null;
+        }
+
+        return {
+            get: () => ({ locale: localeParams[0], currency: currencyParams[0] }),
+            config: {
+                default: { locale: localeParams[1], currency: currencyParams[1] },
+                supported: { locale: localeParams[2].split(','), currency: currencyParams[2].split(',') },
+            },
+        };
     }
 
     private parseRouterProps(url: URL) {

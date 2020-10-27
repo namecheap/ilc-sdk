@@ -5,10 +5,15 @@
     "declaration": true,
     "outDir": "../../dist/server",
     "strict": true,
-    "types" : ["node", "mocha"],
+    "types" : ["node"],
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
   "include": ["./"],
-  "exclude": ["node_modules", "**/__tests__/*"]
+  "exclude": ["node_modules", "**/__tests__/*"],
+  "references": [
+    {
+      "path": "../app"
+    }
+  ]
 }

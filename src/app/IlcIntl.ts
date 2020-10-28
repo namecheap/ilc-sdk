@@ -51,8 +51,8 @@ export default class IlcIntl {
      * @param callback
      */
     public watch(callback: (event: types.IntlUpdateEvent) => void): () => void {
-        if (!window.addEventListener) {
-            throw new Error("Looks like you're trying to call CSR only method during SSR.");
+        if (!this.adapter.set) {
+            return () => {}; // Looks like you're trying to call CSR only method during SSR. Doing nothing...
         }
 
         window.addEventListener(IlcIntl.eventName, callback as EventListener);

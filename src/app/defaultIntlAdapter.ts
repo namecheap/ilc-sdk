@@ -1,5 +1,8 @@
 import { IntlAdapter } from './commonTypes';
 
+/**
+ * Used when i18n capability is disabled in ILC.
+ */
 const adapter: IntlAdapter = {
     config: {
         default: { locale: 'en-US', currency: 'USD' },

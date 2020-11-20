@@ -8,20 +8,29 @@ export default class IlcIntl {
 
     constructor(private adapter: types.IntlAdapter) {}
 
+    /**
+     * Allows to retrieve current i18n configuration
+     */
     public get() {
         return this.adapter.get();
     }
 
+    /**
+     * Allows to retrieve default i18n configuration
+     */
     public getDefault() {
         return this.adapter.config.default;
     }
 
+    /**
+     * Allows to fetch all supported values for currency & locale
+     */
     public getSupported() {
         return this.adapter.config.supported;
     }
 
     /**
-     * Allows to change locale or currency for the whole page
+     * Changes locale or currency for the whole page
      *
      * @param config
      */
@@ -33,6 +42,11 @@ export default class IlcIntl {
         return this.adapter.set(config);
     }
 
+    /**
+     * Allows to convert plain URL into a one that contains i18n information.
+     * @param url - relative URL. Ex: "/test?a=1"
+     * @param configOverride - allows to override current i18n configuration & retrieve localized URL for desired configuration.
+     */
     public localizeUrl(url: string, configOverride: types.IntlConfig = {}): string {
         return IlcIntl.localizeUrl(this.adapter.config, url, { ...this.adapter.get(), ...configOverride });
     }
@@ -40,7 +54,7 @@ export default class IlcIntl {
     /**
      * Allows to parse URL and receive "non-localized" URL and information about locale that was encoded in URL.
      *
-     * @param url
+     * @param url - relative URL. Ex: "/test?a=1"
      */
     public parseUrl(url: string): { locale: string; cleanUrl: string } {
         return IlcIntl.parseUrl(this.adapter.config, url);

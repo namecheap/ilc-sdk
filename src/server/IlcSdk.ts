@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import * as types from './types';
 import urljoin from 'url-join';
-import {intlSchema} from "./IlcProtocol";
+import { intlSchema } from './IlcProtocol';
 
 /**
  * Entrypoint for SDK that should be used within application server that executes SSR bundle
@@ -142,7 +142,12 @@ export class IlcSdk {
             return null;
         }
 
-        const ilcData = intlSchema.fromBuffer(Buffer.from(intlParams, 'base64'), undefined, true);
+        let ilcData: any;
+        try {
+            ilcData = intlSchema.fromBuffer(Buffer.from(intlParams, 'base64'), undefined, true);
+        } catch {
+            return null;
+        }
 
         return {
             get: () => ilcData.current,

@@ -1,5 +1,5 @@
 import * as types from './types';
-import {RoutingStrategy} from './types';
+import { RoutingStrategy } from './types';
 
 export * from './types';
 
@@ -48,7 +48,7 @@ export default class IlcIntl {
      * @param url - relative URL. Ex: "/test?a=1"
      * @param configOverride - allows to override current i18n configuration & retrieve localized URL for desired configuration.
      */
-    public localizeUrl(url: string, configOverride: {locale?: string} = {}): string {
+    public localizeUrl(url: string, configOverride: { locale?: string } = {}): string {
         return IlcIntl.localizeUrl(this.adapter.config, url, { ...this.adapter.get(), ...configOverride });
     }
 
@@ -88,7 +88,7 @@ export default class IlcIntl {
      * [CSR ONLY] In apps that are running under ILC it shouldn't be used directly.
      */
     public unmount() {
-        if (!window.addEventListener) {
+        if (!this.adapter.set) {
             throw new Error("Looks like you're trying to call CSR only method during SSR.");
         }
 
@@ -99,7 +99,7 @@ export default class IlcIntl {
         this.listeners = [];
     }
 
-    static localizeUrl(config: types.IntlAdapterConfig, url: string, configOverride: {locale?: string} = {}): string {
+    static localizeUrl(config: types.IntlAdapterConfig, url: string, configOverride: { locale?: string } = {}): string {
         url = IlcIntl.parseUrl(config, url).cleanUrl;
 
         const receivedLocale = configOverride.locale || config.default.locale;

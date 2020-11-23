@@ -5,6 +5,7 @@ import { Request as MockReq, Response as MockRes } from 'mock-http';
 import merge from 'lodash.merge';
 
 import fakeCons from './utils/console';
+import { intlSchema } from '../src/server/IlcProtocol';
 
 const defReq = Object.freeze({
     url: '/tst',
@@ -189,16 +190,23 @@ describe('IlcSdk', () => {
 
         describe('should parse intl info', () => {
             it('should parse intl info correctly', () => {
+                const data = {
+                    current: { locale: 'en-GB', currency: 'EUR' },
+                    default: { locale: 'en-US', currency: 'USD' },
+                    supported: { locale: ['en-US', 'en-GB'], currency: ['USD', 'EUR'] },
+                    routingStrategy: 'prefix',
+                };
                 const req = new MockReq(
                     merge({}, defReq, {
-                        headers: { 'x-request-intl': 'en-GB:en-US:en-US,en-GB;EUR:USD:USD,EUR;' },
+                        headers: { 'x-request-intl': intlSchema.toBuffer(data).toString('base64') },
                     }),
                 );
                 const res = ilcSdk.processRequest(req);
 
-                expect(res.intl!.get()).to.eql({ locale: 'en-GB', currency: 'EUR' });
-                expect(res.intl!.config.default).to.eql({ locale: 'en-US', currency: 'USD' });
-                expect(res.intl!.config.supported).to.eql({ locale: ['en-US', 'en-GB'], currency: ['USD', 'EUR'] });
+                expect(res.intl!.get()).to.deep.include(data.current);
+                expect(res.intl!.config.default).to.deep.include(data.default);
+                expect(res.intl!.config.supported).to.deep.include(data.supported);
+                expect(res.intl!.config.routingStrategy).to.eql(data.routingStrategy);
             });
 
             it('should ignore invalid intl info', () => {

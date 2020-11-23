@@ -65,7 +65,7 @@ export default class IlcIntl {
      * [CSR ONLY] Allows to watch changes to locale or currency that are happening at the client side.
      * @param callback
      */
-    public watch(callback: (event: types.IntlUpdateEvent) => void): () => void {
+    public onChange(callback: (event: types.IntlUpdateEvent) => void): () => void {
         if (!this.adapter.set) {
             return () => {}; // Looks like you're trying to call CSR only method during SSR. Doing nothing...
         }

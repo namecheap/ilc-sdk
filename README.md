@@ -119,10 +119,7 @@ With every request for SSR content from the app ILC sends the following meta-inf
   
 1. Header `x-request-uri`. Request URL string. This contains only the URL that is present in the actual HTTP request. It **may contain** information about locale.
 
-1. Optional header `x-request-intl`. Present only if ILC runs with Intl feature enabled. Format: 
-    ```
-    `<current locale>:<default locale>:<supported locale>[,<supported locale>];<current currency>:<default currency>:<supported currency>[,<supported currency>]`;
-    ```
+1. Optional header `x-request-intl`. Present only if ILC runs with Intl feature enabled. Format is described [here](./src/server/IlcProtocol.ts).
 
 Both query params mentioned here can be decoded in the following manner:
 ```javascript

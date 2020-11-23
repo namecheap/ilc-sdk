@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "@types/url-join": "^4.0.0",
+    "avsc": "^5.5.3",
     "url-join": "^4.0.1",
     "wrapper-webpack-plugin": "^2.1.0"
   }

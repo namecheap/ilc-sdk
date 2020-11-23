@@ -1,4 +1,4 @@
-import { IntlAdapter } from './commonTypes';
+import {IntlAdapter, RoutingStrategy} from './commonTypes';
 
 /**
  * Used when i18n capability is disabled in ILC.
@@ -7,6 +7,7 @@ const adapter: IntlAdapter = {
     config: {
         default: { locale: 'en-US', currency: 'USD' },
         supported: { locale: ['en-US'], currency: ['USD'] },
+        routingStrategy: RoutingStrategy.Prefix,
     },
     get() {
         return this.config.default;

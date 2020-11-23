@@ -9,9 +9,15 @@ export interface IntlAdapter {
     set?: (p: IntlConfig) => void;
 }
 
+export enum RoutingStrategy {
+    PrefixExceptDefault = 'prefix_except_default',
+    Prefix = 'prefix',
+}
+
 export interface IntlAdapterConfig {
     default: Required<IntlConfig>;
     supported: { locale: string[]; currency: string[] };
+    routingStrategy: RoutingStrategy;
 }
 
 /**

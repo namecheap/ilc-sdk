@@ -1,6 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import * as types from './types';
 import urljoin from 'url-join';
+import {intlSchema} from "./IlcProtocol";
 
 /**
  * Entrypoint for SDK that should be used within application server that executes SSR bundle
@@ -141,24 +142,14 @@ export class IlcSdk {
             return null;
         }
 
-        const paramsParts = intlParams.split(';');
-        if (paramsParts.length < 2) {
-            // Incorrectly formatted data
-            return null;
-        }
-
-        const localeParams = paramsParts[0].split(':');
-        const currencyParams = paramsParts[1].split(':');
-        if (localeParams.length < 3 || currencyParams.length < 3) {
-            // Incorrectly formatted data
-            return null;
-        }
+        const ilcData = intlSchema.fromBuffer(Buffer.from(intlParams, 'base64'), undefined, true);
 
         return {
-            get: () => ({ locale: localeParams[0], currency: currencyParams[0] }),
+            get: () => ilcData.current,
             config: {
-                default: { locale: localeParams[1], currency: currencyParams[1] },
-                supported: { locale: localeParams[2].split(','), currency: currencyParams[2].split(',') },
+                default: ilcData.default,
+                supported: ilcData.supported,
+                routingStrategy: ilcData.routingStrategy,
             },
         };
     }

@@ -1,4 +1,5 @@
 import * as types from './types';
+import {RoutingStrategy} from './types';
 
 export * from './types';
 
@@ -47,7 +48,7 @@ export default class IlcIntl {
      * @param url - relative URL. Ex: "/test?a=1"
      * @param configOverride - allows to override current i18n configuration & retrieve localized URL for desired configuration.
      */
-    public localizeUrl(url: string, configOverride: types.IntlConfig = {}): string {
+    public localizeUrl(url: string, configOverride: {locale?: string} = {}): string {
         return IlcIntl.localizeUrl(this.adapter.config, url, { ...this.adapter.get(), ...configOverride });
     }
 
@@ -98,7 +99,7 @@ export default class IlcIntl {
         this.listeners = [];
     }
 
-    static localizeUrl(config: types.IntlAdapterConfig, url: string, configOverride: types.IntlConfig = {}): string {
+    static localizeUrl(config: types.IntlAdapterConfig, url: string, configOverride: {locale?: string} = {}): string {
         url = IlcIntl.parseUrl(config, url).cleanUrl;
 
         const receivedLocale = configOverride.locale || config.default.locale;
@@ -107,18 +108,17 @@ export default class IlcIntl {
             throw new Error(`Unsupported locale passed. Received: "${receivedLocale}"`);
         }
 
-        if (loc !== config.default.locale) {
-            url = `/${IlcIntl.getShortenedLocale(loc, config.supported.locale)}${url}`;
+        if (config.routingStrategy === RoutingStrategy.PrefixExceptDefault && loc === config.default.locale) {
+            return url;
         }
 
-        return url;
+        return `/${IlcIntl.getShortenedLocale(loc, config.supported.locale)}${url}`;
     }
 
     /**
      * Allows to parse URL and receive "unlocalized" URL and information about locale that was encoded in URL.
      */
     static parseUrl(config: types.IntlAdapterConfig, url: string): { locale: string; cleanUrl: string } {
-        // TODO: what if currency is also a part of URL?
         const [, langPart, ...path] = url.split('/');
 
         const lang = IlcIntl.getCanonicalLocale(langPart, config.supported.locale);

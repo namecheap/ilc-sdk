@@ -2,6 +2,7 @@
   "compilerOptions": {
     "composite": true,
     "target": "es5",
+    "lib": ["es5", "es2015.promise"],
     "module": "commonjs",
     "declaration": true,
     "outDir": "../../dist/app",

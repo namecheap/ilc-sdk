@@ -70,14 +70,16 @@ export default class IlcIntl {
             return () => {}; // Looks like you're trying to call CSR only method during SSR. Doing nothing...
         }
 
-        window.addEventListener(IlcIntl.eventName, callback as EventListener);
-        this.listeners.push(callback);
+        const wrappedCb = (e: CustomEvent) => callback(e.detail);
+
+        window.addEventListener(IlcIntl.eventName, wrappedCb as EventListener);
+        this.listeners.push(wrappedCb);
 
         return () => {
             for (const row of this.listeners) {
-                if (row === callback) {
+                if (row === wrappedCb) {
                     window.removeEventListener(IlcIntl.eventName, row);
-                    this.listeners.slice(this.listeners.indexOf(callback), 1);
+                    this.listeners.slice(this.listeners.indexOf(wrappedCb), 1);
                     break;
                 }
             }

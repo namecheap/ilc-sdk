@@ -1,5 +1,4 @@
 import * as types from './types';
-import { RoutingStrategy } from './types';
 
 export * from './types';
 
@@ -63,14 +62,26 @@ export default class IlcIntl {
 
     /**
      * [CSR ONLY] Allows to watch changes to locale or currency that are happening at the client side.
-     * @param callback
+     * @param prepareForChange
+     * @param performChange
      */
-    public onChange(callback: (event: types.IntlUpdateEvent) => void): () => void {
+    public onChange<T>(
+        prepareForChange: (event: types.IntlUpdateEvent) => Promise<T>,
+        performChange: (event: types.IntlUpdateEvent, preparedData: T) => Promise<void> | void,
+    ) {
         if (!this.adapter.set) {
             return () => {}; // Looks like you're trying to call CSR only method during SSR. Doing nothing...
         }
 
-        const wrappedCb = (e: CustomEvent) => callback(e.detail);
+        const wrappedCb = (e: types.IntlUpdateEventInternal) => {
+            const event = {
+                locale: e.detail.locale,
+                currency: e.detail.currency,
+            };
+            e.detail.addPendingResources([prepareForChange(event)]).then(([preparedData]) => {
+                return performChange(event, preparedData);
+            });
+        };
 
         window.addEventListener(IlcIntl.eventName, wrappedCb as EventListener);
         this.listeners.push(wrappedCb);
@@ -110,7 +121,7 @@ export default class IlcIntl {
             throw new Error(`Unsupported locale passed. Received: "${receivedLocale}"`);
         }
 
-        if (config.routingStrategy === RoutingStrategy.PrefixExceptDefault && loc === config.default.locale) {
+        if (config.routingStrategy === types.RoutingStrategy.PrefixExceptDefault && loc === config.default.locale) {
             return url;
         }
 

@@ -9,7 +9,6 @@ export interface IntlUpdateEventInternal extends CustomEvent {
     detail: {
         locale: string;
         currency: string;
-        addPendingResources: typeof Promise.all;
-        onAllResourcesReady: () => Promise<void>;
+        addHandler: (h: { actorId: string; prepare: Function; execute: Function }) => void;
     };
 }

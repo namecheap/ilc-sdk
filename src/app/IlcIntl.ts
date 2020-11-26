@@ -6,7 +6,7 @@ export default class IlcIntl {
     private listeners: any[] = [];
     private static eventName = 'ilc:intl-update';
 
-    constructor(private adapter: types.IntlAdapter) {}
+    constructor(private appId: string, private adapter: types.IntlAdapter) {}
 
     /**
      * Allows to retrieve current i18n configuration
@@ -74,12 +74,10 @@ export default class IlcIntl {
         }
 
         const wrappedCb = (e: types.IntlUpdateEventInternal) => {
-            const event = {
-                locale: e.detail.locale,
-                currency: e.detail.currency,
-            };
-            e.detail.addPendingResources([prepareForChange(event)]).then(([preparedData]) => {
-                return performChange(event, preparedData);
+            e.detail.addHandler({
+                actorId: this.appId,
+                prepare: prepareForChange,
+                execute: performChange,
             });
         };
 

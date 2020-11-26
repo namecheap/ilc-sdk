@@ -22,7 +22,7 @@ export default class IlcAppSdk {
         this.appId = this.adapter.appId;
 
         const intlAdapter = this.adapter.intl ? this.adapter.intl : defaultIntlAdapter;
-        this.intl = new IlcIntl(intlAdapter);
+        this.intl = new IlcIntl(this.appId, intlAdapter);
     }
 
     unmount() {

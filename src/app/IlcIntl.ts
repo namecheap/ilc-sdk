@@ -66,7 +66,7 @@ export default class IlcIntl {
      * @param performChange
      */
     public onChange<T>(
-        prepareForChange: (event: types.IntlUpdateEvent) => Promise<T>,
+        prepareForChange: (event: types.IntlUpdateEvent) => Promise<T> | T,
         performChange: (event: types.IntlUpdateEvent, preparedData: T) => Promise<void> | void,
     ) {
         if (!this.adapter.set) {

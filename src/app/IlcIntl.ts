@@ -157,7 +157,7 @@ export default class IlcIntl {
         } else if (locData.length === 1) {
             locale = locData[0].toLowerCase();
         } else {
-            throw new Error(`Unexpected locale format. Received: ${locale}`);
+            return null;
         }
 
         if (supportedLangs.indexOf(locale.toLowerCase()) !== -1) {

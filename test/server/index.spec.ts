@@ -1,11 +1,11 @@
-import IlcSdk from '../src/server/index';
+import IlcSdk from '../../src/server/index';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { Request as MockReq, Response as MockRes } from 'mock-http';
 import merge from 'lodash.merge';
 
-import fakeCons from './utils/console';
-import { intlSchema } from '../src/server/IlcProtocol';
+import fakeCons from '../utils/console';
+import { intlSchema } from '../../src/server/IlcProtocol';
 
 const defReq = Object.freeze({
     url: '/tst',

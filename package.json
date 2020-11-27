@@ -16,7 +16,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "tslint -p ./src/app && tslint -p ./src/server",
-    "docs": "typedoc --out docs src/ --excludePrivate --excludeNotExported",
+    "docs": "typedoc src/server/index.ts src/app/index.ts --out docs --excludeNotExported --stripInternal --excludePrivate",
     "preversion": "npm run format:check && npm run lint && npm test",
     "prepublish": "npm run build"
   },
@@ -48,8 +48,8 @@
     "ts-node": "^8.10.1",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
-    "typedoc": "^0.17.6",
-    "typescript": "^3.8.3"
+    "typedoc": "^0.19.2",
+    "typescript": "^3.9.7"
   },
   "dependencies": {
     "@types/url-join": "^4.0.0",

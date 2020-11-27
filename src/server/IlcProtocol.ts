@@ -10,6 +10,9 @@ const IlcProtocol = avro.Type.forSchema({
     ],
 });
 
+/**
+ * @internal
+ */
 export const intlSchema = avro.Type.forSchema(
     {
         type: 'record',

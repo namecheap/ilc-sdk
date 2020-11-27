@@ -2,6 +2,7 @@ import { IntlAdapter, RoutingStrategy } from './commonTypes';
 
 /**
  * Used when i18n capability is disabled in ILC.
+ * @internal
  */
 const adapter: IntlAdapter = {
     config: {

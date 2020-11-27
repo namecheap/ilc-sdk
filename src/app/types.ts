@@ -5,6 +5,9 @@ export interface IntlUpdateEvent {
     currency: string;
 }
 
+/**
+ * @internal
+ */
 export interface IntlUpdateEventInternal extends CustomEvent {
     detail: {
         locale: string;

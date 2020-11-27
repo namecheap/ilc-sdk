@@ -4,6 +4,9 @@ import defaultIntlAdapter from './defaultIntlAdapter';
 
 export * from './types';
 
+/**
+ * @internal
+ */
 export const Intl = IlcIntl;
 
 /**

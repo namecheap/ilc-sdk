@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "composite": true,
+    "target": "es2015",
     "module": "commonjs",
     "declaration": true,
-    "outDir": "../../dist/server",
+    "outDir": "../../dist/app",
     "strict": true,
-    "types" : ["node", "mocha"],
-    "esModuleInterop": true,
-    "resolveJsonModule": true
+    "types" : ["mocha"],
+    "esModuleInterop": true
   },
   "include": ["./"],
   "exclude": ["node_modules", "**/__tests__/*"]

@@ -1,18 +1,29 @@
-# Server side SDK for ILC
-[![NPM package](https://badgen.net/npm/v/ilc-server-sdk?color=red&icon=npm&label=)](https://www.npmjs.com/package/ilc-server-sdk)
-[![NPM downloads](https://badgen.net/npm/dt/ilc-server-sdk)](https://www.npmjs.com/package/ilc-server-sdk)
+# App development SDK for ILC
+[![NPM package](https://badgen.net/npm/v/ilc-sdk?color=red&icon=npm&label=)](https://www.npmjs.com/package/ilc-sdk)
+[![NPM downloads](https://badgen.net/npm/dt/ilc-sdk)](https://www.npmjs.com/package/ilc-sdk)
 
-Server side SDK intended for use inside Micro Frontends to conveniently communicate with Isomorphic Layout Composer.
+SDK intended for use inside Micro Frontends to conveniently communicate with Isomorphic Layout Composer.
 
 ## Installation
 
 ```bash
-$ npm i ilc-server-sdk
+$ npm i ilc-sdk
 ```
 
-## Quick start
+## Node.js and app bundles
 
-Vue.js example: 
+This package features 2 bundles that are intented to being use in Node.js app that runs SSR bundle of your app and
+the application itself.
+
+### Node.js bundle
+
+It works only in Node.js and is designed to parse requests from ILC and form responses. It also provides adapter for application 
+bundle to work in Node.js environment.
+
+- How to use: `const IlcSdk = require('ilc-sdk').default;`
+- Documentation: https://namecheap.github.io/ilc-server-sdk/docs/classes/_server_ilcsdk_.ilcsdk.html
+
+**Vue.js example:**
 ```javascript
 const fs = require('fs');
 const express = require('express');
@@ -26,7 +37,7 @@ const appAssets = {
     cssBundle: clientManifest.all.find(v => v.endsWith('.css'))
 };
 
-const IlcSdk = require('ilc-server-sdk').default;
+const IlcSdk = require('ilc-sdk').default;
 const ilcSdk = new IlcSdk({ publicPath: clientManifest.publicPath });
 
 const renderer = createBundleRenderer(bundle, {
@@ -44,6 +55,7 @@ server.get('*', (req, res) => {
     const ilcData = ilcSdk.processRequest(req);
 
     const context = {
+        ilcData,
         url: ilcData.getCurrentReqUrl(),
     };
 
@@ -64,6 +76,14 @@ server.get('*', (req, res) => {
 });
 ```
 
+### Application bundle
+
+Provides SDK that should be used within your application bundle. It works well with server and client side rendering.
+
+- How to use: `import IlcAppSdk from 'ilc-sdk/app';`
+- Documentation: https://namecheap.github.io/ilc-server-sdk/docs/classes/_app_index_.ilcappsdk.html
+
+
 ## JS docs
 
 See https://namecheap.github.io/ilc-server-sdk/
@@ -83,7 +103,7 @@ With every request for SSR content from the app ILC sends the following meta-inf
    
        So for `reqUrl = /a/b/c?d=1` & matched route `/a/*` base path will be `/a/`.
        While for `reqUrl = /a/b/c?d=1` & matched route `/a/b/c` base path will be `/a/b/c`.
-   * `reqUrl` - Request URL string. This contains only the URL that is present in the actual HTTP request.
+   * `reqUrl` - Request URL string. This contains only the URL that is present in the actual HTTP request. It **DOES NOT** contain information about locale.
        
        `reqUrl` = `/status?name=ryan` if the request is:
        ```
@@ -97,7 +117,9 @@ With every request for SSR content from the app ILC sends the following meta-inf
    Sent only if app has some _Props_ defined at the app or route slot level.
    Contains base64 encoded JSON object with defined _Props_.
   
-1. Header `x-request-uri`. Request URL string. This contains only the URL that is present in the actual HTTP request.
+1. Header `x-request-uri`. Request URL string. This contains only the URL that is present in the actual HTTP request. It **may contain** information about locale.
+
+1. Optional header `x-request-intl`. Present only if ILC runs with Intl feature enabled. Format is described [here](./src/server/IlcProtocol.ts).
 
 Both query params mentioned here can be decoded in the following manner:
 ```javascript

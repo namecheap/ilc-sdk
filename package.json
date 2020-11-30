@@ -1,21 +1,23 @@
 {
-  "name": "ilc-server-sdk",
-  "version": "1.2.3",
-  "description": "SDK for server side communication with Isomorphic Layout Composer",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "name": "ilc-sdk",
+  "version": "2.0.0-alpha.13",
+  "description": "SDK for app development with Isomorphic Layout Composer",
+  "main": "dist/server/index.js",
+  "types": "dist/server/index.d.ts",
   "files": [
-    "dist/**"
+    "dist/**",
+    "app.js",
+    "app.d.ts"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p ./src/app && tsc -p ./src/server",
     "test": "mocha -r ts-node/register **/*.spec.ts",
     "coverage": "nyc npm run test",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
-    "lint": "tslint -p tsconfig.json",
-    "docs": "typedoc --out docs src --excludePrivate --excludeNotExported --mode file --theme minimal",
-    "preversion": "npm run format:check && npm test",
+    "lint": "tslint -p ./src/app && tslint -p ./src/server",
+    "docs": "typedoc src/server/index.ts src/app/index.ts --out docs --excludeNotExported --stripInternal --excludePrivate",
+    "preversion": "npm run format:check && npm run lint && npm test",
     "prepublish": "npm run build"
   },
   "repository": {
@@ -30,11 +32,13 @@
   "homepage": "https://github.com/namecheap/ilc-server-sdk#readme",
   "devDependencies": {
     "@types/chai": "^4.2.11",
+    "@types/jsdom": "^16.2.5",
     "@types/lodash.merge": "^4.6.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^13.13.4",
     "@types/sinon": "^9.0.0",
     "chai": "^4.2.0",
+    "jsdom": "^16.4.0",
     "lodash.merge": "^4.6.2",
     "mocha": "^7.1.2",
     "mock-http": "^1.1.0",
@@ -44,11 +48,13 @@
     "ts-node": "^8.10.1",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
-    "typedoc": "^0.17.6",
-    "typescript": "^3.8.3"
+    "typedoc": "^0.19.2",
+    "typescript": "^3.9.7"
   },
   "dependencies": {
     "@types/url-join": "^4.0.0",
-    "url-join": "^4.0.1"
+    "avsc": "^5.5.3",
+    "url-join": "^4.0.1",
+    "wrapper-webpack-plugin": "^2.1.0"
   }
 }

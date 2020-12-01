@@ -8,7 +8,7 @@ const adapter: IntlAdapter = {
     config: {
         default: { locale: 'en-US', currency: 'USD' },
         supported: { locale: ['en-US'], currency: ['USD'] },
-        routingStrategy: RoutingStrategy.Prefix,
+        routingStrategy: RoutingStrategy.PrefixExceptDefault,
     },
     get() {
         return this.config.default;

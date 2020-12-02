@@ -12,7 +12,7 @@ $ npm i ilc-sdk
 
 ## Node.js and app bundles
 
-This package features 2 bundles that are intented to being use in Node.js app that runs SSR bundle of your app and
+This package features 2 bundles that are intended to be used in Node.js app that runs SSR bundle of your app and
 the application itself.
 
 ### Node.js bundle
@@ -21,7 +21,7 @@ It works only in Node.js and is designed to parse requests from ILC and form res
 bundle to work in Node.js environment.
 
 - How to use: `const IlcSdk = require('ilc-sdk').default;`
-- Documentation: https://namecheap.github.io/ilc-server-sdk/docs/classes/_server_ilcsdk_.ilcsdk.html
+- Documentation: https://namecheap.github.io/ilc-sdk/classes/_server_ilcsdk_.ilcsdk.html
 
 **Vue.js example:**
 ```javascript
@@ -81,12 +81,12 @@ server.get('*', (req, res) => {
 Provides SDK that should be used within your application bundle. It works well with server and client side rendering.
 
 - How to use: `import IlcAppSdk from 'ilc-sdk/app';`
-- Documentation: https://namecheap.github.io/ilc-server-sdk/docs/classes/_app_index_.ilcappsdk.html
+- Documentation [is available via this link](https://namecheap.github.io/ilc-sdk/classes/_app_index_.ilcappsdk.html).
 
 
 ## JS docs
 
-See https://namecheap.github.io/ilc-server-sdk/
+See https://namecheap.github.io/ilc-sdk/
 
 
 ## Low level ILC <-> Micro Frontend interface

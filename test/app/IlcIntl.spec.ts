@@ -132,6 +132,14 @@ describe('IlcIntl', () => {
             expect(IlcIntl.localizeUrl(baseConfig, '/tst', { locale: 'es-ES' })).to.equal('/es/tst');
             expect(IlcIntl.localizeUrl(baseConfig, '/tst', { locale: 'es-MX' })).to.equal('/es-MX/tst');
         });
+
+        it('handles special cases', () => {
+            expect(IlcIntl.localizeUrl(baseConfig, '/')).to.equal('/');
+            expect(IlcIntl.localizeUrl(baseConfig, '/', { locale: 'es-ES' })).to.equal('/es/');
+
+            expect(() => IlcIntl.localizeUrl(baseConfig, '', { locale: 'es-ES' })).throws(Error);
+            expect(() => IlcIntl.localizeUrl(baseConfig, 'tst', { locale: 'es-ES' })).throws(Error);
+        });
     });
 
     describe('parseUrl', () => {
@@ -153,6 +161,23 @@ describe('IlcIntl', () => {
             expect(IlcIntl.parseUrl(baseConfig, '/es-MX/tst')).to.eql({
                 cleanUrl: '/tst',
                 locale: 'es-MX',
+            });
+        });
+
+        it('handles corner cases', () => {
+            expect(IlcIntl.parseUrl(baseConfig, '/')).to.eql({
+                cleanUrl: '/',
+                locale: baseConfig.default.locale,
+            });
+
+            expect(IlcIntl.parseUrl(baseConfig, '')).to.eql({
+                cleanUrl: '',
+                locale: baseConfig.default.locale,
+            });
+
+            expect(IlcIntl.parseUrl(baseConfig, 'tst')).to.eql({
+                cleanUrl: 'tst',
+                locale: baseConfig.default.locale,
             });
         });
     });

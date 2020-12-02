@@ -111,6 +111,10 @@ export default class IlcIntl {
     }
 
     static localizeUrl(config: types.IntlAdapterConfig, url: string, configOverride: { locale?: string } = {}): string {
+        if (!url.startsWith('/')) {
+            throw new Error(`Localization of path relative URLs is not supported. Received: "${url}"`);
+        }
+
         url = IlcIntl.parseUrl(config, url).cleanUrl;
 
         const receivedLocale = configOverride.locale || config.default.locale;
@@ -130,6 +134,11 @@ export default class IlcIntl {
      * Allows to parse URL and receive "unlocalized" URL and information about locale that was encoded in URL.
      */
     static parseUrl(config: types.IntlAdapterConfig, url: string): { locale: string; cleanUrl: string } {
+        if (url === '' || !url.startsWith('/')) {
+            // Special treatment for path relative URLs
+            return { cleanUrl: url, locale: config.default.locale };
+        }
+
         const [, langPart, ...path] = url.split('/');
 
         const lang = IlcIntl.getCanonicalLocale(langPart, config.supported.locale);

@@ -66,6 +66,7 @@ export default class IlcIntl {
      * [CSR ONLY] Allows to watch changes to locale or currency that are happening at the client side.
      * @param prepareForChange
      * @param performChange
+     * @returns - callback that can be used to unsubscribe from changes
      */
     public onChange<T>(
         prepareForChange: (event: types.IntlUpdateEvent) => Promise<T> | T,

@@ -1,4 +1,5 @@
 import * as types from './types';
+import { parseAsFullyQualifiedURI } from './utils';
 
 export * from './types';
 
@@ -44,7 +45,8 @@ export default class IlcIntl {
 
     /**
      * Allows to convert plain URL into a one that contains i18n information.
-     * @param url - relative URL. Ex: "/test?a=1"
+     *
+     * @param url - absolute path or absolute URI. Ex: "/test?a=1" or "http://tst.com/"
      * @param configOverride - allows to override current i18n configuration & retrieve localized URL for desired configuration.
      */
     public localizeUrl(url: string, configOverride: { locale?: string } = {}): string {
@@ -54,7 +56,7 @@ export default class IlcIntl {
     /**
      * Allows to parse URL and receive "non-localized" URL and information about locale that was encoded in URL.
      *
-     * @param url - relative URL. Ex: "/test?a=1"
+     * @param url - absolute path or absolute URI. Ex: "/test?a=1" or "http://tst.com/"
      */
     public parseUrl(url: string): { locale: string; cleanUrl: string } {
         return IlcIntl.parseUrl(this.adapter.config, url);
@@ -110,9 +112,21 @@ export default class IlcIntl {
         this.listeners = [];
     }
 
+    /**
+     * Allows to convert plain URL into a one that contains i18n information.
+     *
+     * @param config
+     * @param url - absolute path or absolute URI. Ex: "/test?a=1" or "http://tst.com/"
+     * @param configOverride - allows to override default locale
+     *
+     * @internal Used internally by ILC
+     */
     static localizeUrl(config: types.IntlAdapterConfig, url: string, configOverride: { locale?: string } = {}): string {
+        const parsedUri = parseAsFullyQualifiedURI(url);
+        url = parsedUri.uri;
+
         if (!url.startsWith('/')) {
-            throw new Error(`Localization of path relative URLs is not supported. Received: "${url}"`);
+            throw new Error(`Localization of relative URLs is not supported. Received: "${url}"`);
         }
 
         url = IlcIntl.parseUrl(config, url).cleanUrl;
@@ -124,19 +138,26 @@ export default class IlcIntl {
         }
 
         if (config.routingStrategy === types.RoutingStrategy.PrefixExceptDefault && loc === config.default.locale) {
-            return url;
+            return parsedUri.origin + url;
         }
 
-        return `/${IlcIntl.getShortenedLocale(loc, config.supported.locale)}${url}`;
+        return `${parsedUri.origin}/${IlcIntl.getShortenedLocale(loc, config.supported.locale)}${url}`;
     }
 
     /**
      * Allows to parse URL and receive "unlocalized" URL and information about locale that was encoded in URL.
+     *
+     * @param config
+     * @param url - absolute path or absolute URI. Ex: "/test?a=1" or "http://tst.com/"
+     *
+     * @internal Used internally by ILC
      */
     static parseUrl(config: types.IntlAdapterConfig, url: string): { locale: string; cleanUrl: string } {
-        if (url === '' || !url.startsWith('/')) {
-            // Special treatment for path relative URLs
-            return { cleanUrl: url, locale: config.default.locale };
+        const parsedUri = parseAsFullyQualifiedURI(url);
+        url = parsedUri.uri;
+
+        if (!url.startsWith('/')) {
+            throw new Error(`Localization of relative URLs is not supported. Received: "${url}"`);
         }
 
         const [, langPart, ...path] = url.split('/');
@@ -144,10 +165,10 @@ export default class IlcIntl {
         const lang = IlcIntl.getCanonicalLocale(langPart, config.supported.locale);
 
         if (lang !== null && config.supported.locale.indexOf(lang) !== -1) {
-            return { cleanUrl: `/${path.join('/')}`, locale: lang };
+            return { cleanUrl: `${parsedUri.origin}/${path.join('/')}`, locale: lang };
         }
 
-        return { cleanUrl: url, locale: config.default.locale };
+        return { cleanUrl: parsedUri.origin + url, locale: config.default.locale };
     }
 
     /**
@@ -156,6 +177,8 @@ export default class IlcIntl {
      *
      * @param locale
      * @param supportedLocales
+     *
+     * @internal Used internally by ILC
      */
     static getCanonicalLocale(locale: string, supportedLocales: string[]) {
         const supportedLangs = supportedLocales.map((v) => v.split('-')[0]).filter((v, i, a) => a.indexOf(v) === i);
@@ -186,6 +209,8 @@ export default class IlcIntl {
     /**
      * Returns properly formatted short form of locale string.
      * Ex: en-US -> en, but en-GB -> en-GB
+     *
+     * @internal Used internally by ILC
      */
     static getShortenedLocale(canonicalLocale: string, supportedLocales: string[]): string {
         if (supportedLocales.indexOf(canonicalLocale) === -1) {

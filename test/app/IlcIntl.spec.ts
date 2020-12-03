@@ -132,6 +132,22 @@ describe('IlcIntl', () => {
             expect(IlcIntl.localizeUrl(baseConfig, '/tst', { locale: 'es-ES' })).to.equal('/es/tst');
             expect(IlcIntl.localizeUrl(baseConfig, '/tst', { locale: 'es-MX' })).to.equal('/es-MX/tst');
         });
+
+        it('handles absolute URI cases', () => {
+            expect(IlcIntl.localizeUrl(baseConfig, 'http://tst.com')).to.eq('http://tst.com/');
+            expect(IlcIntl.localizeUrl(baseConfig, 'http://tst.com/')).to.eq('http://tst.com/');
+
+            expect(IlcIntl.localizeUrl(baseConfig, 'http://tst.com', { locale: 'es-ES' })).to.eq('http://tst.com/es/');
+            expect(IlcIntl.localizeUrl(baseConfig, 'http://tst.com/', { locale: 'es-ES' })).to.eq('http://tst.com/es/');
+        });
+
+        it('handles special cases', () => {
+            expect(IlcIntl.localizeUrl(baseConfig, '/')).to.equal('/');
+            expect(IlcIntl.localizeUrl(baseConfig, '/', { locale: 'es-ES' })).to.equal('/es/');
+
+            expect(() => IlcIntl.localizeUrl(baseConfig, '', { locale: 'es-ES' })).throws(Error);
+            expect(() => IlcIntl.localizeUrl(baseConfig, 'tst', { locale: 'es-ES' })).throws(Error);
+        });
     });
 
     describe('parseUrl', () => {
@@ -154,6 +170,27 @@ describe('IlcIntl', () => {
                 cleanUrl: '/tst',
                 locale: 'es-MX',
             });
+        });
+
+        it('handles absolute URI cases', () => {
+            expect(IlcIntl.parseUrl(baseConfig, 'http://tst.com')).to.eql({
+                cleanUrl: 'http://tst.com/',
+                locale: baseConfig.default.locale,
+            });
+            expect(IlcIntl.parseUrl(baseConfig, 'http://tst.com/es/')).to.eql({
+                cleanUrl: 'http://tst.com/',
+                locale: 'es-ES',
+            });
+        });
+
+        it('handles corner cases', () => {
+            expect(IlcIntl.parseUrl(baseConfig, '/')).to.eql({
+                cleanUrl: '/',
+                locale: baseConfig.default.locale,
+            });
+
+            expect(() => IlcIntl.parseUrl(baseConfig, '')).to.throw(Error);
+            expect(() => IlcIntl.parseUrl(baseConfig, 'tst')).to.throw(Error);
         });
     });
 

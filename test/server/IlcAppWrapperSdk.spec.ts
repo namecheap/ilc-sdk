@@ -26,7 +26,10 @@ describe('IlcAppWrapperSdk', () => {
             ilcSdk.forwardRequest(pRes, res);
 
             expect(res.statusCode).to.eql(210);
-            expect(res.writableEnded).to.be.true;
+            if (res.writableEnded !== undefined) {
+                // This var was introduced in Node.js 12 only
+                expect(res.writableEnded).to.be.true;
+            }
         });
 
         it('should send x-props-override header if necessary', () => {

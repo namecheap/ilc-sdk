@@ -41,5 +41,14 @@ describe('IlcAppWrapperSdk', () => {
                 Buffer.from(JSON.stringify(testProps), 'utf8').toString('base64'),
             );
         });
+
+        it('should cause an error if headers have already been sent', () => {
+            const req = new MockReq(merge({}, defReq));
+            const res = new MockRes();
+            res.end();
+
+            const pRes = ilcSdk.processRequest(req);
+            expect(() => ilcSdk.forwardRequest(pRes, res)).to.throw();
+        });
     });
 });

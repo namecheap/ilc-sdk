@@ -43,3 +43,8 @@ export interface ResponseData {
     /** Meta tags list in a form of HTML string that should be applied to the page. Works only for primary applications. */
     pageMetaTags?: string;
 }
+
+export interface WrapperResponseData {
+    /** Props which will override values returned by getCurrentPathProps() for target app */
+    propsOverride: { [key: string]: any };
+}

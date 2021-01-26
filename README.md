@@ -20,8 +20,9 @@ the application itself.
 It works only in Node.js and is designed to parse requests from ILC and form responses. It also provides adapter for application 
 bundle to work in Node.js environment.
 
-- How to use: `const IlcSdk = require('ilc-sdk').default;`
-- Documentation: https://namecheap.github.io/ilc-sdk/classes/_server_ilcsdk_.ilcsdk.html
+- How to use: 
+    - For apps: `const IlcSdk = require('ilc-sdk').default;` ([Documentation](https://namecheap.github.io/ilc-sdk/classes/_server_ilcsdk_.ilcsdk.html))
+    - For App Wrappers: `const { IlcAppWrapperSdk } = require('ilc-sdk');` ([Documentation](https://namecheap.github.io/ilc-sdk/classes/_server_ilcappwrappersdk_.ilcappwrappersdk.html))
 
 **Vue.js example:**
 ```javascript
@@ -137,3 +138,14 @@ Ex: `Buffer.from('<title>Page title</title>', 'utf-8').toString('base64')`
 Ex: `Buffer.from('<meta name="description" content="Free Web tutorials"><meta name="keywords" content="HTML,CSS,XML,JavaScript">', 'utf-8').toString('base64')`
 
 HTTP status code from the primary app will be used to define HTTP status code of the requested page.
+
+#### App Wrappers
+
+If Micro Frontend has been registered as "App Wrapper" it can respond in a special format to forward SSR request to the target 
+application. To do so app need to return `210` HTTP status code with following headers available:
+
+* `x-props-override` - Props which will override values returned by getCurrentPathProps() for target app. 
+Ex: `Buffer.from(JSON.stringify(propsOverride)).toString('base64'))`
+
+See [wrapper application](https://github.com/namecheap/ilc-demo-apps/tree/master/apps/wrapper) in ILC Demo apps for 
+sample use of the functionality.

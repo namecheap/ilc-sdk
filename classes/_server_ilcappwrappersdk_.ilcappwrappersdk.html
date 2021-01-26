@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IlcSdk | ilc-sdk</title>
+	<title>IlcAppWrapperSdk | ilc-sdk</title>
 	<meta name="description" content="Documentation for ilc-sdk">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,34 +54,27 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_server_ilcsdk_.html">&quot;server/IlcSdk&quot;</a>
+					<a href="../modules/_server_ilcappwrappersdk_.html">&quot;server/IlcAppWrapperSdk&quot;</a>
 				</li>
 				<li>
-					<a href="_server_ilcsdk_.ilcsdk.html">IlcSdk</a>
+					<a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html">IlcAppWrapperSdk</a>
 				</li>
 			</ul>
-			<h1>Class IlcSdk</h1>
+			<h1>Class IlcAppWrapperSdk</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Entrypoint for SDK that should be used within application server that executes SSR bundle</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IlcSdk</span>
+						<a href="_server_ilcsdk_.ilcsdk.html" class="tsd-signature-type">IlcSdk</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html" class="tsd-signature-type">IlcAppWrapperSdk</a>
+								<span class="target">IlcAppWrapperSdk</span>
 							</li>
 						</ul>
 					</li>
@@ -91,34 +84,36 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-external">
+						<section class="tsd-index-section tsd-is-inherited tsd-is-external">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-external"><a href="_server_ilcsdk_.ilcsdk.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="_server_ilcsdk_.ilcsdk.html#assetsdiscoveryhandler" class="tsd-kind-icon">assets<wbr>Discovery<wbr>Handler</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="_server_ilcsdk_.ilcsdk.html#processrequest" class="tsd-kind-icon">process<wbr>Request</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="_server_ilcsdk_.ilcsdk.html#processresponse" class="tsd-kind-icon">process<wbr>Response</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html#assetsdiscoveryhandler" class="tsd-kind-icon">assets<wbr>Discovery<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html#forwardrequest" class="tsd-kind-icon">forward<wbr>Request</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html#processrequest" class="tsd-kind-icon">process<wbr>Request</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html#processresponse" class="tsd-kind-icon">process<wbr>Response</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-external">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Ilc<wbr>Sdk<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Console</span><span class="tsd-signature-symbol">; </span>publicPath<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>publicPathProperyName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_server_ilcsdk_.ilcsdk.html" class="tsd-signature-type">IlcSdk</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Ilc<wbr>App<wbr>Wrapper<wbr>Sdk<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Console</span><span class="tsd-signature-symbol">; </span>publicPath<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>publicPathProperyName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html" class="tsd-signature-type">IlcAppWrapperSdk</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="_server_ilcsdk_.ilcsdk.html">IlcSdk</a>.<a href="_server_ilcsdk_.ilcsdk.html#constructor">constructor</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/6d597fb/src/server/IlcSdk.ts#L13">src/server/IlcSdk.ts:13</a></li>
 								</ul>
@@ -153,22 +148,23 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_server_ilcsdk_.ilcsdk.html" class="tsd-signature-type">IlcSdk</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html" class="tsd-signature-type">IlcAppWrapperSdk</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="assetsdiscoveryhandler" class="tsd-anchor"></a>
 					<h3>assets<wbr>Discovery<wbr>Handler</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">assets<wbr>Discovery<wbr>Handler<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServerResponse</span>, appAssets<span class="tsd-signature-symbol">: </span><a href="../interfaces/_server_types_.appassets.html" class="tsd-signature-type">AppAssets</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="_server_ilcsdk_.ilcsdk.html">IlcSdk</a>.<a href="_server_ilcsdk_.ilcsdk.html#assetsdiscoveryhandler">assetsDiscoveryHandler</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/6d597fb/src/server/IlcSdk.ts#L112">src/server/IlcSdk.ts:112</a></li>
 								</ul>
@@ -196,14 +192,44 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+					<a name="forwardrequest" class="tsd-anchor"></a>
+					<h3>forward<wbr>Request</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">forward<wbr>Request<span class="tsd-signature-symbol">(</span>reqData<span class="tsd-signature-symbol">: </span><a href="../interfaces/_server_types_.requestdata.html" class="tsd-signature-type">RequestData</a>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServerResponse</span>, data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">types.WrapperResponseData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/6d597fb/src/server/IlcAppWrapperSdk.ts#L7">src/server/IlcAppWrapperSdk.ts:7</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>reqData: <a href="../interfaces/_server_types_.requestdata.html" class="tsd-signature-type">RequestData</a></h5>
+								</li>
+								<li>
+									<h5>res: <span class="tsd-signature-type">ServerResponse</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <span class="tsd-signature-type">types.WrapperResponseData</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="processrequest" class="tsd-anchor"></a>
 					<h3>process<wbr>Request</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">process<wbr>Request<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_server_types_.requestdata.html" class="tsd-signature-type">RequestData</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="_server_ilcsdk_.ilcsdk.html">IlcSdk</a>.<a href="_server_ilcsdk_.ilcsdk.html#processrequest">processRequest</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/6d597fb/src/server/IlcSdk.ts#L38">src/server/IlcSdk.ts:38</a></li>
 								</ul>
@@ -223,15 +249,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="processresponse" class="tsd-anchor"></a>
 					<h3>process<wbr>Response</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">process<wbr>Response<span class="tsd-signature-symbol">(</span>reqData<span class="tsd-signature-symbol">: </span><a href="../interfaces/_server_types_.requestdata.html" class="tsd-signature-type">RequestData</a>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServerResponse</span>, data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">types.ResponseData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="_server_ilcsdk_.ilcsdk.html">IlcSdk</a>.<a href="_server_ilcsdk_.ilcsdk.html#processresponse">processResponse</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/6d597fb/src/server/IlcSdk.ts#L82">src/server/IlcSdk.ts:82</a></li>
 								</ul>
@@ -293,13 +320,13 @@
 					<li class=" tsd-kind-module tsd-is-external">
 						<a href="../modules/_app_utils_.html">&quot;app/utils&quot;</a>
 					</li>
-					<li class=" tsd-kind-module tsd-is-external">
+					<li class="current tsd-kind-module tsd-is-external">
 						<a href="../modules/_server_ilcappwrappersdk_.html">&quot;server/<wbr>Ilc<wbr>App<wbr>Wrapper<wbr>Sdk&quot;</a>
 					</li>
 					<li class=" tsd-kind-module tsd-is-external">
 						<a href="../modules/_server_ilcprotocol_.html">&quot;server/<wbr>Ilc<wbr>Protocol&quot;</a>
 					</li>
-					<li class="current tsd-kind-module tsd-is-external">
+					<li class=" tsd-kind-module tsd-is-external">
 						<a href="../modules/_server_ilcsdk_.html">&quot;server/<wbr>Ilc<wbr>Sdk&quot;</a>
 					</li>
 					<li class=" tsd-kind-module tsd-is-external">
@@ -315,19 +342,22 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module tsd-is-external">
-						<a href="_server_ilcsdk_.ilcsdk.html" class="tsd-kind-icon">Ilc<wbr>Sdk</a>
+						<a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html" class="tsd-kind-icon">Ilc<wbr>App<wbr>Wrapper<wbr>Sdk</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
-								<a href="_server_ilcsdk_.ilcsdk.html#constructor" class="tsd-kind-icon">constructor</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html#assetsdiscoveryhandler" class="tsd-kind-icon">assets<wbr>Discovery<wbr>Handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="_server_ilcsdk_.ilcsdk.html#assetsdiscoveryhandler" class="tsd-kind-icon">assets<wbr>Discovery<wbr>Handler</a>
+								<a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html#forwardrequest" class="tsd-kind-icon">forward<wbr>Request</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="_server_ilcsdk_.ilcsdk.html#processrequest" class="tsd-kind-icon">process<wbr>Request</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html#processrequest" class="tsd-kind-icon">process<wbr>Request</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="_server_ilcsdk_.ilcsdk.html#processresponse" class="tsd-kind-icon">process<wbr>Response</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="_server_ilcappwrappersdk_.ilcappwrappersdk.html#processresponse" class="tsd-kind-icon">process<wbr>Response</a>
 							</li>
 						</ul>
 					</li>

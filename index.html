@@ -83,8 +83,11 @@
 				<p>It works only in Node.js and is designed to parse requests from ILC and form responses. It also provides adapter for application
 				bundle to work in Node.js environment.</p>
 				<ul>
-					<li>How to use: <code>const IlcSdk = require(&#39;ilc-sdk&#39;).default;</code></li>
-					<li>Documentation: <a href="https://namecheap.github.io/ilc-sdk/classes/_server_ilcsdk_.ilcsdk.html">https://namecheap.github.io/ilc-sdk/classes/_server_ilcsdk_.ilcsdk.html</a></li>
+					<li>How to use: <ul>
+							<li>For apps: <code>const IlcSdk = require(&#39;ilc-sdk&#39;).default;</code> (<a href="https://namecheap.github.io/ilc-sdk/classes/_server_ilcsdk_.ilcsdk.html">Documentation</a>)</li>
+							<li>For App Wrappers: <code>const { IlcAppWrapperSdk } = require(&#39;ilc-sdk&#39;);</code> (<a href="https://namecheap.github.io/ilc-sdk/classes/_server_ilcappwrappersdk_.ilcappwrappersdk.html">Documentation</a>)</li>
+						</ul>
+					</li>
 				</ul>
 				<p><strong>Vue.js example:</strong></p>
 				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs&#x27;</span>);
@@ -198,6 +201,17 @@ Accept: text/plain<span class="hljs-symbol">\r</span><span class="hljs-symbol">\
 					Ex: <code>Buffer.from(&#39;&lt;meta name=&quot;description&quot; content=&quot;Free Web tutorials&quot;&gt;&lt;meta name=&quot;keywords&quot; content=&quot;HTML,CSS,XML,JavaScript&quot;&gt;&#39;, &#39;utf-8&#39;).toString(&#39;base64&#39;)</code></li>
 				</ul>
 				<p>HTTP status code from the primary app will be used to define HTTP status code of the requested page.</p>
+				<a href="#app-wrappers" id="app-wrappers" style="color: inherit; text-decoration: none;">
+					<h4>App Wrappers</h4>
+				</a>
+				<p>If Micro Frontend has been registered as &quot;App Wrapper&quot; it can respond in a special format to forward SSR request to the target
+				application. To do so app need to return <code>210</code> HTTP status code with following headers available:</p>
+				<ul>
+					<li><code>x-props-override</code> - Props which will override values returned by getCurrentPathProps() for target app.
+					Ex: <code>Buffer.from(JSON.stringify(propsOverride)).toString(&#39;base64&#39;))</code></li>
+				</ul>
+				<p>See <a href="https://github.com/namecheap/ilc-demo-apps/tree/master/apps/wrapper">wrapper application</a> in ILC Demo apps for
+				sample use of the functionality.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -225,10 +239,19 @@ Accept: text/plain<span class="hljs-symbol">\r</span><span class="hljs-symbol">\
 						<a href="modules/_app_commontypes_.html">&quot;app/common<wbr>Types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module tsd-is-external">
+						<a href="modules/_app_defaultintladapter_.html">&quot;app/default<wbr>Intl<wbr>Adapter&quot;</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
 						<a href="modules/_app_types_.html">&quot;app/types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module tsd-is-external">
 						<a href="modules/_app_utils_.html">&quot;app/utils&quot;</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="modules/_server_ilcappwrappersdk_.html">&quot;server/<wbr>Ilc<wbr>App<wbr>Wrapper<wbr>Sdk&quot;</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="modules/_server_ilcprotocol_.html">&quot;server/<wbr>Ilc<wbr>Protocol&quot;</a>
 					</li>
 					<li class=" tsd-kind-module tsd-is-external">
 						<a href="modules/_server_ilcsdk_.html">&quot;server/<wbr>Ilc<wbr>Sdk&quot;</a>

@@ -2,6 +2,8 @@ import { IncomingMessage, ServerResponse } from 'http';
 import * as types from './types';
 import urljoin from 'url-join';
 import { intlSchema } from './IlcProtocol';
+import defaultIntlAdapter from '../app/defaultIntlAdapter';
+import * as clientTypes from '../app/commonTypes';
 
 /**
  * Entrypoint for SDK that should be used within application server that executes SSR bundle
@@ -136,17 +138,17 @@ export class IlcSdk {
         res.end(JSON.stringify(resData));
     }
 
-    private parseIntl(req: IncomingMessage) {
+    private parseIntl(req: IncomingMessage): clientTypes.IntlAdapter {
         const intlParams = req.headers['x-request-intl'] as string | undefined;
         if (intlParams === undefined) {
-            return null;
+            return defaultIntlAdapter;
         }
 
         let ilcData: any;
         try {
             ilcData = intlSchema.fromBuffer(Buffer.from(intlParams, 'base64'), undefined, true);
         } catch {
-            return null;
+            return defaultIntlAdapter;
         }
 
         return {

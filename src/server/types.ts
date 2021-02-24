@@ -15,7 +15,7 @@ export interface RequestData {
     getCurrentPathProps: () => { [key: string]: any };
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     appId: string;
-    intl: clientTypes.IntlAdapter | null;
+    intl: clientTypes.IntlAdapter;
 }
 
 /**

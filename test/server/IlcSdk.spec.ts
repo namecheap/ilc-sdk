@@ -4,6 +4,7 @@ import * as sinon from 'sinon';
 import { Request as MockReq, Response as MockRes } from 'mock-http';
 import merge from 'lodash.merge';
 
+import defaultIntlAdapter from '../../src/app/defaultIntlAdapter';
 import fakeCons from '../utils/console';
 import { intlSchema } from '../../src/server/IlcProtocol';
 
@@ -203,10 +204,10 @@ describe('IlcSdk', () => {
                 );
                 const res = ilcSdk.processRequest(req);
 
-                expect(res.intl!.get()).to.deep.include(data.current);
-                expect(res.intl!.config.default).to.deep.include(data.default);
-                expect(res.intl!.config.supported).to.deep.include(data.supported);
-                expect(res.intl!.config.routingStrategy).to.eql(data.routingStrategy);
+                expect(res.intl.get()).to.deep.include(data.current);
+                expect(res.intl.config.default).to.deep.include(data.default);
+                expect(res.intl.config.supported).to.deep.include(data.supported);
+                expect(res.intl.config.routingStrategy).to.eql(data.routingStrategy);
             });
 
             it('should ignore invalid intl info', () => {
@@ -216,7 +217,7 @@ describe('IlcSdk', () => {
                     }),
                 );
                 const res = ilcSdk.processRequest(req);
-                expect(res.intl).to.eq(null);
+                expect(res.intl).to.eq(defaultIntlAdapter);
 
                 const req2 = new MockReq(
                     merge({}, defReq, {
@@ -224,14 +225,14 @@ describe('IlcSdk', () => {
                     }),
                 );
                 const res2 = ilcSdk.processRequest(req2);
-                expect(res2.intl).to.eq(null);
+                expect(res2.intl).to.eq(defaultIntlAdapter);
             });
 
-            it("should not fail & skip intl if ILC haven't passed anything", () => {
+            it("should not fail & return default intl adapter if ILC haven't passed anything", () => {
                 const req = new MockReq(merge({}, defReq));
                 const res = ilcSdk.processRequest(req);
 
-                expect(res.intl).to.eq(null);
+                expect(res.intl).to.eq(defaultIntlAdapter);
             });
         });
     });

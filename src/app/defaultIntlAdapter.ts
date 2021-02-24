@@ -15,7 +15,9 @@ const adapter: IntlAdapter = {
     },
 };
 
+/* istanbul ignore next */
 const isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+/* istanbul ignore if */
 if (isBrowser) {
     adapter.set = () => {};
 }

@@ -225,7 +225,8 @@ describe('IlcSdk', () => {
                     }),
                 );
                 const res2 = ilcSdk.processRequest(req2);
-                expect(res2.intl).to.eq(defaultIntlAdapter);
+                expect(res2.intl.config).to.eql(defaultIntlAdapter.config);
+                expect(res2.intl.get()).to.eql(defaultIntlAdapter.get());
             });
 
             it("should not fail & return default intl adapter if ILC haven't passed anything", () => {

@@ -49,11 +49,13 @@
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
     "typedoc": "^0.19.2",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "webpack": "^4.46.0"
   },
   "dependencies": {
     "@types/url-join": "^4.0.0",
     "avsc": "^5.5.3",
+    "systemjs-webpack-interop": "^2.3.6",
     "url-join": "^4.0.1",
     "wrapper-webpack-plugin": "^2.1.0"
   }

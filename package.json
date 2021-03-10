@@ -1,6 +1,6 @@
 {
   "name": "ilc-sdk",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "SDK for app development with Isomorphic Layout Composer",
   "main": "dist/server/index.js",
   "types": "dist/server/index.d.ts",

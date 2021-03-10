@@ -29,6 +29,20 @@ export interface ClientSdkAdapter {
     intl: IntlAdapter | null;
 }
 
+/**
+ * Properties passed by ILC to IlcParcelSdk
+ */
+export interface ParcelSdk<RegProps = any> {
+    /** Unique parcel ID, if same parcel will be rendered twice on a page - they will get different IDs */
+    parcelId: string;
+    intl: IntlAdapter;
+    registryProps: () => RegProps;
+}
+
+export interface WithParcelSdk<RegProps = any> {
+    parcelSdk: ParcelSdk<RegProps>;
+}
+
 export interface IntlConfig {
     locale?: string;
     currency?: string;

@@ -1,13 +1,21 @@
 import * as types from './types';
 import { parseAsFullyQualifiedURI } from './utils';
+import defaultIntlAdapter from './defaultIntlAdapter';
 
 export * from './types';
 
 export default class IlcIntl {
+    private adapter: types.IntlAdapter;
     private listeners: any[] = [];
     private static eventName = 'ilc:intl-update';
 
-    constructor(private appId: string, private adapter: types.IntlAdapter) {}
+    constructor(private appId: string, adapter?: types.IntlAdapter) {
+        if (!adapter) {
+            adapter = defaultIntlAdapter;
+        }
+
+        this.adapter = adapter;
+    }
 
     /**
      * Allows to retrieve current i18n configuration

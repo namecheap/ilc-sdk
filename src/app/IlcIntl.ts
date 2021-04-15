@@ -2,9 +2,10 @@ import * as types from './types';
 import { parseAsFullyQualifiedURI } from './utils';
 import defaultIntlAdapter from './defaultIntlAdapter';
 
-export * from './types';
-
-export default class IlcIntl {
+/**
+ * **WARNING:** this class shouldn't be imported directly in the apps or adapters. Use `IlcAppSdk` instead.
+ */
+export class IlcIntl {
     private adapter: types.IntlAdapter;
     private listeners: any[] = [];
     private static eventName = 'ilc:intl-update';

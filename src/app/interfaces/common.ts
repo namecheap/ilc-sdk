@@ -21,26 +21,12 @@ export interface IntlAdapterConfig {
 }
 
 /**
- * Result of the "processRequest" method
+ * Result of the "window.ILC.getAppSdkAdapter" method
  */
-export interface ClientSdkAdapter {
+export interface AppSdkAdapter {
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     appId: string;
     intl: IntlAdapter | null;
-}
-
-/**
- * Properties passed by ILC to IlcParcelSdk
- */
-export interface ParcelSdk<RegProps = any> {
-    /** Unique parcel ID, if same parcel will be rendered twice on a page - they will get different IDs */
-    parcelId: string;
-    intl: IntlAdapter;
-    registryProps: () => RegProps;
-}
-
-export interface WithParcelSdk<RegProps = any> {
-    parcelSdk: ParcelSdk<RegProps>;
 }
 
 export interface IntlConfig {

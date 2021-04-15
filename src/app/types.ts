@@ -1,4 +1,15 @@
-export * from './commonTypes';
+export * from './interfaces/AppLifecycleFnProps';
+export * from './interfaces/AppWrapperLifecycleFnProps';
+export * from './interfaces/common';
+export * from './interfaces/ErrorHandler';
+export * from './interfaces/IIlcAppSdk';
+export * from './interfaces/LifeCycles';
+export * from './interfaces/ParcelConfig';
+export * from './interfaces/ParcelLifecycleFnProps';
+export * from './interfaces/ParcelMountProps';
+export * from './interfaces/ParcelObject';
+export * from './interfaces/ParcelSdk';
+export * from './interfaces/SingleSpaLifecycleFnProps';
 
 export interface IntlUpdateEvent {
     locale: string;

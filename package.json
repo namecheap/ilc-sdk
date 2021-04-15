@@ -16,20 +16,20 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "tslint -p ./src/app && tslint -p ./src/server",
-    "docs": "typedoc src/server/index.ts src/app/index.ts --out docs --excludeNotExported --stripInternal --excludePrivate",
+    "docs": "typedoc",
     "preversion": "npm run format:check && npm run lint && npm test",
     "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/namecheap/ilc-server-sdk.git"
+    "url": "git+https://github.com/namecheap/ilc-sdk.git"
   },
   "author": "Namecheap, Inc",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/namecheap/ilc-server-sdk/issues"
+    "url": "https://github.com/namecheap/ilc-sdk/issues"
   },
-  "homepage": "https://github.com/namecheap/ilc-server-sdk#readme",
+  "homepage": "https://github.com/namecheap/ilc-sdk#readme",
   "devDependencies": {
     "@types/chai": "^4.2.11",
     "@types/jsdom": "^16.2.5",
@@ -47,7 +47,9 @@
     "ts-node": "^8.10.1",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
-    "typedoc": "^0.19.2",
+    "typedoc": "^0.20.35",
+    "typedoc-plugin-pages-fork": "0.0.1",
+    "typedoc-plugin-rename-defaults": "^0.1.0",
     "typescript": "^3.9.7",
     "webpack": "^4.46.0"
   },
@@ -56,6 +58,7 @@
     "avsc": "^5.5.3",
     "lodash.merge": "^4.6.2",
     "systemjs-webpack-interop": "^2.3.6",
+    "uninstall": "0.0.0",
     "url-join": "^4.0.1",
     "wrapper-webpack-plugin": "^2.1.0"
   }

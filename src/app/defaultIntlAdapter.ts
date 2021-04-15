@@ -1,4 +1,4 @@
-import { IntlAdapter, RoutingStrategy } from './commonTypes';
+import { IntlAdapter, RoutingStrategy } from './interfaces/common';
 
 /**
  * Used when i18n capability is disabled in ILC.

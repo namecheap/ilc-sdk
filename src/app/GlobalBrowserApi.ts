@@ -1,8 +1,6 @@
-import { ParcelObject } from './interfaces/ParcelObject';
 import { LifeCycles } from './interfaces/LifeCycles';
 import { ParcelLifecycleFnProps } from './interfaces/ParcelLifecycleFnProps';
-import { ParcelConfig } from './interfaces/ParcelConfig';
-import { ParcelMountProps } from './interfaces/ParcelMountProps';
+import { MountParcel } from './interfaces/MountParcel';
 
 /**
  * ILC exposes some utility APIs globally at `window.ILC`. Here we provide convenience typings to use with typescript.
@@ -55,10 +53,7 @@ export class GlobalBrowserApi {
      * });
      * ```
      */
-    static mountRootParcel<ExtraProps = {}>(
-        parcelConfig: ParcelConfig<ExtraProps>,
-        parcelProps: ParcelMountProps & ExtraProps,
-    ): ParcelObject<ExtraProps> {
+    static mountRootParcel: MountParcel = (parcelConfig, parcelProps) => {
         return (window as any).ILC.mountRootParcel(parcelConfig, parcelProps);
-    }
+    };
 }

@@ -70,11 +70,39 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Entrypoint for SDK that should be used within application bundle</p>
+						<p>Entrypoint for SDK that should be used within application bundle. It works well with server and client side rendering.</p>
 					</div>
+					<a href="#client-side" id="client-side" style="color: inherit; text-decoration: none;">
+						<h2>Client side</h2>
+					</a>
+					<p>At client side your app receives instance of the <a href="../classes/app.ilcappsdk.html">IlcAppSdk</a> via props that are passed to it&#39;s lifecycle functions (<a href="../interfaces/app.lifecycles.html">LifeCycles</a>).
+					So everything is pretty simple here :) Typings can be loaded in the following way:</p>
 					<dl class="tsd-comment-tags">
 						<dt>example</dt>
 						<dd><pre><code><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">IlcAppSdk</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;ilc-sdk/app&#039;</span><span style="color: #000000">;</span>
+</code></pre>
+							<a href="#server-side" id="server-side" style="color: inherit; text-decoration: none;">
+								<h2>Server side</h2>
+							</a>
+							<p>Unfortunately during app&#39;s SSR we don&#39;t have ILC in place.
+								So we need to use result of the <a href="../classes/server.ilcsdk.html#processrequest">IlcSdk.processRequest</a> (which implements <a href="../interfaces/app.appsdkadapter.html">AppSdkAdapter</a>) to receive all the necessary
+							data for <code>IlcAppSdk</code> initialization.</p>
+						</dd>
+						<dt>example</dt>
+						<dd><pre><code><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">IlcSdk</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ilc-sdk&#039;</span><span style="color: #000000">).</span><span style="color: #001080">default</span><span style="color: #000000">;</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">IlcAppSdk</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ilc-sdk/app&#039;</span><span style="color: #000000">).</span><span style="color: #001080">default</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">ReactDOMServer</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;react-dom/server&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> {</span><span style="color: #001080">default</span><span style="color: #000000">: </span><span style="color: #0070C1">App</span><span style="color: #000000">} = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;./build/server&#039;</span><span style="color: #000000">);</span>
+
+<span style="color: #001080">server</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;*&#039;</span><span style="color: #000000">, (</span><span style="color: #001080">req</span><span style="color: #000000">, </span><span style="color: #001080">res</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">ilcReqData</span><span style="color: #000000"> = </span><span style="color: #001080">ilcSdk</span><span style="color: #000000">.</span><span style="color: #795E26">processRequest</span><span style="color: #000000">(</span><span style="color: #001080">req</span><span style="color: #000000">);</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">appSdk</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">IlcAppSdk</span><span style="color: #000000">(</span><span style="color: #001080">ilcReqData</span><span style="color: #000000">);</span>
+
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">html</span><span style="color: #000000"> = </span><span style="color: #001080">ReactDOMServer</span><span style="color: #000000">.</span><span style="color: #795E26">renderToString</span><span style="color: #000000">(</span><span style="color: #795E26">App</span><span style="color: #000000">(</span><span style="color: #001080">appSdk</span><span style="color: #000000">));</span>
+
+<span style="color: #000000">    </span><span style="color: #001080">res</span><span style="color: #000000">.</span><span style="color: #795E26">send</span><span style="color: #000000">(</span><span style="color: #001080">html</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
 </code></pre>
 						</dd>
 					</dl>
@@ -136,7 +164,7 @@
 					<div class="tsd-signature tsd-kind-icon">Error<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, errorInfo<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/71ed9eb/src/app/interfaces/ErrorHandler.ts#L6">src/app/interfaces/ErrorHandler.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/554884a/src/app/interfaces/ErrorHandler.ts#L6">src/app/interfaces/ErrorHandler.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -177,7 +205,7 @@
 					<div class="tsd-signature tsd-kind-icon">Mount<wbr>Parcel<span class="tsd-signature-symbol">:</span> &lt;ExtraProps&gt;<span class="tsd-signature-symbol">(</span>parcelConfig<span class="tsd-signature-symbol">: </span><a href="app.html#parcelconfig" class="tsd-signature-type">ParcelConfig</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ExtraProps</span><span class="tsd-signature-symbol">&gt;</span>, customProps<span class="tsd-signature-symbol">: </span><a href="../interfaces/app.parcelmountprops.html" class="tsd-signature-type">ParcelMountProps</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">ExtraProps</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../interfaces/app.parcelobject.html" class="tsd-signature-type">ParcelObject</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ExtraProps</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/71ed9eb/src/app/interfaces/MountParcel.ts#L5">src/app/interfaces/MountParcel.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/554884a/src/app/interfaces/MountParcel.ts#L5">src/app/interfaces/MountParcel.ts:5</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -217,7 +245,7 @@
 					<div class="tsd-signature tsd-kind-icon">Parcel<wbr>Config&lt;ExtraProps&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">LifeCycles</span><span class="tsd-signature-symbol">&lt;</span><a href="app.html#parcellifecyclefnprops" class="tsd-signature-type">ParcelLifecycleFnProps</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ExtraProps</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/app.lifecycles.html" class="tsd-signature-type">LifeCycles</a><span class="tsd-signature-symbol">&lt;</span><a href="app.html#parcellifecyclefnprops" class="tsd-signature-type">ParcelLifecycleFnProps</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ExtraProps</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/71ed9eb/src/app/interfaces/ParcelConfig.ts#L5">src/app/interfaces/ParcelConfig.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/554884a/src/app/interfaces/ParcelConfig.ts#L5">src/app/interfaces/ParcelConfig.ts:5</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -233,7 +261,7 @@
 					<div class="tsd-signature tsd-kind-icon">Parcel<wbr>Lifecycle<wbr>FnProps&lt;ExtraProps, RegProps&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ExtraProps</span><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/app.parcelmountprops.html" class="tsd-signature-type">ParcelMountProps</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">ParcelLifecycleFnPropsSystem</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RegProps</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/71ed9eb/src/app/interfaces/ParcelLifecycleFnProps.ts#L15">src/app/interfaces/ParcelLifecycleFnProps.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/554884a/src/app/interfaces/ParcelLifecycleFnProps.ts#L15">src/app/interfaces/ParcelLifecycleFnProps.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">

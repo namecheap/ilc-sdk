@@ -87,81 +87,14 @@
 						</ul>
 					</li>
 				</ul>
-				<a href="#nodejs-and-app-bundles" id="nodejs-and-app-bundles" style="color: inherit; text-decoration: none;">
-					<h2>Node.js and app bundles</h2>
+				<a href="#nodejs-and-app-entrypoints" id="nodejs-and-app-entrypoints" style="color: inherit; text-decoration: none;">
+					<h2>Node.js and App entrypoints</h2>
 				</a>
 				<p>This package features 2 bundles that are intended to be used in Node.js app that runs SSR bundle of your app and
 				the application itself.</p>
-				<a href="#nodejs-bundle" id="nodejs-bundle" style="color: inherit; text-decoration: none;">
-					<h3>Node.js bundle</h3>
-				</a>
-				<p>It works only in Node.js and is designed to parse requests from ILC and form responses. It also provides adapter for application
-				bundle to work in Node.js environment.</p>
 				<ul>
-					<li>How to use: <ul>
-							<li>For apps: <code>const IlcSdk = require(&#39;ilc-sdk&#39;).default;</code> (<a href="https://namecheap.github.io/ilc-sdk/classes/server.ilcsdk.html">Documentation</a>)</li>
-							<li>For App Wrappers: <code>const { IlcAppWrapperSdk } = require(&#39;ilc-sdk&#39;);</code> (<a href="https://namecheap.github.io/ilc-sdk/classes/server.ilcappwrappersdk.html">Documentation</a>)</li>
-						</ul>
-					</li>
-				</ul>
-				<p><strong>Vue.js example:</strong></p>
-				<pre><code class="language-javascript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">fs</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;fs&#039;</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">express</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;express&#039;</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">server</span><span style="color: #000000"> = </span><span style="color: #795E26">express</span><span style="color: #000000">();</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> {</span><span style="color: #0070C1">createBundleRenderer</span><span style="color: #000000">} = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;vue-server-renderer&#039;</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">bundle</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;./dist/vue-ssr-server-bundle.json&#039;</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">clientManifest</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;./dist/vue-ssr-client-manifest.json&#039;</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">appAssets</span><span style="color: #000000"> = {</span>
-<span style="color: #000000">    </span><span style="color: #001080">spaBundle:</span><span style="color: #000000"> </span><span style="color: #001080">clientManifest</span><span style="color: #000000">.</span><span style="color: #001080">all</span><span style="color: #000000">.</span><span style="color: #795E26">find</span><span style="color: #000000">(</span><span style="color: #001080">v</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">v</span><span style="color: #000000">.</span><span style="color: #795E26">endsWith</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.js&#039;</span><span style="color: #000000">)),</span>
-<span style="color: #000000">    </span><span style="color: #001080">cssBundle:</span><span style="color: #000000"> </span><span style="color: #001080">clientManifest</span><span style="color: #000000">.</span><span style="color: #001080">all</span><span style="color: #000000">.</span><span style="color: #795E26">find</span><span style="color: #000000">(</span><span style="color: #001080">v</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">v</span><span style="color: #000000">.</span><span style="color: #795E26">endsWith</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;.css&#039;</span><span style="color: #000000">))</span>
-<span style="color: #000000">};</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">IlcSdk</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;ilc-sdk&#039;</span><span style="color: #000000">).</span><span style="color: #001080">default</span><span style="color: #000000">;</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">ilcSdk</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">IlcSdk</span><span style="color: #000000">({ </span><span style="color: #001080">publicPath:</span><span style="color: #000000"> </span><span style="color: #001080">clientManifest</span><span style="color: #000000">.</span><span style="color: #001080">publicPath</span><span style="color: #000000"> });</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">renderer</span><span style="color: #000000"> = </span><span style="color: #795E26">createBundleRenderer</span><span style="color: #000000">(</span><span style="color: #001080">bundle</span><span style="color: #000000">, {</span>
-<span style="color: #000000">    </span><span style="color: #001080">template:</span><span style="color: #000000"> </span><span style="color: #001080">fs</span><span style="color: #000000">.</span><span style="color: #795E26">readFileSync</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;./index.template.html&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;utf-8&#039;</span><span style="color: #000000">),</span>
-<span style="color: #000000">    </span><span style="color: #001080">clientManifest:</span><span style="color: #000000"> </span><span style="color: #001080">clientManifest</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">runInNewContext:</span><span style="color: #000000"> </span><span style="color: #0000FF">false</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">inject:</span><span style="color: #000000"> </span><span style="color: #0000FF">false</span>
-<span style="color: #000000">});</span>
-
-<span style="color: #001080">server</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;/_ilc/assets-discovery&#039;</span><span style="color: #000000">, (</span><span style="color: #001080">req</span><span style="color: #000000">, </span><span style="color: #001080">res</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">ilcSdk</span><span style="color: #000000">.</span><span style="color: #795E26">assetsDiscoveryHandler</span><span style="color: #000000">(</span><span style="color: #001080">req</span><span style="color: #000000">, </span><span style="color: #001080">res</span><span style="color: #000000">, </span><span style="color: #001080">appAssets</span><span style="color: #000000">));</span>
-
-<span style="color: #001080">server</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;*&#039;</span><span style="color: #000000">, (</span><span style="color: #001080">req</span><span style="color: #000000">, </span><span style="color: #001080">res</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #001080">res</span><span style="color: #000000">.</span><span style="color: #795E26">setHeader</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Content-Type&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;text/html&#039;</span><span style="color: #000000">);</span>
-<span style="color: #000000">    </span>
-<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">ilcData</span><span style="color: #000000"> = </span><span style="color: #001080">ilcSdk</span><span style="color: #000000">.</span><span style="color: #795E26">processRequest</span><span style="color: #000000">(</span><span style="color: #001080">req</span><span style="color: #000000">);</span>
-
-<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">context</span><span style="color: #000000"> = {</span>
-<span style="color: #000000">        </span><span style="color: #001080">ilcData</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">url:</span><span style="color: #000000"> </span><span style="color: #001080">ilcData</span><span style="color: #000000">.</span><span style="color: #795E26">getCurrentReqUrl</span><span style="color: #000000">(),</span>
-<span style="color: #000000">    };</span>
-
-<span style="color: #000000">    </span><span style="color: #001080">renderer</span><span style="color: #000000">.</span><span style="color: #795E26">renderToString</span><span style="color: #000000">(</span><span style="color: #001080">context</span><span style="color: #000000">, (</span><span style="color: #001080">err</span><span style="color: #000000">, </span><span style="color: #001080">html</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">        </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">err</span><span style="color: #000000">) {</span>
-<span style="color: #000000">            </span><span style="color: #008000">// ...</span>
-<span style="color: #000000">            </span><span style="color: #AF00DB">return</span><span style="color: #000000">;</span>
-<span style="color: #000000">        } </span>
-<span style="color: #000000">        </span>
-<span style="color: #000000">        </span><span style="color: #001080">ilcSdk</span><span style="color: #000000">.</span><span style="color: #795E26">processResponse</span><span style="color: #000000">(</span><span style="color: #001080">ilcData</span><span style="color: #000000">, </span><span style="color: #001080">res</span><span style="color: #000000">, {</span>
-<span style="color: #000000">            </span><span style="color: #001080">pageTitle:</span><span style="color: #000000"> </span><span style="color: #001080">context</span><span style="color: #000000">.</span><span style="color: #001080">meta</span><span style="color: #000000">.</span><span style="color: #795E26">inject</span><span style="color: #000000">().</span><span style="color: #001080">title</span><span style="color: #000000">.</span><span style="color: #795E26">text</span><span style="color: #000000">(),</span>
-<span style="color: #000000">            </span><span style="color: #001080">pageMetaTags:</span><span style="color: #000000"> </span><span style="color: #001080">context</span><span style="color: #000000">.</span><span style="color: #001080">meta</span><span style="color: #000000">.</span><span style="color: #795E26">inject</span><span style="color: #000000">().</span><span style="color: #001080">meta</span><span style="color: #000000">.</span><span style="color: #795E26">text</span><span style="color: #000000">(),</span>
-<span style="color: #000000">            </span><span style="color: #001080">appAssets</span><span style="color: #000000">,</span>
-<span style="color: #000000">        });</span>
-<span style="color: #000000">        </span><span style="color: #001080">res</span><span style="color: #000000">.</span><span style="color: #795E26">send</span><span style="color: #000000">(</span><span style="color: #001080">html</span><span style="color: #000000">);</span>
-<span style="color: #000000">    });</span>
-
-<span style="color: #000000">});</span>
-</code></pre>
-				<a href="#application-bundle" id="application-bundle" style="color: inherit; text-decoration: none;">
-					<h3>Application bundle</h3>
-				</a>
-				<p>Provides SDK that should be used within your application bundle. It works well with server and client side rendering.</p>
-				<ul>
-					<li>How to use: <code>import IlcAppSdk from &#39;ilc-sdk/app&#39;;</code></li>
-					<li>Documentation <a href="https://namecheap.github.io/ilc-sdk/classes/app.ilcappsdk.html">is available via this link</a>.</li>
+					<li>Node.js server bundle - <a href="https://namecheap.github.io/ilc-sdk/modules/server.html">documentation</a></li>
+					<li>Application bundle - <a href="https://namecheap.github.io/ilc-sdk/modules/app.html">documentation</a></li>
 				</ul>
 			</div>
 		</div>

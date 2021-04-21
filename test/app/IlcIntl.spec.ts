@@ -2,7 +2,8 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { JSDOM } from 'jsdom';
 
-import IlcIntl, { IntlAdapter, IntlAdapterConfig, RoutingStrategy } from '../../src/app/IlcIntl';
+import { IntlAdapter, IntlAdapterConfig, RoutingStrategy } from '../../src/app/types';
+import { IlcIntl } from '../../src/app/IlcIntl';
 
 const baseConfig: IntlAdapterConfig = Object.freeze({
     default: { locale: 'en-US', currency: 'USD' },

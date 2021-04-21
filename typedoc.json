@@ -1,0 +1,20 @@
+{
+  "entryPoints": ["./src/server/index.ts", "./src/app/index.ts"],
+  "theme": "pages-plugin",
+  "includes": "./doc/",
+  "out": "docs",
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "pages": {
+    "groups": [{
+      "title": "Pages",
+      "pages": [{
+        "title": "ILC to App interface",
+        "source": "./doc/ilc_app_interface.md"
+      },{
+        "title": "ILC Global API",
+        "source": "./doc/global_api.md"
+      }]
+    }]
+  }
+}

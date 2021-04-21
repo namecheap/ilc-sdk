@@ -3,7 +3,7 @@ import * as types from './types';
 import urljoin from 'url-join';
 import { intlSchema } from './IlcProtocol';
 import defaultIntlAdapter from '../app/defaultIntlAdapter';
-import * as clientTypes from '../app/commonTypes';
+import * as clientTypes from '../app/interfaces/common';
 
 /**
  * Entrypoint for SDK that should be used within application server that executes SSR bundle

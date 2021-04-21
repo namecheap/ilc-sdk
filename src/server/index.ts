@@ -1,5 +1,5 @@
 /**
- * Entrypoint Node.js SDK and is designed to parse server requests from ILC and form responses. It also provides an adapter for application
+ * Entrypoint Node.js SDK and is designed to parse server requests from ILC and from responses. It also provides an adapter for application
  * bundle to work in Node.js environment.
  *
  *

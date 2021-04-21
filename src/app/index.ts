@@ -1,9 +1,38 @@
 /**
- * Entrypoint for SDK that should be used within application bundle
+ * Entrypoint for SDK that should be used within application bundle. It works well with server and client side rendering.
+ *
+ *
+ *
+ * ## Client side
+ * At client side your app receives instance of the {@link IlcAppSdk} via props that are passed to it's lifecycle functions ({@link LifeCycles}).
+ * So everything is pretty simple here :) Typings can be loaded in the following way:
  *
  * @example
  * ```
  * import IlcAppSdk from 'ilc-sdk/app';
+ * ```
+ *
+ * ## Server side
+ * Unfortunately during app's SSR we don't have ILC in place.
+ * So we need to use result of the {@link IlcSdk.processRequest} (which implements {@link AppSdkAdapter}) to receive all the necessary
+ * data for `IlcAppSdk` initialization.
+ *
+ * @example
+ * ```
+ * const IlcSdk = require('ilc-sdk').default;
+ * const IlcAppSdk = require('ilc-sdk/app').default;
+ *
+ * const ReactDOMServer = require('react-dom/server');
+ * const {default: App} = require('./build/server');
+ *
+ * server.get('*', (req, res) => {
+ *     const ilcReqData = ilcSdk.processRequest(req);
+ *     const appSdk = new IlcAppSdk(ilcReqData);
+ *
+ *     const html = ReactDOMServer.renderToString(App(appSdk));
+ *
+ *     res.send(html);
+ * });
  * ```
  *
  * @module

@@ -46,3 +46,20 @@ export interface WrapperResponseData {
     /** Props which will override values returned by getCurrentPathProps() for target app */
     propsOverride: { [key: string]: any };
 }
+
+export interface FactoryConfig {
+    jsFilesTest?: RegExp;
+    publicPathDetection?: {
+        disable?: boolean;
+        /**
+         * If you need the webpack public path to "chop off" some of the directories in the current module's url, you can specify a "root directory level". Note that the root directory level is read from right-to-left, with `1` indicating "current directory" and `2` indicating "up one directory":
+         * optional: defaults to 1
+         */
+        rootDirectoryLevel?: number;
+        /**
+         * ONLY NEEDED FOR WEBPACK 1-4. Not necessary for webpack@5
+         * example: @portal/appName
+         */
+        systemjsModuleName?: string;
+    };
+}

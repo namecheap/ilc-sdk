@@ -1,21 +1,6 @@
-/* istanbul ignore file */
+import { FactoryConfig } from './types';
 
-export interface FactoryConfig {
-    jsFilesTest?: RegExp;
-    publicPathDetection?: {
-        disable?: boolean;
-        /**
-         * If you need the webpack public path to "chop off" some of the directories in the current module's url, you can specify a "root directory level". Note that the root directory level is read from right-to-left, with `1` indicating "current directory" and `2` indicating "up one directory":
-         * optional: defaults to 1
-         */
-        rootDirectoryLevel?: number;
-        /**
-         * ONLY NEEDED FOR WEBPACK 1-4. Not necessary for webpack@5
-         * example: @portal/appName
-         */
-        systemjsModuleName?: string;
-    };
-}
+/* istanbul ignore file */
 
 const defaultConf: FactoryConfig = {
     jsFilesTest: /\.js$/,
@@ -24,6 +9,13 @@ const defaultConf: FactoryConfig = {
     },
 };
 
+/**
+ * This function allows you to simplify Webpack configuration for Apps/Parcels that work with ILC.
+ * It's main features:
+ * - Automatic compatibility with legacy UMD bundles. More details [available here](https://github.com/namecheap/ilc/blob/master/docs/umd_bundles_compatibility.md)
+ * - Automatic [public path](https://webpack.js.org/guides/public-path/#on-the-fly) configuration for Webpack bundle.
+ * [Detailed description](https://github.com/joeldenning/systemjs-webpack-interop/tree/v2.3.6#as-a-webpack-plugin).
+ */
 export function WebpackPluginsFactory(config: RegExp | FactoryConfig) {
     const WrapperPlugin = require('wrapper-webpack-plugin');
     const SystemJSPublicPathWebpackPlugin = require('systemjs-webpack-interop/SystemJSPublicPathWebpackPlugin');

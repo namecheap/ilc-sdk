@@ -17,7 +17,7 @@ $ npm i ilc-sdk
     * [ILC to App interface](https://namecheap.github.io/ilc-sdk/pages/Pages/ilc_app_interface.html)
     * [ILC Global API](https://namecheap.github.io/ilc-sdk/pages/Pages/global_api.html)
 
-## Node.js and App entryponts
+## Node.js and App entrypoints
 
 This package features 2 bundles that are intended to be used in Node.js app that runs SSR bundle of your app and
 the application itself.

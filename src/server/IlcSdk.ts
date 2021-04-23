@@ -37,7 +37,7 @@ export class IlcSdk {
     /**
      * Processes incoming request and returns object that can be used to fetch information passed by ILC to the application.
      */
-    public processRequest(req: IncomingMessage): types.RequestData {
+    public processRequest<RegistryProps = unknown>(req: IncomingMessage): types.RequestData<RegistryProps> {
         const url = this.parseUrl(req);
         const routerProps = this.parseRouterProps(url);
         const requestedUrls = this.getRequestUrls(url, routerProps);

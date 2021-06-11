@@ -77,4 +77,5 @@ import { IlcSdk } from './IlcSdk';
 export * from './types';
 export * from './WebpackPlugins';
 export * from './IlcAppWrapperSdk';
+export * from './RegistryApi';
 export default IlcSdk;

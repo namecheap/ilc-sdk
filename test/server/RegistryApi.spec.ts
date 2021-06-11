@@ -43,7 +43,7 @@ describe('RegistryApi', () => {
     beforeEach(() => {
         stubCons = sinon.stub(fakeCons);
 
-        scope = nock(registryOrigin).get('/api/v1/external/apps_by_metadata').once().reply(200, allApps);
+        scope = nock(registryOrigin).get('/api/v1/public/app_discovery').once().reply(200, allApps);
 
         registryApi = new RegistryApi(registryOrigin, { logger: fakeCons });
     });
@@ -92,7 +92,7 @@ describe('RegistryApi', () => {
             nock.cleanAll();
             nock.enableNetConnect();
             scope = nock(registryOrigin)
-                .get('/api/v1/external/apps_by_metadata')
+                .get('/api/v1/public/app_discovery')
                 .once()
                 .reply(200, [allApps[0], allApps[1]]);
 
@@ -127,7 +127,7 @@ describe('RegistryApi', () => {
             // response with error
             nock.cleanAll();
             nock.enableNetConnect();
-            scope = nock(registryOrigin).get('/api/v1/external/apps_by_metadata').once().replyWithError('Foo error');
+            scope = nock(registryOrigin).get('/api/v1/public/app_discovery').once().replyWithError('Foo error');
 
             // still see previously loaded apps and warning
             apps = await registryApi.discoverApps({
@@ -140,7 +140,7 @@ describe('RegistryApi', () => {
                 stubCons.warn,
                 `ILC registry (${urljoin(
                     registryOrigin,
-                    '/api/v1/external/apps_by_metadata',
+                    '/api/v1/public/app_discovery',
                 )}) isn't available, so returned previously retrieved apps.`,
             );
         });
@@ -149,7 +149,7 @@ describe('RegistryApi', () => {
             // response with error
             nock.cleanAll();
             nock.enableNetConnect();
-            scope = nock(registryOrigin).get('/api/v1/external/apps_by_metadata').once().replyWithError('Foo error');
+            scope = nock(registryOrigin).get('/api/v1/public/app_discovery').once().replyWithError('Foo error');
 
             const promise = registryApi.discoverApps({
                 foo: 'foo1',

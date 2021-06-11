@@ -14,6 +14,9 @@
       },{
         "title": "ILC Global API",
         "source": "./doc/global_api.md"
+      },{
+        "title": "ILC Registry API",
+        "source": "./doc/registry_api.md"
       }]
     }]
   }

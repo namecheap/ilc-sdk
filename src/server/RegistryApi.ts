@@ -15,7 +15,7 @@ type Options = {
 };
 
 /**
- * Class RegistryApi provides capabilities to work with ILC Registry, e.g. retrieve some data etc.
+ * Provides capability to work with ILC Registry to ILC apps or their backend services, e.g. retrieve some data etc.
  */
 export class RegistryApi {
     private log: Console;

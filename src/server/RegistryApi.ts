@@ -73,7 +73,7 @@ export class RegistryApi {
      * Returns list of all apps with only "name" and "discoveryMetadata" field.
      */
     private async getApps(): Promise<ListDiscoveredApps> {
-        const url = urljoin(this.registryOrigin, '/api/v1/external/apps_by_metadata');
+        const url = urljoin(this.registryOrigin, '/api/v1/public/app_discovery');
 
         let list: ListDiscoveredApps;
         try {

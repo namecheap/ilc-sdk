@@ -52,14 +52,16 @@ export interface FactoryConfig {
     publicPathDetection?: {
         disable?: boolean;
         /**
-         * If you need the webpack public path to "chop off" some of the directories in the current module's url, you can specify a "root directory level". Note that the root directory level is read from right-to-left, with `1` indicating "current directory" and `2` indicating "up one directory":
+         * [CSR bundle only] If you need the webpack public path to "chop off" some of the directories in the current module's url, you can specify a "root directory level". Note that the root directory level is read from right-to-left, with `1` indicating "current directory" and `2` indicating "up one directory":
          * optional: defaults to 1
          */
         rootDirectoryLevel?: number;
+
         /**
-         * ONLY NEEDED FOR WEBPACK 1-4. Not necessary for webpack@5
-         * example: @portal/appName
+         * [SSR bundle only] Allows to override default public path detection logic.
+         *
+         * **Default value:** `${process.env.ILC_APP_PUBLIC_PATH}`
          */
-        systemjsModuleName?: string;
+        ssrPublicPath?: string;
     };
 }

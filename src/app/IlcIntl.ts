@@ -1,5 +1,5 @@
 import * as types from './types';
-import { parseAsFullyQualifiedURI } from './utils';
+import parseAsFullyQualifiedURI from './utils/parseAsFullyQualifiedURI';
 import defaultIntlAdapter from './defaultIntlAdapter';
 
 /**

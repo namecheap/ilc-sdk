@@ -16,6 +16,8 @@ $ npm i ilc-sdk
 * Additional materials
     * [ILC to App interface](https://namecheap.github.io/ilc-sdk/pages/Pages/ilc_app_interface.html)
     * [ILC Global API](https://namecheap.github.io/ilc-sdk/pages/Pages/global_api.html)
+    * [Registry API](https://namecheap.github.io/ilc-sdk/pages/Pages/registry_api.html)
+    * [Public Path Problem](https://namecheap.github.io/ilc-sdk/pages/Pages/public_path.html)
 
 ## Node.js and App entrypoints
 

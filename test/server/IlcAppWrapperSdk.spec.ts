@@ -14,7 +14,12 @@ describe('IlcAppWrapperSdk', () => {
     let ilcSdk: IlcAppWrapperSdk;
 
     beforeEach(() => {
+        process.env.ILC_APP_PUBLIC_PATH = '/';
         ilcSdk = new IlcAppWrapperSdk({ logger: fakeCons });
+    });
+
+    afterEach(() => {
+        delete process.env.ILC_APP_PUBLIC_PATH;
     });
 
     describe('forwardRequest', () => {

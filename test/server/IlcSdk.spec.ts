@@ -18,11 +18,13 @@ describe('IlcSdk', () => {
     let stubCons: sinon.SinonStubbedInstance<Console>;
 
     beforeEach(() => {
+        process.env.ILC_APP_PUBLIC_PATH = '/';
         stubCons = sinon.stub(fakeCons);
         ilcSdk = new IlcSdk({ logger: fakeCons });
     });
 
     afterEach(() => {
+        delete process.env.ILC_APP_PUBLIC_PATH;
         (sinon as any).restoreObject(fakeCons);
     });
 
@@ -30,7 +32,7 @@ describe('IlcSdk', () => {
         it('should correctly set default options', () => {
             const ilcSdk = new IlcSdk();
             expect((ilcSdk as any).log).equal(console);
-            expect((ilcSdk as any).defaultPublicPath).equal('/');
+            expect((ilcSdk as any).publicPath).equal('/');
         });
     });
 
@@ -313,65 +315,12 @@ describe('IlcSdk', () => {
                 );
             });
 
-            it('should handle relative URLs using defaultPublicPath', () => {
+            it('should handle relative URLs using passed publicPath template', () => {
                 const req = new MockReq(merge({}, defReq));
                 const res = new MockRes();
+                process.env.TEST_ENV = 'tst.com';
 
-                const ilcSdk = new IlcSdk({ logger: fakeCons, publicPath: 'https://tst.com/mypath/' });
-
-                const pRes = ilcSdk.processRequest(req);
-                ilcSdk.processResponse(pRes, res, {
-                    appAssets: {
-                        spaBundle: '/lol/my.js',
-                        cssBundle: 'my.css',
-                        dependencies: { react: '/react.js' },
-                    },
-                });
-                expect(res.getHeader('Link')).to.eq(
-                    [
-                        '<https://tst.com/mypath/lol/my.js>; rel="fragment-script"; as="script"; crossorigin="anonymous"',
-                        '<https://tst.com/mypath/my.css>; rel="stylesheet"',
-                        '<https://tst.com/mypath/react.js>; rel="fragment-dependency"; name="react"',
-                    ].join(','),
-                );
-            });
-
-            it('should handle relative URLs using passed publicPath property', () => {
-                const appProps = JSON.stringify({ publicPath: 'https://tst.com/mypath/' });
-                const req = new MockReq(
-                    merge({}, defReq, {
-                        url: `/tst?appProps=${Buffer.from(appProps, 'utf8').toString('base64')}`,
-                    }),
-                );
-                const res = new MockRes();
-
-                const pRes = ilcSdk.processRequest(req);
-                ilcSdk.processResponse(pRes, res, {
-                    appAssets: {
-                        spaBundle: '/lol/my.js',
-                        cssBundle: 'my.css',
-                        dependencies: { react: '/react.js' },
-                    },
-                });
-                expect(res.getHeader('Link')).to.eq(
-                    [
-                        '<https://tst.com/mypath/lol/my.js>; rel="fragment-script"; as="script"; crossorigin="anonymous"',
-                        '<https://tst.com/mypath/my.css>; rel="stylesheet"',
-                        '<https://tst.com/mypath/react.js>; rel="fragment-dependency"; name="react"',
-                    ].join(','),
-                );
-            });
-
-            it('should handle relative URLs using custom passed publicPath property', () => {
-                const appProps = JSON.stringify({ assetsPath: 'https://tst.com/mypath/' });
-                const req = new MockReq(
-                    merge({}, defReq, {
-                        url: `/tst?appProps=${Buffer.from(appProps, 'utf8').toString('base64')}`,
-                    }),
-                );
-                const res = new MockRes();
-
-                const ilcSdk = new IlcSdk({ logger: fakeCons, publicPathProperyName: 'assetsPath' });
+                const ilcSdk = new IlcSdk({ logger: fakeCons, publicPath: 'https://${process.env.TEST_ENV}/mypath/' });
 
                 const pRes = ilcSdk.processRequest(req);
                 ilcSdk.processResponse(pRes, res, {
@@ -445,60 +394,6 @@ describe('IlcSdk', () => {
                 cssBundle: '/my.css',
                 dependencies: {
                     react: '/react.js',
-                },
-            });
-        });
-
-        it('should correctly handle passed by ILC publicPath property', () => {
-            const appProps = JSON.stringify({ publicPath: 'https://tst.com/mypath/' });
-            const req = new MockReq(
-                merge({}, defReq, {
-                    url: `/tst?appProps=${Buffer.from(appProps, 'utf8').toString('base64')}`,
-                }),
-            );
-            const res = new MockRes();
-
-            ilcSdk.assetsDiscoveryHandler(req, res, {
-                spaBundle: 'my.js',
-                cssBundle: '/tst/my.css',
-                dependencies: {
-                    react: 'react.js',
-                },
-            });
-            const resBody = JSON.parse(res._internal.buffer.toString('utf8'));
-            expect(resBody).to.eql({
-                spaBundle: 'https://tst.com/mypath/my.js',
-                cssBundle: 'https://tst.com/mypath/tst/my.css',
-                dependencies: {
-                    react: 'https://tst.com/mypath/react.js',
-                },
-            });
-        });
-
-        it('should correctly handle passed by ILC custom publicPath property', () => {
-            const appProps = JSON.stringify({ assetsPath: 'https://tst.com/mypath/' });
-            const req = new MockReq(
-                merge({}, defReq, {
-                    url: `/tst?appProps=${Buffer.from(appProps, 'utf8').toString('base64')}`,
-                }),
-            );
-            const res = new MockRes();
-
-            const ilcSdk = new IlcSdk({ logger: fakeCons, publicPathProperyName: 'assetsPath' });
-
-            ilcSdk.assetsDiscoveryHandler(req, res, {
-                spaBundle: 'my.js',
-                cssBundle: '/tst/my.css',
-                dependencies: {
-                    react: 'react.js',
-                },
-            });
-            const resBody = JSON.parse(res._internal.buffer.toString('utf8'));
-            expect(resBody).to.eql({
-                spaBundle: 'https://tst.com/mypath/my.js',
-                cssBundle: 'https://tst.com/mypath/tst/my.css',
-                dependencies: {
-                    react: 'https://tst.com/mypath/react.js',
                 },
             });
         });

@@ -100,17 +100,17 @@
 					<div class="tsd-signature tsd-kind-icon">js<wbr>Files<wbr>Test<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/0a4f5f6/src/server/types.ts#L51">src/server/types.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8083b2c/src/server/types.ts#L51">src/server/types.ts:51</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="publicpathdetection" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> public<wbr>Path<wbr>Detection</h3>
-					<div class="tsd-signature tsd-kind-icon">public<wbr>Path<wbr>Detection<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>disable<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>rootDirectoryLevel<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>systemjsModuleName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">public<wbr>Path<wbr>Detection<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>disable<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>rootDirectoryLevel<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>ssrPublicPath<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/0a4f5f6/src/server/types.ts#L52">src/server/types.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8083b2c/src/server/types.ts#L52">src/server/types.ts:52</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -123,18 +123,18 @@
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> root<wbr>Directory<wbr>Level<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>If you need the webpack public path to &quot;chop off&quot; some of the directories in the current module&#39;s url, you can specify a &quot;root directory level&quot;. Note that the root directory level is read from right-to-left, with <code>1</code> indicating &quot;current directory&quot; and <code>2</code> indicating &quot;up one directory&quot;:
+										<p>[CSR bundle only] If you need the webpack public path to &quot;chop off&quot; some of the directories in the current module&#39;s url, you can specify a &quot;root directory level&quot;. Note that the root directory level is read from right-to-left, with <code>1</code> indicating &quot;current directory&quot; and <code>2</code> indicating &quot;up one directory&quot;:
 										optional: defaults to 1</p>
 									</div>
 								</div>
 							</li>
 							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> systemjs<wbr>Module<wbr>Name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> ssr<wbr>Public<wbr>Path<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>ONLY NEEDED FOR WEBPACK 1-4. Not necessary for webpack@5
-										example: @portal/appName</p>
+										<p>[SSR bundle only] Allows to override default public path detection logic.</p>
 									</div>
+									<p><strong>Default value:</strong> <code>${process.env.ILC_APP_PUBLIC_PATH}</code></p>
 								</div>
 							</li>
 						</ul>
@@ -156,6 +156,9 @@
 					</li>
 					<li class=" pp-nav pp-page">
 						<a href="../pages/Pages/registry_api.html">ILC <wbr>Registry API</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Pages/public_path.html">Public <wbr>Path <wbr>Problem</a>
 					</li>
 					<li class="label pp-nav pp-group">
 						<span>API</span>

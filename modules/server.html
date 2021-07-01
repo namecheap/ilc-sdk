@@ -187,33 +187,41 @@
 					<a name="webpackpluginsfactory" class="tsd-anchor"></a>
 					<h3>Webpack<wbr>Plugins<wbr>Factory</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">Webpack<wbr>Plugins<wbr>Factory<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">FactoryConfig</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">Webpack<wbr>Plugins<wbr>Factory<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">FactoryConfig</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>client<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>server<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/0a4f5f6/src/server/WebpackPlugins.ts#L19">src/server/WebpackPlugins.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8083b2c/src/server/WebpackPlugins.ts#L26">src/server/WebpackPlugins.ts:26</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>This function allows you to simplify Webpack configuration for Apps/Parcels that work with ILC.
+									<p>This function allows you to simplify client side Webpack configuration for Apps/Parcels that work with ILC.
 									It&#39;s main features:</p>
 									<ul>
 										<li>Automatic compatibility with legacy UMD bundles. More details <a href="https://github.com/namecheap/ilc/blob/master/docs/umd_bundles_compatibility.md">available here</a></li>
-										<li>Automatic <a href="https://webpack.js.org/guides/public-path/#on-the-fly">public path</a> configuration for Webpack bundle.
-										<a href="https://github.com/joeldenning/systemjs-webpack-interop/tree/v2.3.6#as-a-webpack-plugin">Detailed description</a>.</li>
+										<li>Automatic public path configuration for Webpack bundle.
+										<a href="https://namecheap.github.io/ilc-sdk/pages/Pages/public_path.html">Detailed description</a>.</li>
 									</ul>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>config: <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">FactoryConfig</span></h5>
+									<h5>config: <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">FactoryConfig</span><span class="tsd-signature-symbol"> = {}</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>client<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>server<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>client<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>server<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -233,6 +241,9 @@
 					</li>
 					<li class=" pp-nav pp-page">
 						<a href="../pages/Pages/registry_api.html">ILC <wbr>Registry API</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Pages/public_path.html">Public <wbr>Path <wbr>Problem</a>
 					</li>
 					<li class="label pp-nav pp-group">
 						<span>API</span>

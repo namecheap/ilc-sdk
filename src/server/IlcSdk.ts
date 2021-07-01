@@ -4,15 +4,16 @@ import urljoin from 'url-join';
 import { intlSchema } from './IlcProtocol';
 import defaultIntlAdapter from '../app/defaultIntlAdapter';
 import * as clientTypes from '../app/interfaces/common';
+import { publicPathTpl } from './constants';
+import evalTemplate from '../app/utils/evalTemplate';
 
 /**
  * Entrypoint for SDK that should be used within application server that executes SSR bundle
  */
 export class IlcSdk {
     private log: Console;
-    private defaultPublicPath: string;
+    private readonly publicPath: string;
     private titleRegex = /<title.*>.*<\/title\s*>/s;
-    private publicPathProperyName: string;
 
     /**
      *
@@ -20,18 +21,19 @@ export class IlcSdk {
      * @param options.logger
      *
      *   **Default value:** `console`
-     * @param options.publicPath Default value that will be used if no "publicPath" were defined in app's props inside ILC Registry.
+     * @param options.publicPath Allows to override default public path detection logic.
      *
-     *  **Default value:** `/`
+     * You can also pass template like string which uses global node envs to determine public path.
      *
-     * @param options.publicPathProperyName Allows to use other then `publicPath` key for the property that will be used to determine micro frontend's public path.
+     * **Example:** `'https://${process.env.CDN_HOST}/mypath/'`
      *
-     *  **Default value:** `publicPath`
+     *  **Default value:** `process.env.ILC_APP_PUBLIC_PATH`
      */
-    constructor(options: { logger?: Console; publicPath?: string; publicPathProperyName?: string } = {}) {
+    constructor(options: { logger?: Console; publicPath?: string } = {}) {
         this.log = options.logger || console;
-        this.defaultPublicPath = options.publicPath || '/';
-        this.publicPathProperyName = options.publicPathProperyName || 'publicPath';
+        const publicPath = options.publicPath !== undefined ? options.publicPath : publicPathTpl;
+
+        this.publicPath = evalTemplate(publicPath);
     }
 
     /**
@@ -99,8 +101,7 @@ export class IlcSdk {
             res.setHeader('x-head-meta', Buffer.from(data.pageMetaTags, 'utf8').toString('base64'));
         }
         if (data.appAssets) {
-            const publicPath = (reqData.getCurrentPathProps() as any)[this.publicPathProperyName];
-            res.setHeader('Link', this.getLinkHeader(data.appAssets, publicPath));
+            res.setHeader('Link', this.getLinkHeader(data.appAssets));
         }
 
         res.setHeader('content-type', 'text/html');
@@ -113,14 +114,13 @@ export class IlcSdk {
      */
     public assetsDiscoveryHandler(req: IncomingMessage, res: ServerResponse, appAssets: types.AppAssets) {
         const url = this.parseUrl(req);
-        const publicPath = this.getPassedProps(url)[this.publicPathProperyName];
 
         const resData: any = {
-            spaBundle: this.buildLink(appAssets.spaBundle, publicPath),
+            spaBundle: this.buildLink(appAssets.spaBundle),
             dependencies: {},
         };
         if (appAssets.cssBundle) {
-            resData.cssBundle = this.buildLink(appAssets.cssBundle, publicPath);
+            resData.cssBundle = this.buildLink(appAssets.cssBundle);
         }
         if (appAssets.dependencies) {
             for (const k in appAssets.dependencies) {
@@ -129,7 +129,7 @@ export class IlcSdk {
                     continue;
                 }
 
-                resData.dependencies[k] = this.buildLink(appAssets.dependencies[k], publicPath);
+                resData.dependencies[k] = this.buildLink(appAssets.dependencies[k]);
             }
         }
 
@@ -206,16 +206,13 @@ export class IlcSdk {
         return new URL(req.url!, `http://${req.headers.host}`);
     }
 
-    private getLinkHeader(appAssets: types.AppAssets, publicPath?: string) {
+    private getLinkHeader(appAssets: types.AppAssets) {
         const links = [
-            `<${this.buildLink(
-                appAssets.spaBundle,
-                publicPath,
-            )}>; rel="fragment-script"; as="script"; crossorigin="anonymous"`,
+            `<${this.buildLink(appAssets.spaBundle)}>; rel="fragment-script"; as="script"; crossorigin="anonymous"`,
         ];
 
         if (appAssets.cssBundle) {
-            links.push(`<${this.buildLink(appAssets.cssBundle, publicPath)}>; rel="stylesheet"`);
+            links.push(`<${this.buildLink(appAssets.cssBundle)}>; rel="stylesheet"`);
         }
 
         for (const k in appAssets.dependencies) {
@@ -224,21 +221,17 @@ export class IlcSdk {
                 continue;
             }
 
-            links.push(
-                `<${this.buildLink(appAssets.dependencies[k], publicPath)}>; rel="fragment-dependency"; name="${k}"`,
-            );
+            links.push(`<${this.buildLink(appAssets.dependencies[k])}>; rel="fragment-dependency"; name="${k}"`);
         }
 
         return links.join(',');
     }
 
-    private buildLink(url: string, publicPath?: string) {
+    private buildLink(url: string) {
         if (url.includes('http://') || url.includes('https://')) {
             return url;
         }
 
-        const pp = publicPath ? publicPath : this.defaultPublicPath;
-
-        return urljoin(pp, url);
+        return urljoin(this.publicPath, url);
     }
 }

@@ -1,4 +1,4 @@
-# Registry Api
+# Registry API
 
 Sometimes can be necessary to work with ILC Registry API.
 Of course, you can do it via HTTP directly, but we recommend doing it via class RegistryApi which provides convenient capabilities to work with ILC Registry, e.g. retrieve some data, etc.

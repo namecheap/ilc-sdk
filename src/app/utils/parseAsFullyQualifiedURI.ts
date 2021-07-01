@@ -1,4 +1,4 @@
-export function parseAsFullyQualifiedURI(uri: string) {
+export default function parseAsFullyQualifiedURI(uri: string) {
     let origin = '';
     try {
         const urlObj = new URL(uri);

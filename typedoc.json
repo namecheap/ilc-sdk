@@ -17,6 +17,9 @@
       },{
         "title": "ILC Registry API",
         "source": "./doc/registry_api.md"
+      },{
+        "title": "Public Path Problem",
+        "source": "./doc/public_path.md"
       }]
     }]
   }

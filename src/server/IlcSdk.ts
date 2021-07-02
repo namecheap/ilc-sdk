@@ -4,15 +4,12 @@ import urljoin from 'url-join';
 import { intlSchema } from './IlcProtocol';
 import defaultIntlAdapter from '../app/defaultIntlAdapter';
 import * as clientTypes from '../app/interfaces/common';
-import { publicPathTpl } from './constants';
-import evalTemplate from '../app/utils/evalTemplate';
 
 /**
  * Entrypoint for SDK that should be used within application server that executes SSR bundle
  */
 export class IlcSdk {
     private log: Console;
-    private readonly publicPath: string;
     private titleRegex = /<title.*>.*<\/title\s*>/s;
 
     /**
@@ -21,19 +18,9 @@ export class IlcSdk {
      * @param options.logger
      *
      *   **Default value:** `console`
-     * @param options.publicPath Allows to override default public path detection logic.
-     *
-     * You can also pass template like string which uses global node envs to determine public path.
-     *
-     * **Example:** `'https://${process.env.CDN_HOST}/mypath/'`
-     *
-     *  **Default value:** `process.env.ILC_APP_PUBLIC_PATH`
      */
-    constructor(options: { logger?: Console; publicPath?: string } = {}) {
+    constructor(options: { logger?: Console } = {}) {
         this.log = options.logger || console;
-        const publicPath = options.publicPath !== undefined ? options.publicPath : publicPathTpl;
-
-        this.publicPath = evalTemplate(publicPath);
     }
 
     /**
@@ -116,11 +103,11 @@ export class IlcSdk {
         const url = this.parseUrl(req);
 
         const resData: any = {
-            spaBundle: this.buildLink(appAssets.spaBundle),
+            spaBundle: appAssets.spaBundle,
             dependencies: {},
         };
         if (appAssets.cssBundle) {
-            resData.cssBundle = this.buildLink(appAssets.cssBundle);
+            resData.cssBundle = appAssets.cssBundle;
         }
         if (appAssets.dependencies) {
             for (const k in appAssets.dependencies) {
@@ -129,7 +116,7 @@ export class IlcSdk {
                     continue;
                 }
 
-                resData.dependencies[k] = this.buildLink(appAssets.dependencies[k]);
+                resData.dependencies[k] = appAssets.dependencies[k];
             }
         }
 
@@ -207,12 +194,10 @@ export class IlcSdk {
     }
 
     private getLinkHeader(appAssets: types.AppAssets) {
-        const links = [
-            `<${this.buildLink(appAssets.spaBundle)}>; rel="fragment-script"; as="script"; crossorigin="anonymous"`,
-        ];
+        const links = [`<${appAssets.spaBundle}>; rel="fragment-script"; as="script"; crossorigin="anonymous"`];
 
         if (appAssets.cssBundle) {
-            links.push(`<${this.buildLink(appAssets.cssBundle)}>; rel="stylesheet"`);
+            links.push(`<${appAssets.cssBundle}>; rel="stylesheet"`);
         }
 
         for (const k in appAssets.dependencies) {
@@ -221,17 +206,9 @@ export class IlcSdk {
                 continue;
             }
 
-            links.push(`<${this.buildLink(appAssets.dependencies[k])}>; rel="fragment-dependency"; name="${k}"`);
+            links.push(`<${appAssets.dependencies[k]}>; rel="fragment-dependency"; name="${k}"`);
         }
 
         return links.join(',');
-    }
-
-    private buildLink(url: string) {
-        if (url.includes('http://') || url.includes('https://')) {
-            return url;
-        }
-
-        return urljoin(this.publicPath, url);
     }
 }

@@ -32,7 +32,6 @@ describe('IlcSdk', () => {
         it('should correctly set default options', () => {
             const ilcSdk = new IlcSdk();
             expect((ilcSdk as any).log).equal(console);
-            expect((ilcSdk as any).publicPath).equal('/');
         });
     });
 
@@ -315,26 +314,26 @@ describe('IlcSdk', () => {
                 );
             });
 
-            it('should handle relative URLs using passed publicPath template', () => {
+            it('should handle relative URLs', () => {
                 const req = new MockReq(merge({}, defReq));
                 const res = new MockRes();
                 process.env.TEST_ENV = 'tst.com';
 
-                const ilcSdk = new IlcSdk({ logger: fakeCons, publicPath: 'https://${process.env.TEST_ENV}/mypath/' });
+                const ilcSdk = new IlcSdk({ logger: fakeCons });
 
                 const pRes = ilcSdk.processRequest(req);
                 ilcSdk.processResponse(pRes, res, {
                     appAssets: {
-                        spaBundle: '/lol/my.js',
+                        spaBundle: './lol/my.js',
                         cssBundle: 'my.css',
-                        dependencies: { react: '/react.js' },
+                        dependencies: { react: './react.js' },
                     },
                 });
                 expect(res.getHeader('Link')).to.eq(
                     [
-                        '<https://tst.com/mypath/lol/my.js>; rel="fragment-script"; as="script"; crossorigin="anonymous"',
-                        '<https://tst.com/mypath/my.css>; rel="stylesheet"',
-                        '<https://tst.com/mypath/react.js>; rel="fragment-dependency"; name="react"',
+                        '<./lol/my.js>; rel="fragment-script"; as="script"; crossorigin="anonymous"',
+                        '<my.css>; rel="stylesheet"',
+                        '<./react.js>; rel="fragment-dependency"; name="react"',
                     ].join(','),
                 );
             });
@@ -374,7 +373,7 @@ describe('IlcSdk', () => {
                 spaBundle: 'my.js',
             });
             const resBody = JSON.parse(res._internal.buffer.toString('utf8'));
-            expect(resBody).to.eql({ spaBundle: '/my.js', dependencies: {} });
+            expect(resBody).to.eql({ spaBundle: 'my.js', dependencies: {} });
         });
 
         it('should work with CSS & deps', () => {
@@ -383,17 +382,17 @@ describe('IlcSdk', () => {
 
             ilcSdk.assetsDiscoveryHandler(req, res, {
                 spaBundle: 'my.js',
-                cssBundle: 'my.css',
+                cssBundle: './my.css',
                 dependencies: {
-                    react: 'react.js',
+                    react: './react.js',
                 },
             });
             const resBody = JSON.parse(res._internal.buffer.toString('utf8'));
             expect(resBody).to.eql({
-                spaBundle: '/my.js',
-                cssBundle: '/my.css',
+                spaBundle: 'my.js',
+                cssBundle: './my.css',
                 dependencies: {
-                    react: '/react.js',
+                    react: './react.js',
                 },
             });
         });

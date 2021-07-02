@@ -20,7 +20,7 @@ export interface RequestData<RegistryProps = unknown> extends clientTypes.AppSdk
  * ## Interface for application assets definition.
  *
  * All links specified within it's properties can be rather absolute or relative.
- * If there was an absolute link specified - defaultPublicPath will be used or "publicPath" application property.
+ * If relative link specified - absolute URL will be calculated based on the URL of the SPA Bundle that is currently stored in ILC Registry.
  */
 export interface AppAssets {
     /** URL to the JS application bundle */

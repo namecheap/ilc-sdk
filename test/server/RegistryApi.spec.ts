@@ -64,6 +64,13 @@ describe('RegistryApi', () => {
     });
 
     describe('discoverApps', () => {
+        it('should show typing errors', async () => {
+            // @ts-expect-error
+            await registryApi.discoverApps({ q: {} });
+            // @ts-expect-error
+            await registryApi.discoverApps({ q: [] });
+        });
+
         it("should return all apps if query isn't provided", async () => {
             const apps = await registryApi.discoverApps();
 
@@ -138,10 +145,14 @@ describe('RegistryApi', () => {
             sinon.assert.callCount(stubCons.warn, 1);
             sinon.assert.calledWith(
                 stubCons.warn,
-                `ILC registry (${urljoin(
-                    registryOrigin,
-                    '/api/v1/public/app_discovery',
-                )}) isn't available, so returned previously retrieved apps.`,
+                sinon.match({
+                    error: sinon.match.instanceOf(Error).and(sinon.match.has('message', 'Foo error')),
+                    message:
+                    `ILC registry (${urljoin(
+                        registryOrigin,
+                        '/api/v1/public/app_discovery',
+                    )}) isn't available, so returned previously retrieved apps.`,
+                }),
             );
         });
 

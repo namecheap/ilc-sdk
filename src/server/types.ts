@@ -63,3 +63,10 @@ export interface FactoryConfig {
         systemjsModuleName?: string;
     };
 }
+
+export interface Logger {
+    info(logInfo: Record<string, any> | string): void;
+    warn(logInfo: Record<string, any> | string): void;
+    debug(logInfo: Record<string, any> | string): void;
+    error(logInfo: Record<string, any> | string): void;
+}

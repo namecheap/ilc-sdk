@@ -1,8 +1,9 @@
 import urljoin from 'url-join';
 import axios from 'axios';
 import memoizee from 'memoizee';
+import { Logger } from './types';
 
-type DiscoveryMetadata = Record<string, any>;
+type DiscoveryMetadata = Record<string, string | number | boolean>;
 
 type ListDiscoveredApps = {
     name: string;
@@ -10,7 +11,7 @@ type ListDiscoveredApps = {
 }[];
 
 type Options = {
-    logger?: Console;
+    logger?: Logger;
     maxAgeMillisecondsOfGetApps?: number;
 };
 
@@ -18,7 +19,7 @@ type Options = {
  * Provides capability to work with ILC Registry to ILC apps or their backend services, e.g. retrieve some data etc.
  */
 export class RegistryApi {
-    private log: Console;
+    private log: Logger;
     private _lastRetrievedApps?: ListDiscoveredApps;
 
     /**
@@ -80,12 +81,15 @@ export class RegistryApi {
             const { data } = await axios.get(url);
             list = data;
             this._lastRetrievedApps = list;
-        } catch (e) {
+        } catch (error) {
             if (this._lastRetrievedApps) {
-                this.log.warn(`ILC registry (${url}) isn't available, so returned previously retrieved apps.`, e);
+                this.log.warn({
+                    error,
+                    message: `ILC registry (${url}) isn't available, so returned previously retrieved apps.`,
+                });
                 list = this._lastRetrievedApps;
             } else {
-                throw e;
+                throw error;
             }
         }
 

@@ -147,8 +147,7 @@ describe('RegistryApi', () => {
                 stubCons.warn,
                 sinon.match({
                     error: sinon.match.instanceOf(Error).and(sinon.match.has('message', 'Foo error')),
-                    message:
-                    `ILC registry (${urljoin(
+                    message: `ILC registry (${urljoin(
                         registryOrigin,
                         '/api/v1/public/app_discovery',
                     )}) isn't available, so returned previously retrieved apps.`,

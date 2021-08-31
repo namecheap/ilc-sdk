@@ -4,12 +4,13 @@ import urljoin from 'url-join';
 import { intlSchema } from './IlcProtocol';
 import defaultIntlAdapter from '../app/defaultIntlAdapter';
 import * as clientTypes from '../app/interfaces/common';
+import { IlcSdkLogger } from './IlcSdkLogger';
 
 /**
  * Entrypoint for SDK that should be used within application server that executes SSR bundle
  */
 export class IlcSdk {
-    private log: Console;
+    private log: IlcSdkLogger;
     private titleRegex = /<title.*>.*<\/title\s*>/s;
 
     /**
@@ -19,7 +20,7 @@ export class IlcSdk {
      *
      *   **Default value:** `console`
      */
-    constructor(options: { logger?: Console } = {}) {
+    constructor(options: { logger?: IlcSdkLogger } = {}) {
         this.log = options.logger || console;
     }
 

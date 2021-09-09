@@ -8,6 +8,7 @@ describe('GlobalBrowserApi', () => {
                 navigate: () => 'navigate',
                 importParcelFromApp: () => Promise.resolve('importParcelFromApp'),
                 mountRootParcel: () => 'mountRootParcel',
+                getAllSharedLibNames: () => Promise.resolve(['libName_1', 'libName_2']),
             },
         };
     });
@@ -47,5 +48,10 @@ describe('GlobalBrowserApi', () => {
         GlobalBrowserApi.mountRootParcel(() => Promise.resolve(parcelConfig), {
             domElement: (null as unknown) as HTMLElement,
         });
+    });
+
+    it('getAllSharedLibNames is correctly typed and callable', async () => {
+        const res = await GlobalBrowserApi.getAllSharedLibNames();
+        expect(res).to.deep.eq(['libName_1', 'libName_2']);
     });
 });

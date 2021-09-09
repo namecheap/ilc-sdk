@@ -1,6 +1,7 @@
 import { LifeCycles } from './interfaces/LifeCycles';
 import { ParcelLifecycleFnProps } from './interfaces/ParcelLifecycleFnProps';
 import { MountParcel } from './interfaces/MountParcel';
+import { GetAllSharedLibNames } from './interfaces/GetAllSharedLibNames';
 
 /**
  * ILC exposes some utility APIs globally at `window.ILC`. Here we provide convenience typings to use with typescript.
@@ -55,5 +56,17 @@ export class GlobalBrowserApi {
      */
     static mountRootParcel: MountParcel = (parcelConfig, parcelProps) => {
         return (window as any).ILC.mountRootParcel(parcelConfig, parcelProps);
+    };
+
+    /**
+     * Will return names of all registered shared libraries in ILC-Registry
+     *
+     * @example
+     * ```javascript
+     * const sharedLibNames = await ILC.getAllSharedLibNames();
+     * ```
+     */
+    static getAllSharedLibNames: GetAllSharedLibNames = () => {
+        return (window as any).ILC.getAllSharedLibNames();
     };
 }

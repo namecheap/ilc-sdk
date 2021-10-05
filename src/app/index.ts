@@ -45,7 +45,9 @@ import { IIlcAppSdk } from './interfaces/IIlcAppSdk';
 export * from './types';
 export * from './GlobalBrowserApi';
 export * from './IlcIntl';
+export * from './utils/isSpecialUrl';
 
+/* Using of `Intl` is removed from ILC, probably in the next major version we can remove it here */
 /**
  * @internal
  * @deprecated use `IlcIntl` export instead

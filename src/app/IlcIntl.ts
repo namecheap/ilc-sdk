@@ -1,6 +1,7 @@
 import * as types from './types';
 import parseAsFullyQualifiedURI from './utils/parseAsFullyQualifiedURI';
 import defaultIntlAdapter from './defaultIntlAdapter';
+import { isSpecialUrl } from './utils/isSpecialUrl';
 
 /**
  * **WARNING:** this class shouldn't be imported directly in the apps or adapters. Use `IlcAppSdk` instead.
@@ -132,6 +133,10 @@ export class IlcIntl {
      * @internal Used internally by ILC
      */
     static localizeUrl(config: types.IntlAdapterConfig, url: string, configOverride: { locale?: string } = {}): string {
+        if (isSpecialUrl(url)) {
+            return url;
+        }
+
         const parsedUri = parseAsFullyQualifiedURI(url);
         url = parsedUri.uri;
 
@@ -142,7 +147,9 @@ export class IlcIntl {
         url = IlcIntl.parseUrl(config, url).cleanUrl;
 
         const receivedLocale = configOverride.locale || config.default.locale;
+
         const loc = IlcIntl.getCanonicalLocale(receivedLocale, config.supported.locale);
+
         if (loc === null) {
             throw new Error(`Unsupported locale passed. Received: "${receivedLocale}"`);
         }
@@ -163,6 +170,13 @@ export class IlcIntl {
      * @internal Used internally by ILC
      */
     static parseUrl(config: types.IntlAdapterConfig, url: string): { locale: string; cleanUrl: string } {
+        if (isSpecialUrl(url)) {
+            return {
+                cleanUrl: url,
+                locale: config.default.locale,
+            };
+        }
+
         const parsedUri = parseAsFullyQualifiedURI(url);
         url = parsedUri.uri;
 
@@ -171,7 +185,6 @@ export class IlcIntl {
         }
 
         const [, langPart, ...path] = url.split('/');
-
         const lang = IlcIntl.getCanonicalLocale(langPart, config.supported.locale);
 
         if (lang !== null && config.supported.locale.indexOf(lang) !== -1) {
@@ -194,6 +207,7 @@ export class IlcIntl {
         const supportedLangs = supportedLocales.map((v) => v.split('-')[0]).filter((v, i, a) => a.indexOf(v) === i);
 
         const locData = locale.split('-');
+
         if (locData.length === 2) {
             locale = locData[0].toLowerCase() + '-' + locData[1].toUpperCase();
         } else if (locData.length === 1) {

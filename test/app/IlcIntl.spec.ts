@@ -146,7 +146,28 @@ describe('IlcIntl', () => {
             expect(IlcIntl.localizeUrl(baseConfig, '/')).to.equal('/');
             expect(IlcIntl.localizeUrl(baseConfig, '/', { locale: 'es-ES' })).to.equal('/es/');
 
-            expect(() => IlcIntl.localizeUrl(baseConfig, '', { locale: 'es-ES' })).throws(Error);
+            expect(IlcIntl.localizeUrl(baseConfig, '')).to.equal('');
+            expect(IlcIntl.localizeUrl(baseConfig, '', { locale: 'es-ES' })).to.equal('');
+
+            expect(IlcIntl.localizeUrl(baseConfig, '#')).to.equal('#');
+            expect(IlcIntl.localizeUrl(baseConfig, '#', { locale: 'es-ES' })).to.equal('#');
+
+            expect(IlcIntl.localizeUrl(baseConfig, '#foo')).to.equal('#foo');
+            expect(IlcIntl.localizeUrl(baseConfig, '#foo', { locale: 'es-ES' })).to.equal('#foo');
+
+            expect(IlcIntl.localizeUrl(baseConfig, 'tel:+1234567890')).to.equal('tel:+1234567890');
+            expect(IlcIntl.localizeUrl(baseConfig, 'tel:+1234567890', { locale: 'es-ES' })).to.equal('tel:+1234567890');
+
+            expect(IlcIntl.localizeUrl(baseConfig, 'mailto:foo@bar.baz')).to.equal('mailto:foo@bar.baz');
+            expect(IlcIntl.localizeUrl(baseConfig, 'mailto:foo@bar.baz', { locale: 'es-ES' })).to.equal(
+                'mailto:foo@bar.baz',
+            );
+
+            expect(IlcIntl.localizeUrl(baseConfig, 'javascript:void(0)')).to.equal('javascript:void(0)');
+            expect(IlcIntl.localizeUrl(baseConfig, 'javascript:void(0)', { locale: 'es-ES' })).to.equal(
+                'javascript:void(0)',
+            );
+
             expect(() => IlcIntl.localizeUrl(baseConfig, 'tst', { locale: 'es-ES' })).throws(Error);
         });
     });
@@ -190,7 +211,36 @@ describe('IlcIntl', () => {
                 locale: baseConfig.default.locale,
             });
 
-            expect(() => IlcIntl.parseUrl(baseConfig, '')).to.throw(Error);
+            expect(IlcIntl.parseUrl(baseConfig, '')).to.eql({
+                cleanUrl: '',
+                locale: baseConfig.default.locale,
+            });
+
+            expect(IlcIntl.parseUrl(baseConfig, '#')).to.eql({
+                cleanUrl: '#',
+                locale: baseConfig.default.locale,
+            });
+
+            expect(IlcIntl.parseUrl(baseConfig, '#foo')).to.eql({
+                cleanUrl: '#foo',
+                locale: baseConfig.default.locale,
+            });
+
+            expect(IlcIntl.parseUrl(baseConfig, 'tel:+1234567890')).to.eql({
+                cleanUrl: 'tel:+1234567890',
+                locale: baseConfig.default.locale,
+            });
+
+            expect(IlcIntl.parseUrl(baseConfig, 'mailto:foo@bar.baz')).to.eql({
+                cleanUrl: 'mailto:foo@bar.baz',
+                locale: baseConfig.default.locale,
+            });
+
+            expect(IlcIntl.parseUrl(baseConfig, 'javascript:void(0)')).to.eql({
+                cleanUrl: 'javascript:void(0)',
+                locale: baseConfig.default.locale,
+            });
+
             expect(() => IlcIntl.parseUrl(baseConfig, 'tst')).to.throw(Error);
         });
     });

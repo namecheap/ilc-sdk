@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { GlobalBrowserApi } from '../../src/app/GlobalBrowserApi';
+import * as sinon from 'sinon';
 
 describe('GlobalBrowserApi', () => {
     before(() => {
@@ -53,5 +54,15 @@ describe('GlobalBrowserApi', () => {
     it('getAllSharedLibNames is correctly typed and callable', async () => {
         const res = await GlobalBrowserApi.getAllSharedLibNames();
         expect(res).to.deep.eq(['libName_1', 'libName_2']);
+    });
+
+    it('renderDefault404Page is correctly typed and callable', async () => {
+        (global as any).CustomEvent = sinon.spy();
+        (global as any).window.dispatchEvent = sinon.spy();
+
+        GlobalBrowserApi.renderDefault404Page({ appId: 'foo' });
+
+        sinon.assert.calledOnce((global as any).CustomEvent);
+        sinon.assert.calledOnce((global as any).window.dispatchEvent);
     });
 });

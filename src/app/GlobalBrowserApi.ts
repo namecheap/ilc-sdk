@@ -69,4 +69,13 @@ export class GlobalBrowserApi {
     static getAllSharedLibNames: GetAllSharedLibNames = () => {
         return (window as any).ILC.getAllSharedLibNames();
     };
+
+    /**
+     * Triggers global event which renders default 404 page of a website
+     */
+    static renderDefault404Page({ appId }: { appId: string }): void {
+        (window as any).dispatchEvent(new CustomEvent('ilc:404', {
+            detail: { appId },
+        }));
+    };
 }

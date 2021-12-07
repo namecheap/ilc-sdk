@@ -292,6 +292,17 @@ describe('IlcSdk', () => {
             );
         });
 
+        it('should set 404 status code', () => {
+            const req = new MockReq(merge({}, defReq));
+            const res = new MockRes();
+
+            const pRes = ilcSdk.processRequest(req);
+            pRes._is404 = true;
+            ilcSdk.processResponse(pRes, res);
+
+            expect(res.statusCode).to.eq(404);
+        });
+
         describe('appAssets', () => {
             it('should handle absolute URLs', () => {
                 const req = new MockReq(merge({}, defReq));

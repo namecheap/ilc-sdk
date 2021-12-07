@@ -27,7 +27,11 @@ export interface AppSdkAdapter {
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     appId: string;
     intl: IntlAdapter | null;
+    /** Uses in "processResponse" to set 404 status code */
+    _is404: boolean;
 }
+
+export type Render404 = () => void;
 
 export interface IntlConfig {
     locale?: string;

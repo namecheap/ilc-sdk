@@ -63,6 +63,7 @@ export class IlcSdk {
             getCurrentPathProps: () => passedProps,
             appId,
             intl: this.parseIntl(req),
+            _is404: false,
         };
     }
 
@@ -72,6 +73,10 @@ export class IlcSdk {
      * **WARNING:** this method should be called before response headers were send.
      */
     public processResponse(reqData: types.RequestData, res: ServerResponse, data?: types.ResponseData): void {
+        if (reqData._is404) {
+            res.statusCode = 404;
+        }
+
         if (!data) {
             return;
         }

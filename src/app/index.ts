@@ -73,6 +73,18 @@ export default class IlcAppSdk implements IIlcAppSdk {
         this.intl = new IlcIntl(this.appId, intlAdapter);
     }
 
+    render404 = () => {
+        if (typeof window !== 'undefined') {
+            window.dispatchEvent(
+                new CustomEvent('ilc:404', {
+                    detail: { appId: this.appId },
+                }),
+            );
+        } else {
+            this.adapter._is404 = true;
+        }
+    };
+
     unmount() {
         this.intl.unmount();
     }

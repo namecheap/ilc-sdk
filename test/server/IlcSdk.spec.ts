@@ -293,14 +293,16 @@ describe('IlcSdk', () => {
         });
 
         it('should set 404 status code', () => {
+            const NotFound = 404;
+
             const req = new MockReq(merge({}, defReq));
             const res = new MockRes();
 
             const pRes = ilcSdk.processRequest(req);
-            pRes._is404 = true;
+            pRes.setStatusCode(NotFound);
             ilcSdk.processResponse(pRes, res);
 
-            expect(res.statusCode).to.eq(404);
+            expect(res.statusCode).to.eq(NotFound);
         });
 
         describe('appAssets', () => {

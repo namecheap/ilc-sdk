@@ -55,6 +55,8 @@ export class IlcSdk {
             originalUri = '/';
         }
 
+        let statusCode: number | undefined;
+
         return {
             getCurrentReqHost: () => host,
             getCurrentReqUrl: () => requestedUrls.requestUrl,
@@ -63,7 +65,10 @@ export class IlcSdk {
             getCurrentPathProps: () => passedProps,
             appId,
             intl: this.parseIntl(req),
-            _is404: false,
+            setStatusCode: (code) => {
+                statusCode = code;
+            },
+            getStatusCode: () => statusCode,
         };
     }
 
@@ -73,8 +78,9 @@ export class IlcSdk {
      * **WARNING:** this method should be called before response headers were send.
      */
     public processResponse(reqData: types.RequestData, res: ServerResponse, data?: types.ResponseData): void {
-        if (reqData._is404) {
-            res.statusCode = 404;
+        const statusCode = reqData.getStatusCode();
+        if (statusCode) {
+            res.statusCode = statusCode;
         }
 
         if (!data) {

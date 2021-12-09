@@ -72,6 +72,22 @@ export default class IlcAppSdk implements IIlcAppSdk {
         const intlAdapter = this.adapter.intl ? this.adapter.intl : defaultIntlAdapter;
         this.intl = new IlcIntl(this.appId, intlAdapter);
     }
+    /**
+     * Isomorphic method to render 404 page.
+     * At SSR in processResponse it sets 404 status code to response.
+     * At CSR it triggers global event which ILC listens and renders 404 page.
+     */
+    render404 = () => {
+        if (this.adapter.setStatusCode) {
+            this.adapter.setStatusCode(404);
+        } else {
+            window.dispatchEvent(
+                new CustomEvent('ilc:404', {
+                    detail: { appId: this.appId },
+                }),
+            );
+        }
+    };
 
     unmount() {
         this.intl.unmount();

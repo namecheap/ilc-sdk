@@ -5,7 +5,7 @@ import { intlSchema } from './IlcProtocol';
 import defaultIntlAdapter from '../app/defaultIntlAdapter';
 import * as clientTypes from '../app/interfaces/common';
 import { IlcSdkLogger } from './IlcSdkLogger';
-import ResponseStatus from '../app/interfaces/ResponseStatus';
+import ResponseData from '../app/interfaces/ResponseData';
 
 /**
  * Entrypoint for SDK that should be used within application server that executes SSR bundle
@@ -56,7 +56,7 @@ export class IlcSdk {
             originalUri = '/';
         }
 
-        let responseStatus: ResponseStatus;
+        let responseData: ResponseData;
 
         return {
             getCurrentReqHost: () => host,
@@ -66,16 +66,16 @@ export class IlcSdk {
             getCurrentPathProps: () => passedProps,
             appId,
             intl: this.parseIntl(req),
-            setStatus: (code, isCustomPage) => {
-                responseStatus = { code };
+            set404Response: (withCustomContent) => {
+                responseData = { code: 404 };
 
-                if (isCustomPage) {
-                    responseStatus.headers = {
+                if (withCustomContent) {
+                    responseData.headers = {
                         ['X-ILC-Override']: 'error-page-content',
                     };
                 }
             },
-            getStatus: () => responseStatus,
+            getResponseData: () => responseData,
         };
     }
 
@@ -85,12 +85,12 @@ export class IlcSdk {
      * **WARNING:** this method should be called before response headers were send.
      */
     public processResponse(reqData: types.RequestData, res: ServerResponse, data?: types.ResponseData): void {
-        const status = reqData.getStatus();
-        if (status?.code) {
-            res.statusCode = status.code;
+        const responseData = reqData.getResponseData();
+        if (responseData?.code) {
+            res.statusCode = responseData.code;
         }
-        if (status?.headers) {
-            for (const [key, value] of Object.entries(status.headers)) {
+        if (responseData?.headers) {
+            for (const [key, value] of Object.entries(responseData.headers)) {
                 res.setHeader(key, value);
             }
         }

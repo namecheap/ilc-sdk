@@ -83,15 +83,15 @@ export default class IlcAppSdk implements IIlcAppSdk {
      * At SSR in processResponse it sets 404 status code and "X-ILC-Override" header to response.
      * At CSR it renders own not found component from fragment.
      */
-    render404: Render404 = (isCustomPage) => {
+    render404: Render404 = (withCustomContent) => {
         // SSR
-        if (this.adapter.setStatus) {
-            this.adapter.setStatus(404, isCustomPage);
+        if (this.adapter.set404Response) {
+            this.adapter.set404Response(withCustomContent);
             return;
         }
 
         // CSR
-        if (!isCustomPage) {
+        if (!withCustomContent) {
             window.dispatchEvent(
                 new CustomEvent('ilc:404', {
                     detail: { appId: this.appId },

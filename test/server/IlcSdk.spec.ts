@@ -293,16 +293,14 @@ describe('IlcSdk', () => {
         });
 
         it('should set 404 status code without headers', () => {
-            const NotFound = 404;
-
             const req = new MockReq(merge({}, defReq));
             const res = new MockRes();
 
             const pRes = ilcSdk.processRequest(req);
-            pRes.setStatus(NotFound);
+            pRes.set404Response();
             ilcSdk.processResponse(pRes, res);
 
-            expect(res.statusCode).to.eq(NotFound);
+            expect(res.statusCode).to.eq(404);
         });
 
         it('should set 404 status code and header for custom error', () => {
@@ -312,8 +310,8 @@ describe('IlcSdk', () => {
             const res = new MockRes();
 
             const pRes = ilcSdk.processRequest(req);
-            const isCustomPage = true;
-            pRes.setStatus(NotFound, isCustomPage);
+            const withCustomContent = true;
+            pRes.set404Response(withCustomContent);
             ilcSdk.processResponse(pRes, res);
 
             expect(res.statusCode).to.eq(NotFound);

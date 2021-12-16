@@ -1,4 +1,4 @@
-import ResponseStatus from './ResponseStatus';
+import ResponseData from './ResponseData';
 
 /**
  * Result of the "processRequest" method
@@ -29,8 +29,8 @@ export interface AppSdkAdapter {
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     appId: string;
     intl: IntlAdapter | null;
-    setStatus: (code: number, isCustomPage?: boolean) => void;
-    getStatus: () => ResponseStatus | undefined;
+    set404Response: (withCustomContent?: boolean) => void;
+    getResponseData: () => ResponseData | undefined;
 }
 
 export type Render404 = (isCustomPage?: boolean) => void;

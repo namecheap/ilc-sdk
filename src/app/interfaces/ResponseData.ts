@@ -1,6 +1,6 @@
-type ResponseStatus = {
+type ResponseData = {
     code: number;
     headers?: Record<string, string>;
 };
 
-export default ResponseStatus;
+export default ResponseData;

@@ -33,7 +33,7 @@ export interface AppSdkAdapter {
     getStatus: () => ResponseStatus | undefined;
 }
 
-export type Render404 = (config?: { isCustomComponent: boolean }) => void;
+export type Render404 = (isCustomPage?: boolean) => void;
 
 export interface IntlConfig {
     locale?: string;

@@ -292,17 +292,38 @@ describe('IlcSdk', () => {
             );
         });
 
-        it('should set 404 status code', () => {
+        it('should set 404 status code without headers', () => {
             const NotFound = 404;
 
             const req = new MockReq(merge({}, defReq));
             const res = new MockRes();
 
             const pRes = ilcSdk.processRequest(req);
-            pRes.setStatus(NotFound);
+            pRes.setStatus({ code: NotFound });
             ilcSdk.processResponse(pRes, res);
 
             expect(res.statusCode).to.eq(NotFound);
+        });
+
+        it('should set 404 status code and header for custom error', () => {
+            const NotFound = 404;
+            const NotFoundHeaderKey = 'X-ILC-Override';
+            const NotFoundHeaderValue = 'error-page-content';
+
+            const req = new MockReq(merge({}, defReq));
+            const res = new MockRes();
+
+            const pRes = ilcSdk.processRequest(req);
+            pRes.setStatus({
+                code: NotFound,
+                headers: {
+                    [NotFoundHeaderKey]: NotFoundHeaderValue,
+                },
+            });
+            ilcSdk.processResponse(pRes, res);
+
+            expect(res.statusCode).to.eq(NotFound);
+            expect(res.getHeader(NotFoundHeaderKey)).to.eq(NotFoundHeaderValue);
         });
 
         describe('appAssets', () => {

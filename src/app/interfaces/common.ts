@@ -29,8 +29,8 @@ export interface AppSdkAdapter {
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     appId: string;
     intl: IntlAdapter | null;
-    setStatus: (code: number, config?: { headers: ResponseStatus['headers'] }) => void;
-    getStatus: () => ResponseStatus;
+    setStatus: (data: ResponseStatus) => void;
+    getStatus: () => ResponseStatus | undefined;
 }
 
 export type Render404 = (config?: { isCustomComponent: boolean }) => void;

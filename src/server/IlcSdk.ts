@@ -56,10 +56,7 @@ export class IlcSdk {
             originalUri = '/';
         }
 
-        const status: ResponseStatus = {
-            code: undefined,
-            headers: {}
-        };
+        let responseStatus: ResponseStatus;
 
         return {
             getCurrentReqHost: () => host,
@@ -69,14 +66,10 @@ export class IlcSdk {
             getCurrentPathProps: () => passedProps,
             appId,
             intl: this.parseIntl(req),
-            setStatus: (code, config) => {
-                status.code = code;
-
-                if (config?.headers) {
-                    status.headers = config.headers;
-                }
+            setStatus: (status) => {
+                responseStatus = status;
             },
-            getStatus: () => status,
+            getStatus: () => responseStatus,
         };
     }
 
@@ -87,10 +80,10 @@ export class IlcSdk {
      */
     public processResponse(reqData: types.RequestData, res: ServerResponse, data?: types.ResponseData): void {
         const status = reqData.getStatus();
-        if (status.code) {
+        if (status?.code) {
             res.statusCode = status.code;
         }
-        if (status.headers) {
+        if (status?.headers) {
             for (const [key, value] of Object.entries(status.headers)) {
                 res.setHeader(key, value);
             }

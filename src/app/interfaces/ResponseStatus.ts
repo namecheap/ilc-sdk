@@ -1,5 +1,5 @@
 type ResponseStatus = {
-    code?: number;
+    code: number;
     headers?: Record<string, string>;
 };
 

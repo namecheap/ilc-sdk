@@ -66,8 +66,14 @@ export class IlcSdk {
             getCurrentPathProps: () => passedProps,
             appId,
             intl: this.parseIntl(req),
-            setStatus: (status) => {
-                responseStatus = status;
+            setStatus: (code, isCustomPage) => {
+                responseStatus = { code };
+
+                if (isCustomPage) {
+                    responseStatus.headers = {
+                        ['X-ILC-Override']: 'error-page-content',
+                    };
+                }
             },
             getStatus: () => responseStatus,
         };

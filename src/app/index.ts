@@ -42,7 +42,6 @@ import { IlcIntl } from './IlcIntl';
 import defaultIntlAdapter from './defaultIntlAdapter';
 import { IIlcAppSdk } from './interfaces/IIlcAppSdk';
 import { Render404 } from './interfaces/common';
-import ResponseStatus from './interfaces/ResponseStatus';
 
 export * from './types';
 export * from './GlobalBrowserApi';
@@ -87,16 +86,7 @@ export default class IlcAppSdk implements IIlcAppSdk {
     render404: Render404 = (isCustomPage) => {
         // SSR
         if (this.adapter.setStatus) {
-            const status: ResponseStatus = {
-                code: 404,
-            };
-
-            if (isCustomPage) {
-                status.headers = {
-                    ['X-ILC-Override']: 'error-page-content',
-                };
-            }
-            this.adapter.setStatus(status);
+            this.adapter.setStatus(404, isCustomPage);
             return;
         }
 

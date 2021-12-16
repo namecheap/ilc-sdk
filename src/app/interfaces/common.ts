@@ -29,7 +29,7 @@ export interface AppSdkAdapter {
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     appId: string;
     intl: IntlAdapter | null;
-    setStatus: (data: ResponseStatus) => void;
+    setStatus: (code: number, isCustomPage?: boolean) => void;
     getStatus: () => ResponseStatus | undefined;
 }
 

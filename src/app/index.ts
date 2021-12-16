@@ -41,6 +41,7 @@ import * as types from './types';
 import { IlcIntl } from './IlcIntl';
 import defaultIntlAdapter from './defaultIntlAdapter';
 import { IIlcAppSdk } from './interfaces/IIlcAppSdk';
+import { Render404 } from './interfaces/common';
 
 export * from './types';
 export * from './GlobalBrowserApi';
@@ -77,10 +78,19 @@ export default class IlcAppSdk implements IIlcAppSdk {
      * At SSR in processResponse it sets 404 status code to response.
      * At CSR it triggers global event which ILC listens and renders 404 page.
      */
-    render404 = () => {
-        if (this.adapter.setStatusCode) {
-            this.adapter.setStatusCode(404);
-        } else {
+    render404: Render404 = (config) => {
+        // SSR
+        if (this.adapter.setStatus) {
+            const headers: Record<string, string> = {};
+
+            if (config?.isCustomComponent) {
+                headers['X-ILC-Override'] = 'error-page-content';
+            }
+            this.adapter.setStatus(404, { headers });
+        }
+
+        // CSR
+        if (!config?.isCustomComponent) {
             window.dispatchEvent(
                 new CustomEvent('ilc:404', {
                     detail: { appId: this.appId },

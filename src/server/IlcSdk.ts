@@ -5,6 +5,7 @@ import { intlSchema } from './IlcProtocol';
 import defaultIntlAdapter from '../app/defaultIntlAdapter';
 import * as clientTypes from '../app/interfaces/common';
 import { IlcSdkLogger } from './IlcSdkLogger';
+import ResponseStatus from '../app/interfaces/ResponseStatus';
 
 /**
  * Entrypoint for SDK that should be used within application server that executes SSR bundle
@@ -55,7 +56,10 @@ export class IlcSdk {
             originalUri = '/';
         }
 
-        let statusCode: number | undefined;
+        const status: ResponseStatus = {
+            code: undefined,
+            headers: {}
+        };
 
         return {
             getCurrentReqHost: () => host,
@@ -65,10 +69,14 @@ export class IlcSdk {
             getCurrentPathProps: () => passedProps,
             appId,
             intl: this.parseIntl(req),
-            setStatusCode: (code) => {
-                statusCode = code;
+            setStatus: (code, config) => {
+                status.code = code;
+
+                if (config?.headers) {
+                    status.headers = config.headers;
+                }
             },
-            getStatusCode: () => statusCode,
+            getStatus: () => status,
         };
     }
 
@@ -78,9 +86,14 @@ export class IlcSdk {
      * **WARNING:** this method should be called before response headers were send.
      */
     public processResponse(reqData: types.RequestData, res: ServerResponse, data?: types.ResponseData): void {
-        const statusCode = reqData.getStatusCode();
-        if (statusCode) {
-            res.statusCode = statusCode;
+        const status = reqData.getStatus();
+        if (status.code) {
+            res.statusCode = status.code;
+        }
+        if (status.headers) {
+            for (const [key, value] of Object.entries(status.headers)) {
+                res.setHeader(key, value);
+            }
         }
 
         if (!data) {

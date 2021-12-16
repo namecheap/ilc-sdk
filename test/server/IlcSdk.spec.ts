@@ -299,7 +299,7 @@ describe('IlcSdk', () => {
             const res = new MockRes();
 
             const pRes = ilcSdk.processRequest(req);
-            pRes.setStatusCode(NotFound);
+            pRes.setStatus(NotFound);
             ilcSdk.processResponse(pRes, res);
 
             expect(res.statusCode).to.eq(NotFound);

@@ -59,7 +59,7 @@ export class IlcSdk {
             originalUri = '/';
         }
 
-        const tmpResponseData: internalTypes.TmpResponseData = {};
+        const tmpResponseData: internalTypes.SsrContext = {};
 
         const requestData = {
             getCurrentReqHost: () => host,
@@ -93,7 +93,7 @@ export class IlcSdk {
      * **WARNING:** this method should be called before response headers were send.
      */
     private processResponse(
-        tmpResponseData: internalTypes.TmpResponseData,
+        tmpResponseData: internalTypes.SsrContext,
         res: ServerResponse,
         data?: types.ResponseData,
     ): void {

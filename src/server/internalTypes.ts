@@ -1,2 +1,2 @@
 export * from './interfaces/ProcessedRequest';
-export * from './interfaces/TmpResponseData';
+export * from './interfaces/SsrContext';

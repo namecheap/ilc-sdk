@@ -59,7 +59,7 @@ export class IlcSdk {
             originalUri = '/';
         }
 
-        let tmpResponseData: internalTypes.TmpResponseData = {};
+        const tmpResponseData: internalTypes.TmpResponseData = {};
 
         const requestData = {
             getCurrentReqHost: () => host,

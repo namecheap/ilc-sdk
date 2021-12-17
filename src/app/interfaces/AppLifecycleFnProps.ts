@@ -22,12 +22,6 @@ export interface AppLifecycleFnProps<RegProps = unknown> extends SingleSpaLifecy
      */
     getCurrentBasePath: () => string;
     /**
-     * Unique application ID, if same app will be rendered twice on a page - it will get different IDs
-     *
-     * @deprecated use `appSdk.appId` instead
-     */
-    appId: string;
-    /**
      * App **MUST** use it to propagate all unhandled errors. Usually it's used in app's adapter.
      */
     errorHandler: ErrorHandler;

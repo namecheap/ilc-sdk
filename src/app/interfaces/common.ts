@@ -1,5 +1,3 @@
-import ResponseData from './ResponseData';
-
 /**
  * Result of the "processRequest" method
  */
@@ -29,11 +27,10 @@ export interface AppSdkAdapter {
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     appId: string;
     intl: IntlAdapter | null;
-    set404Response: (withCustomContent?: boolean) => void;
-    getResponseData: () => ResponseData | undefined;
+    trigger404Page: (withCustomContent?: boolean) => void;
 }
 
-export type Render404 = (isCustomPage?: boolean) => void;
+export type Render404 = (withCustomContent?: boolean) => void;
 
 export interface IntlConfig {
     locale?: string;

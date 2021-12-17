@@ -5,7 +5,8 @@ import { intlSchema } from './IlcProtocol';
 import defaultIntlAdapter from '../app/defaultIntlAdapter';
 import * as clientTypes from '../app/interfaces/common';
 import { IlcSdkLogger } from './IlcSdkLogger';
-import ResponseData from '../app/interfaces/ResponseData';
+import AppSdk from '../app';
+import * as internalTypes from './internalTypes';
 
 /**
  * Entrypoint for SDK that should be used within application server that executes SSR bundle
@@ -28,7 +29,9 @@ export class IlcSdk {
     /**
      * Processes incoming request and returns object that can be used to fetch information passed by ILC to the application.
      */
-    public processRequest<RegistryProps = unknown>(req: IncomingMessage): types.RequestData<RegistryProps> {
+    public processRequest<RegistryProps = unknown>(
+        req: IncomingMessage,
+    ): internalTypes.ProcessedRequest<RegistryProps> {
         const url = this.parseUrl(req);
         const routerProps = this.parseRouterProps(url);
         const requestedUrls = this.getRequestUrls(url, routerProps);
@@ -56,9 +59,9 @@ export class IlcSdk {
             originalUri = '/';
         }
 
-        let responseData: ResponseData;
+        let tmpResponseData: internalTypes.TmpResponseData = {};
 
-        return {
+        const requestData = {
             getCurrentReqHost: () => host,
             getCurrentReqUrl: () => requestedUrls.requestUrl,
             getCurrentBasePath: () => requestedUrls.basePageUrl,
@@ -66,16 +69,21 @@ export class IlcSdk {
             getCurrentPathProps: () => passedProps,
             appId,
             intl: this.parseIntl(req),
-            set404Response: (withCustomContent) => {
-                responseData = { code: 404 };
+            trigger404Page: (withCustomContent?: boolean) => {
+                tmpResponseData.code = 404;
 
                 if (withCustomContent) {
-                    responseData.headers = {
+                    tmpResponseData.headers = {
                         ['X-ILC-Override']: 'error-page-content',
                     };
                 }
             },
-            getResponseData: () => responseData,
+        };
+
+        return {
+            requestData,
+            appSdk: new AppSdk(requestData),
+            processResponse: this.processResponse.bind(this, tmpResponseData),
         };
     }
 
@@ -84,13 +92,16 @@ export class IlcSdk {
      *
      * **WARNING:** this method should be called before response headers were send.
      */
-    public processResponse(reqData: types.RequestData, res: ServerResponse, data?: types.ResponseData): void {
-        const responseData = reqData.getResponseData();
-        if (responseData?.code) {
-            res.statusCode = responseData.code;
+    private processResponse(
+        tmpResponseData: internalTypes.TmpResponseData,
+        res: ServerResponse,
+        data?: types.ResponseData,
+    ): void {
+        if (tmpResponseData.code) {
+            res.statusCode = tmpResponseData.code;
         }
-        if (responseData?.headers) {
-            for (const [key, value] of Object.entries(responseData.headers)) {
+        if (tmpResponseData.headers) {
+            for (const [key, value] of Object.entries(tmpResponseData.headers)) {
                 res.setHeader(key, value);
             }
         }

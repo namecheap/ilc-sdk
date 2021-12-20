@@ -27,8 +27,8 @@ describe('IlcAppWrapperSdk', () => {
             const req = new MockReq(merge({}, defReq));
             const res = new MockRes();
 
-            const pRes = ilcSdk.processRequest(req);
-            ilcSdk.forwardRequest(pRes, res);
+            const { requestData } = ilcSdk.processRequest(req);
+            ilcSdk.forwardRequest(requestData, res);
 
             expect(res.statusCode).to.eql(210);
             if (res.writableEnded !== undefined) {
@@ -43,8 +43,8 @@ describe('IlcAppWrapperSdk', () => {
 
             const testProps = { test: 1 };
 
-            const pRes = ilcSdk.processRequest(req);
-            ilcSdk.forwardRequest(pRes, res, { propsOverride: testProps });
+            const { requestData } = ilcSdk.processRequest(req);
+            ilcSdk.forwardRequest(requestData, res, { propsOverride: testProps });
             expect(res.getHeader('x-props-override')).to.eq(
                 Buffer.from(JSON.stringify(testProps), 'utf8').toString('base64'),
             );
@@ -55,8 +55,8 @@ describe('IlcAppWrapperSdk', () => {
             const res = new MockRes();
             res.end();
 
-            const pRes = ilcSdk.processRequest(req);
-            expect(() => ilcSdk.forwardRequest(pRes, res)).to.throw();
+            const { requestData } = ilcSdk.processRequest(req);
+            expect(() => ilcSdk.forwardRequest(requestData, res)).to.throw();
         });
     });
 });

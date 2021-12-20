@@ -39,18 +39,18 @@ describe('IlcSdk', () => {
         describe('getCurrentReqHost', () => {
             it('should parse request host correctly', () => {
                 const req = new MockReq(merge({}, defReq));
-                const res = ilcSdk.processRequest(req);
+                const { requestData } = ilcSdk.processRequest(req);
 
-                expect(res.getCurrentReqHost()).to.eq(defReq.headers['x-request-host']);
+                expect(requestData.getCurrentReqHost()).to.eq(defReq.headers['x-request-host']);
             });
 
             it('should fallback to dumb request host if not passed', () => {
                 const reqConf = merge({}, defReq);
                 delete reqConf.headers['x-request-host'];
                 const req = new MockReq(reqConf);
-                const res = ilcSdk.processRequest(req);
+                const { requestData } = ilcSdk.processRequest(req);
 
-                expect(res.getCurrentReqHost()).to.eq('localhost');
+                expect(requestData.getCurrentReqHost()).to.eq('localhost');
                 sinon.assert.calledWith(
                     stubCons.warn,
                     'Missing "x-request-host" information for "http://example.com/tst" request. Falling back to "localhost".',
@@ -61,18 +61,18 @@ describe('IlcSdk', () => {
         describe('getCurrentReqOriginalUri', () => {
             it('should parse x-request-uri correctly', () => {
                 const req = new MockReq(merge({}, defReq));
-                const res = ilcSdk.processRequest(req);
+                const { requestData } = ilcSdk.processRequest(req);
 
-                expect(res.getCurrentReqOriginalUri()).to.eq(defReq.headers['x-request-uri']);
+                expect(requestData.getCurrentReqOriginalUri()).to.eq(defReq.headers['x-request-uri']);
             });
 
             it('should fallback to dumb request URI if not passed', () => {
                 const reqConf = merge({}, defReq);
                 delete reqConf.headers['x-request-uri'];
                 const req = new MockReq(reqConf);
-                const res = ilcSdk.processRequest(req);
+                const { requestData } = ilcSdk.processRequest(req);
 
-                expect(res.getCurrentReqOriginalUri()).to.eq('/');
+                expect(requestData.getCurrentReqOriginalUri()).to.eq('/');
                 sinon.assert.calledWith(
                     stubCons.warn,
                     'Missing "x-request-uri" information for "http://example.com/tst" request. Falling back to "/".',
@@ -92,17 +92,17 @@ describe('IlcSdk', () => {
                         url: `/tst?routerProps=${Buffer.from(routerProps, 'utf8').toString('base64')}`,
                     }),
                 );
-                const res = ilcSdk.processRequest(req);
+                const { requestData } = ilcSdk.processRequest(req);
 
-                expect(res.appId).to.eq('testId');
+                expect(requestData.appId).to.eq('testId');
                 sinon.assert.notCalled(stubCons.warn);
             });
 
             it('should fallback to dumb appId if not passed', () => {
                 const req = new MockReq(merge({}, defReq));
-                const res = ilcSdk.processRequest(req);
+                const { requestData } = ilcSdk.processRequest(req);
 
-                expect(res.appId).to.eq('dumbId');
+                expect(requestData.appId).to.eq('dumbId');
                 sinon.assert.calledTwice(stubCons.warn);
                 sinon.assert.calledWith(
                     stubCons.warn,
@@ -113,11 +113,11 @@ describe('IlcSdk', () => {
 
         it('should not fail on regular request', () => {
             const req = new MockReq(merge({}, defReq));
-            const res = ilcSdk.processRequest(req);
+            const { requestData } = ilcSdk.processRequest(req);
 
-            expect(res.getCurrentPathProps()).to.eql({});
-            expect(res.getCurrentBasePath()).to.eq('/');
-            expect(res.getCurrentReqUrl()).to.eq('/');
+            expect(requestData.getCurrentPathProps()).to.eql({});
+            expect(requestData.getCurrentBasePath()).to.eq('/');
+            expect(requestData.getCurrentReqUrl()).to.eq('/');
             sinon.assert.calledWith(
                 stubCons.warn,
                 'Missing "routerProps" for "http://example.com/tst" request. Fallback to / & /',
@@ -136,10 +136,10 @@ describe('IlcSdk', () => {
                         url: `/tst?routerProps=${Buffer.from(routerProps, 'utf8').toString('base64')}`,
                     }),
                 );
-                const res = ilcSdk.processRequest(req);
+                const { requestData } = ilcSdk.processRequest(req);
 
-                expect(res.getCurrentBasePath()).to.eq('/base/path/');
-                expect(res.getCurrentReqUrl()).to.eq('/a/b/c?a=1&b=a');
+                expect(requestData.getCurrentBasePath()).to.eq('/base/path/');
+                expect(requestData.getCurrentReqUrl()).to.eq('/a/b/c?a=1&b=a');
                 sinon.assert.notCalled(stubCons.warn);
             });
 
@@ -154,10 +154,10 @@ describe('IlcSdk', () => {
                         url: `/tst?routerProps=${Buffer.from(routerProps, 'utf8').toString('base64')}`,
                     }),
                 );
-                const res = ilcSdk.processRequest(req);
+                const { requestData } = ilcSdk.processRequest(req);
 
-                expect(res.getCurrentBasePath()).to.eq('/base/path');
-                expect(res.getCurrentReqUrl()).to.eq('/a/b/c?a=1&b=a');
+                expect(requestData.getCurrentBasePath()).to.eq('/base/path');
+                expect(requestData.getCurrentReqUrl()).to.eq('/a/b/c?a=1&b=a');
                 sinon.assert.notCalled(stubCons.warn);
             });
         });
@@ -173,9 +173,9 @@ describe('IlcSdk', () => {
                         url: `/tst?appProps=${Buffer.from(appProps, 'utf8').toString('base64')}`,
                     }),
                 );
-                const res = ilcSdk.processRequest(req);
+                const { requestData } = ilcSdk.processRequest(req);
 
-                expect(res.getCurrentPathProps()).to.eql(JSON.parse(appProps));
+                expect(requestData.getCurrentPathProps()).to.eql(JSON.parse(appProps));
             });
 
             it('should fallback in case of malformed props', () => {
@@ -184,9 +184,9 @@ describe('IlcSdk', () => {
                         url: `/tst?appProps=bad_props`,
                     }),
                 );
-                const res = ilcSdk.processRequest(req);
+                const { requestData } = ilcSdk.processRequest(req);
 
-                expect(res.getCurrentPathProps()).to.eql({});
+                expect(requestData.getCurrentPathProps()).to.eql({});
             });
         });
 
@@ -203,12 +203,12 @@ describe('IlcSdk', () => {
                         headers: { 'x-request-intl': intlSchema.toBuffer(data).toString('base64') },
                     }),
                 );
-                const res = ilcSdk.processRequest(req);
+                const { requestData } = ilcSdk.processRequest(req);
 
-                expect(res.intl.get()).to.deep.include(data.current);
-                expect(res.intl.config.default).to.deep.include(data.default);
-                expect(res.intl.config.supported).to.deep.include(data.supported);
-                expect(res.intl.config.routingStrategy).to.eql(data.routingStrategy);
+                expect(requestData.intl.get()).to.deep.include(data.current);
+                expect(requestData.intl.config.default).to.deep.include(data.default);
+                expect(requestData.intl.config.supported).to.deep.include(data.supported);
+                expect(requestData.intl.config.routingStrategy).to.eql(data.routingStrategy);
             });
 
             it('should ignore invalid intl info', () => {
@@ -217,24 +217,24 @@ describe('IlcSdk', () => {
                         headers: { 'x-request-intl': 'some random string' },
                     }),
                 );
-                const res = ilcSdk.processRequest(req);
-                expect(res.intl).to.eq(defaultIntlAdapter);
+                const { requestData } = ilcSdk.processRequest(req);
+                expect(requestData.intl).to.eq(defaultIntlAdapter);
 
                 const req2 = new MockReq(
                     merge({}, defReq, {
                         headers: { 'x-request-intl': 'en-GB:en-US:en-US,en-GB;some random string' },
                     }),
                 );
-                const res2 = ilcSdk.processRequest(req2);
-                expect(res2.intl.config).to.eql(defaultIntlAdapter.config);
-                expect(res2.intl.get()).to.eql(defaultIntlAdapter.get());
+                const { requestData: requestData2 } = ilcSdk.processRequest(req2);
+                expect(requestData2.intl.config).to.eql(defaultIntlAdapter.config);
+                expect(requestData2.intl.get()).to.eql(defaultIntlAdapter.get());
             });
 
             it("should not fail & return default intl adapter if ILC haven't passed anything", () => {
                 const req = new MockReq(merge({}, defReq));
-                const res = ilcSdk.processRequest(req);
+                const { requestData } = ilcSdk.processRequest(req);
 
-                expect(res.intl).to.eq(defaultIntlAdapter);
+                expect(requestData.intl).to.eq(defaultIntlAdapter);
             });
         });
     });
@@ -244,16 +244,16 @@ describe('IlcSdk', () => {
             const req = new MockReq(merge({}, defReq));
             const res = new MockRes();
 
-            const pRes = ilcSdk.processRequest(req);
-            ilcSdk.processResponse(pRes, res);
+            const { processResponse } = ilcSdk.processRequest(req);
+            processResponse(res);
         });
 
         it('should set page title', () => {
             const req = new MockReq(merge({}, defReq));
             const res = new MockRes();
 
-            const pRes = ilcSdk.processRequest(req);
-            ilcSdk.processResponse(pRes, res, { pageTitle: 'Test title' });
+            const { processResponse } = ilcSdk.processRequest(req);
+            processResponse(res, { pageTitle: 'Test title' });
             expect(res.getHeader('x-head-title')).to.eq(
                 Buffer.from('<title>Test title</title>', 'utf8').toString('base64'),
             );
@@ -263,8 +263,8 @@ describe('IlcSdk', () => {
             const req = new MockReq(merge({}, defReq));
             const res = new MockRes();
 
-            const pRes = ilcSdk.processRequest(req);
-            ilcSdk.processResponse(pRes, res, { pageTitle: '<title>Test title</title>' });
+            const { processResponse } = ilcSdk.processRequest(req);
+            processResponse(res, { pageTitle: '<title>Test title</title>' });
             expect(Buffer.from(res.getHeader('x-head-title') as string, 'base64').toString('utf8')).to.eq(
                 '<title>Test title</title>',
             );
@@ -274,8 +274,8 @@ describe('IlcSdk', () => {
             const req = new MockReq(merge({}, defReq));
             const res = new MockRes();
 
-            const pRes = ilcSdk.processRequest(req);
-            ilcSdk.processResponse(pRes, res, { pageTitle: '<title data-react-helmet="true">Test title</title>' });
+            const { processResponse } = ilcSdk.processRequest(req);
+            processResponse(res, { pageTitle: '<title data-react-helmet="true">Test title</title>' });
             expect(Buffer.from(res.getHeader('x-head-title') as string, 'base64').toString('utf8')).to.eq(
                 '<title data-react-helmet="true">Test title</title>',
             );
@@ -285,24 +285,37 @@ describe('IlcSdk', () => {
             const req = new MockReq(merge({}, defReq));
             const res = new MockRes();
 
-            const pRes = ilcSdk.processRequest(req);
-            ilcSdk.processResponse(pRes, res, { pageMetaTags: '<meta charset="utf-8">' });
+            const { processResponse } = ilcSdk.processRequest(req);
+            processResponse(res, { pageMetaTags: '<meta charset="utf-8">' });
             expect(res.getHeader('x-head-meta')).to.eq(
                 Buffer.from('<meta charset="utf-8">', 'utf8').toString('base64'),
             );
         });
 
-        it('should set 404 status code', () => {
+        it('should set 404 status code without headers', () => {
+            const req = new MockReq(merge({}, defReq));
+            const res = new MockRes();
+
+            const { requestData, processResponse } = ilcSdk.processRequest(req);
+            requestData.trigger404Page();
+            processResponse(res);
+
+            expect(res.statusCode).to.eq(404);
+        });
+
+        it('should set 404 status code and header for custom error', () => {
             const NotFound = 404;
 
             const req = new MockReq(merge({}, defReq));
             const res = new MockRes();
 
-            const pRes = ilcSdk.processRequest(req);
-            pRes.setStatusCode(NotFound);
-            ilcSdk.processResponse(pRes, res);
+            const { requestData, processResponse } = ilcSdk.processRequest(req);
+            const withCustomContent = true;
+            requestData.trigger404Page(withCustomContent);
+            processResponse(res);
 
             expect(res.statusCode).to.eq(NotFound);
+            expect(res.getHeader('X-ILC-Override')).to.eq('error-page-content');
         });
 
         describe('appAssets', () => {
@@ -310,8 +323,8 @@ describe('IlcSdk', () => {
                 const req = new MockReq(merge({}, defReq));
                 const res = new MockRes();
 
-                const pRes = ilcSdk.processRequest(req);
-                ilcSdk.processResponse(pRes, res, {
+                const { processResponse } = ilcSdk.processRequest(req);
+                processResponse(res, {
                     appAssets: {
                         spaBundle: 'http://example.com/my.js',
                         cssBundle: 'http://example.com/my.css',
@@ -334,8 +347,8 @@ describe('IlcSdk', () => {
 
                 const ilcSdk = new IlcSdk({ logger: fakeCons });
 
-                const pRes = ilcSdk.processRequest(req);
-                ilcSdk.processResponse(pRes, res, {
+                const { processResponse } = ilcSdk.processRequest(req);
+                processResponse(res, {
                     appAssets: {
                         spaBundle: './lol/my.js',
                         cssBundle: 'my.css',
@@ -355,8 +368,8 @@ describe('IlcSdk', () => {
                 const req = new MockReq(merge({}, defReq));
                 const res = new MockRes();
 
-                const pRes = ilcSdk.processRequest(req);
-                ilcSdk.processResponse(pRes, res, {
+                const { processResponse } = ilcSdk.processRequest(req);
+                processResponse(res, {
                     appAssets: {
                         spaBundle: '/lol/my.js',
                     },
@@ -372,8 +385,8 @@ describe('IlcSdk', () => {
             const res = new MockRes();
             res.end();
 
-            const pRes = ilcSdk.processRequest(req);
-            expect(() => ilcSdk.processResponse(pRes, res, { pageTitle: 'tst' })).to.throw();
+            const { processResponse } = ilcSdk.processRequest(req);
+            expect(() => processResponse(res, { pageTitle: 'tst' })).to.throw();
         });
     });
 

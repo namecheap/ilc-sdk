@@ -27,11 +27,10 @@ export interface AppSdkAdapter {
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     appId: string;
     intl: IntlAdapter | null;
-    setStatusCode: (code: number) => void;
-    getStatusCode: () => number | undefined;
+    trigger404Page: (withCustomContent?: boolean) => void;
 }
 
-export type Render404 = () => void;
+export type Render404 = (withCustomContent?: boolean) => void;
 
 export interface IntlConfig {
     locale?: string;

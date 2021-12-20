@@ -41,18 +41,12 @@ import * as types from './types';
 import { IlcIntl } from './IlcIntl';
 import defaultIntlAdapter from './defaultIntlAdapter';
 import { IIlcAppSdk } from './interfaces/IIlcAppSdk';
+import { Render404 } from './interfaces/common';
 
 export * from './types';
 export * from './GlobalBrowserApi';
 export * from './IlcIntl';
 export * from './utils/isSpecialUrl';
-
-/* Using of `Intl` is removed from ILC, probably in the next major version we can remove it here */
-/**
- * @internal
- * @deprecated use `IlcIntl` export instead
- */
-export const Intl = IlcIntl;
 
 /**
  * @name IlcAppSdk
@@ -74,19 +68,16 @@ export default class IlcAppSdk implements IIlcAppSdk {
     }
     /**
      * Isomorphic method to render 404 page.
+     * GLOBAL 404:
      * At SSR in processResponse it sets 404 status code to response.
      * At CSR it triggers global event which ILC listens and renders 404 page.
+     *
+     * CUSTOM 404:
+     * At SSR in processResponse it sets 404 status code and "X-ILC-Override" header to response.
+     * At CSR it renders own not found route.
      */
-    render404 = () => {
-        if (this.adapter.setStatusCode) {
-            this.adapter.setStatusCode(404);
-        } else {
-            window.dispatchEvent(
-                new CustomEvent('ilc:404', {
-                    detail: { appId: this.appId },
-                }),
-            );
-        }
+    render404: Render404 = (withCustomContent) => {
+        this.adapter.trigger404Page(withCustomContent);
     };
 
     unmount() {

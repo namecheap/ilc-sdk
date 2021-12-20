@@ -99,7 +99,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="server.ilcappwrappersdk.html#assetsdiscoveryhandler" class="tsd-kind-icon">assets<wbr>Discovery<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="server.ilcappwrappersdk.html#forwardrequest" class="tsd-kind-icon">forward<wbr>Request</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="server.ilcappwrappersdk.html#processrequest" class="tsd-kind-icon">process<wbr>Request</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="server.ilcappwrappersdk.html#processresponse" class="tsd-kind-icon">process<wbr>Response</a></li>
 							</ul>
 						</section>
 					</div>
@@ -118,7 +117,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="server.ilcsdk.html">IlcSdk</a>.<a href="server.ilcsdk.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8ac20af/src/server/IlcSdk.ts#L14">src/server/IlcSdk.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/5515a48/src/server/IlcSdk.ts#L16">src/server/IlcSdk.ts:16</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -153,7 +152,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="server.ilcsdk.html">IlcSdk</a>.<a href="server.ilcsdk.html#assetsdiscoveryhandler">assetsDiscoveryHandler</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8ac20af/src/server/IlcSdk.ts#L114">src/server/IlcSdk.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/5515a48/src/server/IlcSdk.ts#L137">src/server/IlcSdk.ts:137</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -188,7 +187,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8ac20af/src/server/IlcAppWrapperSdk.ts#L7">src/server/IlcAppWrapperSdk.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/5515a48/src/server/IlcAppWrapperSdk.ts#L7">src/server/IlcAppWrapperSdk.ts:7</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -211,14 +210,14 @@
 					<a name="processrequest" class="tsd-anchor"></a>
 					<h3>process<wbr>Request</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">process<wbr>Request&lt;RegistryProps&gt;<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/server.requestdata.html" class="tsd-signature-type">RequestData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RegistryProps</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">process<wbr>Request&lt;RegistryProps&gt;<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IncomingMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ProcessedRequest</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RegistryProps</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="server.ilcsdk.html">IlcSdk</a>.<a href="server.ilcsdk.html#processrequest">processRequest</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8ac20af/src/server/IlcSdk.ts#L30">src/server/IlcSdk.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/5515a48/src/server/IlcSdk.ts#L32">src/server/IlcSdk.ts:32</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -238,43 +237,7 @@
 									<h5>req: <span class="tsd-signature-type">IncomingMessage</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/server.requestdata.html" class="tsd-signature-type">RequestData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RegistryProps</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="processresponse" class="tsd-anchor"></a>
-					<h3>process<wbr>Response</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">process<wbr>Response<span class="tsd-signature-symbol">(</span>reqData<span class="tsd-signature-symbol">: </span><a href="../interfaces/server.requestdata.html" class="tsd-signature-type">RequestData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServerResponse</span>, data<span class="tsd-signature-symbol">?: </span><a href="../interfaces/server.responsedata.html" class="tsd-signature-type">ResponseData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="server.ilcsdk.html">IlcSdk</a>.<a href="server.ilcsdk.html#processresponse">processResponse</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8ac20af/src/server/IlcSdk.ts#L80">src/server/IlcSdk.ts:80</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Processes outgoing response and allow conveniently pass information from application back to ILC.</p>
-								</div>
-								<p><strong>WARNING:</strong> this method should be called before response headers were send.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>reqData: <a href="../interfaces/server.requestdata.html" class="tsd-signature-type">RequestData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
-									<h5>res: <span class="tsd-signature-type">ServerResponse</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <a href="../interfaces/server.responsedata.html" class="tsd-signature-type">ResponseData</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ProcessedRequest</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RegistryProps</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -330,9 +293,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 								<a href="server.ilcappwrappersdk.html#processrequest" class="tsd-kind-icon">process<wbr>Request</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="server.ilcappwrappersdk.html#processresponse" class="tsd-kind-icon">process<wbr>Response</a>
 							</li>
 						</ul>
 					</li>

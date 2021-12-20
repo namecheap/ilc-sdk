@@ -108,12 +108,12 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="app.ilcappsdk.html#appid" class="tsd-kind-icon">app<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="app.ilcappsdk.html#intl" class="tsd-kind-icon">intl</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="app.ilcappsdk.html#render404" class="tsd-kind-icon">render404</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="app.ilcappsdk.html#render404" class="tsd-kind-icon">render404</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="app.ilcappsdk.html#unmount" class="tsd-kind-icon">unmount</a></li>
 							</ul>
 						</section>
@@ -132,7 +132,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8ac20af/src/app/index.ts#L63">src/app/index.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/5515a48/src/app/index.ts#L57">src/app/index.ts:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -155,7 +155,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/app.iilcappsdk.html">IIlcAppSdk</a>.<a href="../interfaces/app.iilcappsdk.html#appid">appId</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8ac20af/src/app/index.ts#L63">src/app/index.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/5515a48/src/app/index.ts#L57">src/app/index.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -171,38 +171,35 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/app.iilcappsdk.html">IIlcAppSdk</a>.<a href="../interfaces/app.iilcappsdk.html#intl">intl</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8ac20af/src/app/index.ts#L61">src/app/index.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/5515a48/src/app/index.ts#L55">src/app/index.ts:55</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="render404" class="tsd-anchor"></a>
+					<h3>render404</h3>
+					<div class="tsd-signature tsd-kind-icon">render404<span class="tsd-signature-symbol">:</span> <a href="../modules/app.html#render404" class="tsd-signature-type">Render404</a><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/app.iilcappsdk.html">IIlcAppSdk</a>.<a href="../interfaces/app.iilcappsdk.html#render404">render404</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/5515a48/src/app/index.ts#L79">src/app/index.ts:79</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Isomorphic method to render 404 page.
+								GLOBAL 404:
+								At SSR in processResponse it sets 404 status code to response.
+							At CSR it triggers global event which ILC listens and renders 404 page.</p>
+						</div>
+						<p>CUSTOM 404:
+							At SSR in processResponse it sets 404 status code and &quot;X-ILC-Override&quot; header to response.
+						At CSR it renders own not found route.</p>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="render404" class="tsd-anchor"></a>
-					<h3>render404</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">render404<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Implementation of IIlcAppSdk.render404</p>
-								<ul>
-									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8ac20af/src/app/index.ts#L80">src/app/index.ts:80</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Isomorphic method to render 404 page.
-										At SSR in processResponse it sets 404 status code to response.
-									At CSR it triggers global event which ILC listens and renders 404 page.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="unmount" class="tsd-anchor"></a>
 					<h3>unmount</h3>
@@ -213,7 +210,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/8ac20af/src/app/index.ts#L92">src/app/index.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/5515a48/src/app/index.ts#L83">src/app/index.ts:83</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -276,7 +273,7 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="app.ilcappsdk.html#intl" class="tsd-kind-icon">intl</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="app.ilcappsdk.html#render404" class="tsd-kind-icon">render404</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">

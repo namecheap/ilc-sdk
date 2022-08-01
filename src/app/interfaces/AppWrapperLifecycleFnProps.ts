@@ -10,4 +10,7 @@ export interface AppWrapperLifecycleFnProps<RegProps = unknown> extends AppLifec
      * See more details in [ILC App Wrappers documentation](https://github.com/namecheap/ilc/blob/master/docs/app_wrappers.md).
      */
     renderApp: <T = CustomProps>(props: T) => Promise<void>;
+    appWrapperData?: {
+        appId: string;
+    };
 }

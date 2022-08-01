@@ -106,6 +106,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="app.appwrapperlifecyclefnprops.html#appsdk" class="tsd-kind-icon">app<wbr>Sdk</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="app.appwrapperlifecyclefnprops.html#appwrapperdata" class="tsd-kind-icon">app<wbr>Wrapper<wbr>Data</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="app.appwrapperlifecyclefnprops.html#domelementgetter" class="tsd-kind-icon">dom<wbr>Element<wbr>Getter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="app.appwrapperlifecyclefnprops.html#errorhandler" class="tsd-kind-icon">error<wbr>Handler</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="app.appwrapperlifecyclefnprops.html#getcurrentbasepath" class="tsd-kind-icon">get<wbr>Current<wbr>Base<wbr>Path</a></li>
@@ -127,13 +128,38 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="app.applifecyclefnprops.html">AppLifecycleFnProps</a>.<a href="app.applifecyclefnprops.html#appsdk">appSdk</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/ee431f0/src/app/interfaces/AppLifecycleFnProps.ts#L31">src/app/interfaces/AppLifecycleFnProps.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/f39a9bc/src/app/interfaces/AppLifecycleFnProps.ts#L31">src/app/interfaces/AppLifecycleFnProps.ts:31</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Isomorphic API that can be used during SSR &amp; CSR. <a href="https://namecheap.github.io/ilc-sdk/classes/_app_index_.ilcappsdk.html">Documentation</a></p>
 						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="appwrapperdata" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> app<wbr>Wrapper<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">app<wbr>Wrapper<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>appId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/f39a9bc/src/app/interfaces/AppWrapperLifecycleFnProps.ts#L18">src/app/interfaces/AppWrapperLifecycleFnProps.ts:18</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The appWrapperData object identifies that application execution is controlled by Wrapper
+								The namespace contains params that identifies Wrapper
+							appWrapperData.appId identifier of Wrapper</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>app<wbr>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
@@ -143,7 +169,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="app.applifecyclefnprops.html">AppLifecycleFnProps</a>.<a href="app.applifecyclefnprops.html#domelementgetter">domElementGetter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/ee431f0/src/app/interfaces/AppLifecycleFnProps.ts#L12">src/app/interfaces/AppLifecycleFnProps.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/f39a9bc/src/app/interfaces/AppLifecycleFnProps.ts#L12">src/app/interfaces/AppLifecycleFnProps.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -174,7 +200,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="app.applifecyclefnprops.html">AppLifecycleFnProps</a>.<a href="app.applifecyclefnprops.html#errorhandler">errorHandler</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/ee431f0/src/app/interfaces/AppLifecycleFnProps.ts#L27">src/app/interfaces/AppLifecycleFnProps.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/f39a9bc/src/app/interfaces/AppLifecycleFnProps.ts#L27">src/app/interfaces/AppLifecycleFnProps.ts:27</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -190,7 +216,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="app.applifecyclefnprops.html">AppLifecycleFnProps</a>.<a href="app.applifecyclefnprops.html#getcurrentbasepath">getCurrentBasePath</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/ee431f0/src/app/interfaces/AppLifecycleFnProps.ts#L23">src/app/interfaces/AppLifecycleFnProps.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/f39a9bc/src/app/interfaces/AppLifecycleFnProps.ts#L23">src/app/interfaces/AppLifecycleFnProps.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -223,7 +249,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="app.applifecyclefnprops.html">AppLifecycleFnProps</a>.<a href="app.applifecyclefnprops.html#getcurrentpathprops">getCurrentPathProps</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/ee431f0/src/app/interfaces/AppLifecycleFnProps.ts#L16">src/app/interfaces/AppLifecycleFnProps.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/f39a9bc/src/app/interfaces/AppLifecycleFnProps.ts#L16">src/app/interfaces/AppLifecycleFnProps.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -254,7 +280,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="app.applifecyclefnprops.html">AppLifecycleFnProps</a>.<a href="app.applifecyclefnprops.html#mountparcel">mountParcel</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/ee431f0/src/app/interfaces/SingleSpaLifecycleFnProps.ts#L11">src/app/interfaces/SingleSpaLifecycleFnProps.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/f39a9bc/src/app/interfaces/SingleSpaLifecycleFnProps.ts#L11">src/app/interfaces/SingleSpaLifecycleFnProps.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -271,7 +297,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="app.applifecyclefnprops.html">AppLifecycleFnProps</a>.<a href="app.applifecyclefnprops.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/ee431f0/src/app/interfaces/SingleSpaLifecycleFnProps.ts#L5">src/app/interfaces/SingleSpaLifecycleFnProps.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/f39a9bc/src/app/interfaces/SingleSpaLifecycleFnProps.ts#L5">src/app/interfaces/SingleSpaLifecycleFnProps.ts:5</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -286,7 +312,7 @@
 					<div class="tsd-signature tsd-kind-icon">render<wbr>App<span class="tsd-signature-symbol">:</span> &lt;T&gt;<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/ee431f0/src/app/interfaces/AppWrapperLifecycleFnProps.ts#L12">src/app/interfaces/AppWrapperLifecycleFnProps.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/namecheap/ilc-sdk/blob/f39a9bc/src/app/interfaces/AppWrapperLifecycleFnProps.ts#L12">src/app/interfaces/AppWrapperLifecycleFnProps.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -384,6 +410,9 @@
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="app.appwrapperlifecyclefnprops.html#appsdk" class="tsd-kind-icon">app<wbr>Sdk</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="app.appwrapperlifecyclefnprops.html#appwrapperdata" class="tsd-kind-icon">app<wbr>Wrapper<wbr>Data</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="app.appwrapperlifecyclefnprops.html#domelementgetter" class="tsd-kind-icon">dom<wbr>Element<wbr>Getter</a>

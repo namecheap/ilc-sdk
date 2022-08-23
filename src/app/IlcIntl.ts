@@ -2,6 +2,7 @@ import * as types from './types';
 import parseAsFullyQualifiedURI from './utils/parseAsFullyQualifiedURI';
 import defaultIntlAdapter from './defaultIntlAdapter';
 import { isSpecialUrl } from './utils/isSpecialUrl';
+import { OptionsIntl } from './interfaces/OptionsSdk';
 
 /**
  * **WARNING:** this class shouldn't be imported directly in the apps or adapters. Use `IlcAppSdk` instead.
@@ -11,7 +12,7 @@ export class IlcIntl {
     private listeners: any[] = [];
     private static eventName = 'ilc:intl-update';
 
-    constructor(private appId: string, adapter?: types.IntlAdapter) {
+    constructor(private appId: string, adapter?: types.IntlAdapter, private options?: OptionsIntl) {
         if (!adapter) {
             adapter = defaultIntlAdapter;
         }
@@ -51,6 +52,15 @@ export class IlcIntl {
         }
 
         return this.adapter.set(config);
+    }
+
+    /**
+     * Get localisation manifest file.
+     * File could be accessible optionally. The trick is useful
+     *
+     */
+    public getLocalisationManifestPath(): string | undefined {
+        return this.options?.manifestPath;
     }
 
     /**

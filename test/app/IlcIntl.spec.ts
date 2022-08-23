@@ -42,6 +42,12 @@ describe('IlcIntl', () => {
             sinon.assert.calledOnceWithExactly(adapter.set, newConf);
         });
 
+        it('should handle options ', () => {
+            const adapter = getClientAdapter();
+            const intl = new IlcIntl('tst', adapter, { manifestPath: 'value' });
+            expect(intl.getLocalisationManifestPath()).equal('value');
+        });
+
         it('fires callback on language change & unsubscribes correctly', () => {
             const adapter = getClientAdapter();
             const intl = new IlcIntl('tst', adapter);

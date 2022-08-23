@@ -42,6 +42,7 @@ import { IlcIntl } from './IlcIntl';
 import defaultIntlAdapter from './defaultIntlAdapter';
 import { IIlcAppSdk } from './interfaces/IIlcAppSdk';
 import { Render404 } from './interfaces/common';
+import { OptionsSdk } from './interfaces/OptionsSdk';
 
 export * from './types';
 export * from './GlobalBrowserApi';
@@ -56,7 +57,7 @@ export default class IlcAppSdk implements IIlcAppSdk {
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     public appId: string;
 
-    constructor(private adapter: types.AppSdkAdapter) {
+    constructor(private adapter: types.AppSdkAdapter, private options?: OptionsSdk) {
         if (!this.adapter) {
             throw new Error('Unable to determine adapter properly...');
         }
@@ -64,7 +65,7 @@ export default class IlcAppSdk implements IIlcAppSdk {
         this.appId = this.adapter.appId;
 
         const intlAdapter = this.adapter.intl ? this.adapter.intl : defaultIntlAdapter;
-        this.intl = new IlcIntl(this.appId, intlAdapter);
+        this.intl = new IlcIntl(this.appId, intlAdapter, this.options?.i18n);
     }
     /**
      * Isomorphic method to render 404 page.

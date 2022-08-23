@@ -32,4 +32,13 @@ describe('IlcAppSdk', () => {
 
         expect(() => appSdk.unmount()).to.throw("Looks like you're trying to call CSR only method during SSR");
     });
+
+    it('should process sdk params', () => {
+        const appSdk = new IlcAppSdk({
+            appId: 'someAppId',
+            intl: null,
+            trigger404Page: () => {},
+        }, { i18n: {manifestPath: 'value'} });
+        expect(appSdk.intl.getLocalisationManifestPath()).equal('value');
+    });
 });

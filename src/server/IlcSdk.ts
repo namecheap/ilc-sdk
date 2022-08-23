@@ -7,6 +7,7 @@ import * as clientTypes from '../app/interfaces/common';
 import { IlcSdkLogger } from './IlcSdkLogger';
 import AppSdk from '../app';
 import * as internalTypes from './internalTypes';
+import { base64ToObject } from './base64ToObject';
 
 /**
  * Entrypoint for SDK that should be used within application server that executes SSR bundle
@@ -33,9 +34,12 @@ export class IlcSdk {
         req: IncomingMessage,
     ): internalTypes.ProcessedRequest<RegistryProps> {
         const url = this.parseUrl(req);
+        // Parsed objects have to be validated because it could lead to unpredictable behaviour.
+        // Here we do not use TS benefits
         const routerProps = this.parseRouterProps(url);
         const requestedUrls = this.getRequestUrls(url, routerProps);
         const passedProps = this.getPassedProps(url);
+        const sdkOptions = this.parseSdkOptions(url);
 
         let appId: string;
         if (routerProps.fragmentName) {
@@ -82,7 +86,7 @@ export class IlcSdk {
 
         return {
             requestData,
-            appSdk: new AppSdk(requestData),
+            appSdk: new AppSdk(requestData, sdkOptions),
             processResponse: this.processResponse.bind(this, tmpResponseData),
         };
     }
@@ -185,7 +189,15 @@ export class IlcSdk {
 
     private parseRouterProps(url: URL) {
         if (url.searchParams.has('routerProps')) {
-            return JSON.parse(Buffer.from(url.searchParams.get('routerProps')!, 'base64').toString('utf-8'));
+            return base64ToObject(url.searchParams.get('routerProps')!);
+        } else {
+            return {};
+        }
+    }
+
+    private parseSdkOptions(url: URL) {
+        if (url.searchParams.has('sdk')) {
+            return base64ToObject(url.searchParams.get('sdk')!);
         } else {
             return {};
         }
@@ -216,7 +228,7 @@ export class IlcSdk {
         }
 
         try {
-            return JSON.parse(Buffer.from(url.searchParams.get('appProps')!, 'base64').toString('utf-8'));
+            return base64ToObject(url.searchParams.get('appProps')!);
         } catch (e) {
             this.log.warn(`Error while parsing passed props. Falling back to empty object...`, e);
 

@@ -34,11 +34,14 @@ describe('IlcAppSdk', () => {
     });
 
     it('should process sdk params', () => {
-        const appSdk = new IlcAppSdk({
-            appId: 'someAppId',
-            intl: null,
-            trigger404Page: () => {},
-        }, { i18n: {manifestPath: 'value'} });
+        const appSdk = new IlcAppSdk(
+            {
+                appId: 'someAppId',
+                intl: null,
+                trigger404Page: () => {},
+            },
+            { i18n: { manifestPath: 'value' } },
+        );
         expect(appSdk.intl.getLocalisationManifestPath()).equal('value');
     });
 });

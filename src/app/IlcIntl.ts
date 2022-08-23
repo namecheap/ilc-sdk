@@ -2,7 +2,7 @@ import * as types from './types';
 import parseAsFullyQualifiedURI from './utils/parseAsFullyQualifiedURI';
 import defaultIntlAdapter from './defaultIntlAdapter';
 import { isSpecialUrl } from './utils/isSpecialUrl';
-import {OptionsIntl} from "./interfaces/OptionsSdk";
+import { OptionsIntl } from './interfaces/OptionsSdk';
 
 /**
  * **WARNING:** this class shouldn't be imported directly in the apps or adapters. Use `IlcAppSdk` instead.

@@ -12,7 +12,7 @@ export interface RequestData<RegistryProps = unknown> extends clientTypes.AppSdk
     /** Returns original URI that is present in the actual HTTP request. It may contain information about locale. */
     getCurrentReqOriginalUri: () => string;
     /** Returns _Props_ that were assigned to wrapped app in ILC Registry */
-    getWrappedAppProps: () => RegistryProps
+    getWrappedAppProps: () => RegistryProps;
     /** Returns _Props_ that were assigned to app in ILC Registry for the current path */
     getCurrentPathProps: () => RegistryProps;
     intl: clientTypes.IntlAdapter;

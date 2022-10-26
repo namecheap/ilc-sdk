@@ -72,7 +72,7 @@ export class IlcSdk {
             getCurrentBasePath: () => requestedUrls.basePageUrl,
             getCurrentReqOriginalUri: () => originalUri,
             getCurrentPathProps: () => passedProps,
-            getWrappedAppProps() => wrappedAppProps,
+            getWrappedAppProps: () => wrappedAppProps,
             appId,
             intl: this.parseIntl(req),
             trigger404Page: (withCustomContent?: boolean) => {

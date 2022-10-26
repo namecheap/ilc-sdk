@@ -40,7 +40,7 @@ export class IlcSdk {
         const requestedUrls = this.getRequestUrls(url, routerProps);
         const passedProps = this.getPassedProps(url);
         const sdkOptions = this.parseSdkOptions(url);
-        const wrappedAppProps =  this.parseWrappedAppProps(url);
+        const wrappedAppProps = this.parseWrappedAppProps(url);
 
         let appId: string;
         if (routerProps.fragmentName) {

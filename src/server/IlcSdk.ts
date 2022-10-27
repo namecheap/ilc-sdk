@@ -40,6 +40,7 @@ export class IlcSdk {
         const requestedUrls = this.getRequestUrls(url, routerProps);
         const passedProps = this.getPassedProps(url);
         const sdkOptions = this.parseSdkOptions(url);
+        const wrappedAppProps = this.parseWrappedAppProps(url);
 
         let appId: string;
         if (routerProps.fragmentName) {
@@ -71,6 +72,7 @@ export class IlcSdk {
             getCurrentBasePath: () => requestedUrls.basePageUrl,
             getCurrentReqOriginalUri: () => originalUri,
             getCurrentPathProps: () => passedProps,
+            getWrappedAppProps: () => wrappedAppProps,
             appId,
             intl: this.parseIntl(req),
             trigger404Page: (withCustomContent?: boolean) => {
@@ -198,6 +200,14 @@ export class IlcSdk {
     private parseSdkOptions(url: URL) {
         if (url.searchParams.has('sdk')) {
             return base64ToObject(url.searchParams.get('sdk')!);
+        } else {
+            return {};
+        }
+    }
+
+    private parseWrappedAppProps(url: URL) {
+        if (url.searchParams.has('wrappedProps')) {
+            return base64ToObject(url.searchParams.get('wrappedProps')!);
         } else {
             return {};
         }

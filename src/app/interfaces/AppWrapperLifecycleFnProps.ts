@@ -18,4 +18,9 @@ export interface AppWrapperLifecycleFnProps<RegProps = unknown> extends AppLifec
     appWrapperData?: {
         appId: string;
     };
+
+    /**
+     * Returns Props that were defined for wrapped app. Method available only for wrappers
+     */
+    getWrappedAppProps?: () => RegProps;
 }

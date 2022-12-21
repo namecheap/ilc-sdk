@@ -1,13 +1,33 @@
 import { expect } from 'chai';
 import { GlobalBrowserApi } from '../../src/app/GlobalBrowserApi';
+import { IntlAdapter, IntlConfig, RoutingStrategy } from '../../src/app/interfaces/common';
 
 describe('GlobalBrowserApi', () => {
+    const intlConfig: Required<IntlConfig> = {
+        locale: 'en-US',
+        currency: 'USD',
+    };
+
+    const intlAdapter: IntlAdapter = {
+        config: {
+            default: intlConfig,
+            supported: {
+                locale: [intlConfig.locale],
+                currency: [intlConfig.currency],
+            },
+            routingStrategy: RoutingStrategy.PrefixExceptDefault,
+        },
+        get: () => intlConfig,
+        set: () => {},
+    };
+
     before(() => {
         (global as any).window = {
             ILC: {
                 navigate: () => 'navigate',
                 importParcelFromApp: () => Promise.resolve('importParcelFromApp'),
                 mountRootParcel: () => 'mountRootParcel',
+                getIntlAdapter: () => intlAdapter,
                 getAllSharedLibNames: () => Promise.resolve(['libName_1', 'libName_2']),
             },
         };
@@ -48,6 +68,11 @@ describe('GlobalBrowserApi', () => {
         GlobalBrowserApi.mountRootParcel(() => Promise.resolve(parcelConfig), {
             domElement: (null as unknown) as HTMLElement,
         });
+    });
+
+    it('getIntlAdapter is correctly typed and callable', () => {
+        const res = GlobalBrowserApi.getIntlAdapter();
+        expect(res).to.deep.equal(intlAdapter);
     });
 
     it('getAllSharedLibNames is correctly typed and callable', async () => {

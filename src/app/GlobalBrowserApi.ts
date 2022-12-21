@@ -2,6 +2,7 @@ import { LifeCycles } from './interfaces/LifeCycles';
 import { ParcelLifecycleFnProps } from './interfaces/ParcelLifecycleFnProps';
 import { MountParcel } from './interfaces/MountParcel';
 import { GetAllSharedLibNames } from './interfaces/GetAllSharedLibNames';
+import { IntlAdapter } from './interfaces/common';
 
 /**
  * ILC exposes some utility APIs globally at `window.ILC`. Here we provide convenience typings to use with typescript.
@@ -56,6 +57,21 @@ export class GlobalBrowserApi {
      */
     static mountRootParcel: MountParcel = (parcelConfig, parcelProps) => {
         return (window as any).ILC.mountRootParcel(parcelConfig, parcelProps);
+    };
+
+    /**
+     * Will return IntlAdapter used by ILC Client if i18n enabled otherwise it will return null
+     *
+     * @example
+     * ```javascript
+     * import { GlobalBrowserApi } from 'ilc-sdk/app';
+     *
+     * const intlAdapter = GlobalBrowserApi.getIntlAdapter();
+     * console.log('Global locale settings: ', intlAdapter?.get().locale);
+     * ```
+     */
+    static getIntlAdapter = (): IntlAdapter | null => {
+        return (window as any).ILC?.getIntlAdapter() || null;
     };
 
     /**

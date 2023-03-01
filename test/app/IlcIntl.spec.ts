@@ -252,6 +252,12 @@ describe('IlcIntl', () => {
     });
 
     describe('getCanonicalLocale', () => {
+        it('returns null when undefined locale passed', () => {
+            const supportedLocales = ['en-US', 'ua-UA'];
+
+            expect(IlcIntl.getCanonicalLocale(undefined, supportedLocales)).to.be.null;
+        });
+
         it('returns null when unsupported locale passed', () => {
             const supportedLocales = ['en-US', 'ua-UA'];
 

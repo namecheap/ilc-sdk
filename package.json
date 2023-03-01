@@ -56,7 +56,7 @@
     "typedoc-plugin-pages-fork": "0.0.1",
     "typedoc-plugin-rename-defaults": "^0.1.0",
     "typescript": "^3.9.7",
-    "webpack": "^4.46.0"
+    "webpack": "^5.74.0"
   },
   "dependencies": {
     "@types/url-join": "^4.0.0",

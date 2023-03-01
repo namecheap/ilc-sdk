@@ -213,7 +213,7 @@ export class IlcIntl {
      *
      * @internal Used internally by ILC
      */
-    static getCanonicalLocale(locale: string, supportedLocales: string[]) {
+    static getCanonicalLocale(locale = '', supportedLocales: string[]) {
         const supportedLangs = supportedLocales.map((v) => v.split('-')[0]).filter((v, i, a) => a.indexOf(v) === i);
 
         const locData = locale.split('-');

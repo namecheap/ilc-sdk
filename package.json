@@ -52,9 +52,9 @@
     "ts-node": "^8.10.1",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
-    "typedoc": "^0.20.35",
+    "typedoc": "^0.23.19",
     "typedoc-plugin-pages-fork": "0.0.1",
-    "typedoc-plugin-rename-defaults": "^0.1.0",
+    "typedoc-plugin-rename-defaults": "^0.6.4",
     "typescript": "^3.9.7",
     "webpack": "^4.46.0"
   },

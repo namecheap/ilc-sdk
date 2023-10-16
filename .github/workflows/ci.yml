@@ -14,33 +14,34 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x, 16.x]
+        node-version: [10.x, 12.x, 14.x, 16.x, 18.x, 20.x]
 
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
+          cache: 'npm'
+      - run: npm ci
       - run: npm run format:check
       - run: npm run lint
       - run: npm run build
       - run: npm run coverage
-      - if: matrix.node-version == '12.x'
+      - if: matrix.node-version == '20.x'
         uses: actions/upload-artifact@v2
         with:
           name: Code coverage
           path: coverage/
-      - if: matrix.node-version == '12.x'
+      - if: matrix.node-version == '20.x'
         run: npm run docs
-      - if: matrix.node-version == '12.x'
+      - if: matrix.node-version == '20.x'
         uses: actions/upload-artifact@v2
         with:
           name: Documentation
           path: docs/
       - name: Deploy Docs
-        if: github.ref == 'refs/heads/master' && matrix.node-version == '12.x'
+        if: github.ref == 'refs/heads/master' && matrix.node-version == '20.x'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

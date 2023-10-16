@@ -36,17 +36,17 @@ describe('GlobalBrowserApi', () => {
             // @ts-expect-error
             {},
             {
-                domElement: (null as unknown) as HTMLElement,
+                domElement: null as unknown as HTMLElement,
             },
         );
 
         const mountRes = GlobalBrowserApi.mountRootParcel(parcelConfig, {
-            domElement: (null as unknown) as HTMLElement,
+            domElement: null as unknown as HTMLElement,
         });
         expect(mountRes).to.eq('mountRootParcel');
 
         GlobalBrowserApi.mountRootParcel(() => Promise.resolve(parcelConfig), {
-            domElement: (null as unknown) as HTMLElement,
+            domElement: null as unknown as HTMLElement,
         });
     });
 

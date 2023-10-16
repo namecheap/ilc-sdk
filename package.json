@@ -68,5 +68,8 @@
     "url-join": "^4.0.1",
     "webpack-inject-plugin": "1.5.5",
     "wrapper-webpack-plugin": "2.1.0"
+  },
+  "engines": {
+    "npm": ">=7"
   }
 }

@@ -53,10 +53,9 @@ export function WebpackPluginsFactory(config: RegExp | FactoryConfig = {}) {
     plugins.client.push(
         new InjectPlugin(
             () => {
-                return `${UglifyJs.minify(resolveDirectory.toString()).code}
-            __webpack_public_path__  = resolveDirectory(__ilc_script_url__, ${
-                conf.publicPathDetection?.rootDirectoryLevel
-            });`;
+                const minifiedCode = UglifyJs.minify(resolveDirectory.toString()).code;
+                return `${minifiedCode}
+            __webpack_public_path__  = resolveDirectory(__ilc_script_url__, ${conf.publicPathDetection?.rootDirectoryLevel});`;
             },
             { entryOrder: ENTRY_ORDER.First },
         ),

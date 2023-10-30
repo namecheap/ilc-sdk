@@ -34,7 +34,10 @@ export class RegistryApi {
      *
      *   **Default value:** `60000`
      */
-    constructor(private registryOrigin: string, options: Options = {}) {
+    constructor(
+        private registryOrigin: string,
+        options: Options = {},
+    ) {
         this.log = options.logger || console;
 
         this.getApps = memoizee(this.getApps.bind(this), {

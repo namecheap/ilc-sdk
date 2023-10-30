@@ -1,7 +1,7 @@
 import avro from 'avsc';
 import { RoutingStrategy } from '../app/interfaces/common';
 
-const IlcProtocol = avro.Type.forSchema({
+export const IlcProtocol = avro.Type.forSchema({
     type: 'record',
     name: 'IntlConfig',
     fields: [

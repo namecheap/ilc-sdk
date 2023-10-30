@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "ES2019",
     "module": "commonjs",
@@ -7,10 +8,10 @@
     "strict": true,
     "types" : ["node"],
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["./"],
-  "exclude": ["node_modules", "**/__tests__/*"],
+  "include": ["**/*.ts"],
   "references": [
     {
       "path": "../app"

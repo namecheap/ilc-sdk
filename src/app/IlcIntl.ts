@@ -12,7 +12,11 @@ export class IlcIntl {
     private listeners: any[] = [];
     private static eventName = 'ilc:intl-update';
 
-    constructor(private appId: string, adapter?: types.IntlAdapter, private options?: OptionsIntl) {
+    constructor(
+        private appId: string,
+        adapter?: types.IntlAdapter,
+        private options?: OptionsIntl,
+    ) {
         if (!adapter) {
             adapter = defaultIntlAdapter;
         }

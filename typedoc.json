@@ -1,26 +1,30 @@
 {
-  "entryPoints": ["./src/server/index.ts", "./src/app/index.ts"],
-  "theme": "pages-plugin",
-  "includes": "./doc/",
-  "out": "docs",
-  "excludePrivate": true,
-  "excludeInternal": true,
-  "pages": {
-    "groups": [{
-      "title": "Pages",
-      "pages": [{
-        "title": "ILC to App interface",
-        "source": "./doc/ilc_app_interface.md"
-      },{
-        "title": "ILC Global API",
-        "source": "./doc/global_api.md"
-      },{
-        "title": "ILC Registry API",
-        "source": "./doc/registry_api.md"
-      },{
-        "title": "Public Path Problem",
-        "source": "./doc/public_path.md"
-      }]
-    }]
-  }
+    "plugin": ["typedoc-plugin-rename-defaults", "typedoc-plugin-missing-exports", "@knodes/typedoc-plugin-pages"],
+    "entryPointStrategy": "expand",
+    "entryPoints": ["./src/server/index.ts", "./src/app/index.ts"],
+    "includes": "./doc/",
+    "out": "docs",
+    "excludePrivate": true,
+    "excludeInternal": true,
+    "excludeExternals": true,
+    "pluginPages": {
+        "pages": [
+            {
+                "name": "ILC to App interface",
+                "source": "./doc/ilc_app_interface.md"
+            },
+            {
+                "name": "ILC Global API",
+                "source": "./doc/global_api.md"
+            },
+            {
+                "name": "ILC Registry API",
+                "source": "./doc/registry_api.md"
+            },
+            {
+                "name": "Public Path Problem",
+                "source": "./doc/public_path.md"
+            }
+        ]
+    }
 }

@@ -1,14 +1,14 @@
 import IlcSdk from '../../src/server/index';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { Request as MockReq, Response as MockRes } from 'mock-http';
+import { Request as MockReq, MockRequestOptions, Response as MockRes } from 'mock-http';
 import merge from 'lodash.merge';
 
 import defaultIntlAdapter from '../../src/app/defaultIntlAdapter';
 import fakeCons from '../utils/console';
 import { intlSchema } from '../../src/server/IlcProtocol';
 
-const defReq = Object.freeze({
+const defReq = Object.freeze<Omit<MockRequestOptions, 'headers'> & { headers: Record<string, string> }>({
     url: '/tst',
     headers: { host: 'example.com', 'x-request-host': 'example.com', 'x-request-uri': '/tst' },
 });

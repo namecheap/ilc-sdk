@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "composite": true,
     "target": "es2015",
@@ -9,6 +10,5 @@
     "types" : ["mocha"],
     "esModuleInterop": true
   },
-  "include": ["./"],
-  "exclude": ["node_modules", "**/__tests__/*"]
+  "include": ["**/*.ts"],
 }

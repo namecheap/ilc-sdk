@@ -240,7 +240,7 @@ export class IlcSdk {
         try {
             return base64ToObject(url.searchParams.get('appProps')!);
         } catch (e) {
-            this.log.warn(`Error while parsing passed props. Falling back to empty object...`, e);
+            this.log.warn(`Error while parsing passed props. Falling back to empty object...`, e as Error);
 
             return {};
         }

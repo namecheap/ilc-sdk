@@ -14,7 +14,7 @@
  *
  * ## Server side
  * Unfortunately during app's SSR we don't have ILC in place.
- * So we need to use result of the {@link IlcSdk.processRequest} (which implements {@link AppSdkAdapter}) to receive all the necessary
+ * So we need to use result of the {@link server.IlcSdk.processRequest} (which implements {@link AppSdkAdapter}) to receive all the necessary
  * data for `IlcAppSdk` initialization.
  *
  * @example
@@ -57,7 +57,10 @@ export default class IlcAppSdk implements IIlcAppSdk {
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     public appId: string;
 
-    constructor(private adapter: types.AppSdkAdapter, private options?: OptionsSdk) {
+    constructor(
+        private adapter: types.AppSdkAdapter,
+        private options?: OptionsSdk,
+    ) {
         if (!this.adapter) {
             throw new Error('Unable to determine adapter properly...');
         }

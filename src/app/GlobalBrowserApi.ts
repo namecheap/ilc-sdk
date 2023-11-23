@@ -19,7 +19,7 @@ export class GlobalBrowserApi {
      * Localization of the URL will be done automatically.
      */
     static navigate(urlWithoutLocale: string): void {
-        return (window as any).ILC.navigate(urlWithoutLocale);
+        return window.ILC.navigate(urlWithoutLocale);
     }
 
     /**
@@ -40,7 +40,7 @@ export class GlobalBrowserApi {
         appName: string,
         parcelName: string,
     ): Promise<LifeCycles<ParcelLifecycleFnProps<ExtraProps>>> {
-        return (window as any).ILC.importParcelFromApp(appName, parcelName);
+        return window.ILC.importParcelFromApp(appName, parcelName);
     }
 
     /**
@@ -55,7 +55,7 @@ export class GlobalBrowserApi {
      * ```
      */
     static mountRootParcel: MountParcel = (parcelConfig, parcelProps) => {
-        return (window as any).ILC.mountRootParcel(parcelConfig, parcelProps);
+        return window.ILC.mountRootParcel(parcelConfig, parcelProps);
     };
 
     /**
@@ -67,6 +67,6 @@ export class GlobalBrowserApi {
      * ```
      */
     static getAllSharedLibNames: GetAllSharedLibNames = () => {
-        return (window as any).ILC.getAllSharedLibNames();
+        return window.ILC.getAllSharedLibNames();
     };
 }

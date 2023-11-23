@@ -1,3 +1,4 @@
+import { AppStatus } from './AppStatus';
 import { CustomProps } from './CustomProps';
 
 /**
@@ -27,19 +28,7 @@ export interface ParcelObject<ExtraProps = CustomProps> {
     /**
      * Returns a string of that parcels status. The string status is one of the following:
      */
-    getStatus():
-        | 'NOT_LOADED'
-        | 'LOADING_SOURCE_CODE'
-        | 'NOT_BOOTSTRAPPED'
-        | 'BOOTSTRAPPING'
-        | 'NOT_MOUNTED'
-        | 'MOUNTING'
-        | 'MOUNTED'
-        | 'UPDATING'
-        | 'UNMOUNTING'
-        | 'UNLOADING'
-        | 'SKIP_BECAUSE_BROKEN'
-        | 'LOAD_ERROR';
+    getStatus(): AppStatus;
 
     /**
      * Returns a promise that will resolve once the parcel has been loaded.

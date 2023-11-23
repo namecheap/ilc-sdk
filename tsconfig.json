@@ -1,14 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "ES2019",
-    "module": "commonjs",
-    "declaration": true,
-    "strict": true,
-    "types" : ["node", "mocha"],
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "exclude": ["node_modules", "**/__tests__/*"],
+    "compilerOptions": {
+        "target": "ES2019",
+        "module": "commonjs",
+        "declaration": true,
+        "strict": true,
+        "types": ["node", "mocha"],
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "exclude": ["node_modules", "**/__tests__/*"],
+    "ts-node": {
+        "files": true
+    }
 }

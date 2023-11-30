@@ -1,4 +1,4 @@
-import IlcAppSdk from '../../src/app/index';
+import IlcAppSdk, { ApplicationKind } from '../../src/app/index';
 import { expect } from 'chai';
 
 describe('IlcAppSdk', () => {
@@ -40,7 +40,18 @@ describe('IlcAppSdk', () => {
                 intl: null,
                 trigger404Page: () => {},
             },
-            { i18n: { manifestPath: 'value' } },
+            {
+                i18n: { manifestPath: 'value' },
+                manifest: {
+                    name: '@portal/news',
+                    kind: ApplicationKind.Primary,
+                    spaBundle: 'http://localhost:8080/bundle.js',
+                    cssBundle: 'http://localhost:8080/bundle.css',
+                    props: {
+                        appConfig: {},
+                    },
+                },
+            },
         );
         expect(appSdk.intl.getLocalisationManifestPath()).equal('value');
     });

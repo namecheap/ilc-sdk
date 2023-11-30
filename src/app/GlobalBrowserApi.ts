@@ -2,6 +2,7 @@ import { LifeCycles } from './interfaces/LifeCycles';
 import { ParcelLifecycleFnProps } from './interfaces/ParcelLifecycleFnProps';
 import { MountParcel } from './interfaces/MountParcel';
 import { GetAllSharedLibNames } from './interfaces/GetAllSharedLibNames';
+import { AppLifecycleFnProps, AppWrapperLifecycleFnProps, ApplicationConfig } from './types';
 
 /**
  * ILC exposes some utility APIs globally at `window.ILC`. Here we provide convenience typings to use with typescript.
@@ -69,4 +70,19 @@ export class GlobalBrowserApi {
     static getAllSharedLibNames: GetAllSharedLibNames = () => {
         return window.ILC.getAllSharedLibNames();
     };
+
+    static loadApp<T>(
+        name: string,
+        options?: { injectGlobalCss?: boolean },
+    ): Promise<T & LifeCycles<AppLifecycleFnProps | AppWrapperLifecycleFnProps | ParcelLifecycleFnProps>> {
+        return window.ILC.loadApp(name, options);
+    }
+
+    static getApplicationConfig<T extends object>(name: string): Promise<ApplicationConfig<T> | undefined> {
+        return window.ILC.getApplicationConfigByName(name);
+    }
+
+    static isIlcEnvironment(): boolean {
+        return Boolean(typeof window !== 'undefined' && window.ILC);
+    }
 }

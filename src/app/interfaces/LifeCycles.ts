@@ -2,7 +2,7 @@ import { AppLifecycleFnProps } from './AppLifecycleFnProps';
 import { AppWrapperLifecycleFnProps } from './AppWrapperLifecycleFnProps';
 import { ParcelLifecycleFnProps } from './ParcelLifecycleFnProps';
 
-type LifeCycleFn<AppOrParcelProps> = (config: AppOrParcelProps) => Promise<any>;
+export type LifeCycleFn<AppOrParcelProps> = (config: AppOrParcelProps) => Promise<any>;
 
 export interface LifeCycles<
     AppOrParcelProps extends AppLifecycleFnProps | AppWrapperLifecycleFnProps | ParcelLifecycleFnProps,

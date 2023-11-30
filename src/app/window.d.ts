@@ -1,4 +1,4 @@
-import type { LifeCycles, MountParcel, IntlAdapter, AppStatus } from './types';
+import type { LifeCycles, MountParcel, IntlAdapter, AppStatus, ApplicationConfig } from './types';
 
 declare global {
     interface Window {
@@ -27,6 +27,7 @@ declare global {
             getAllSharedLibNames: GetAllSharedLibNames;
             getSharedLibConfigByName: (name: string) => Promise<string[]>;
             getSharedLibConfigByNameSync: (name: string) => string[];
+            getApplicationConfigByName<T extends object>(name: string): Promise<ApplicationConfig<T> | undefined>;
         };
     }
 }

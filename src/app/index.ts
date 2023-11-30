@@ -43,6 +43,7 @@ import defaultIntlAdapter from './defaultIntlAdapter';
 import { IIlcAppSdk } from './interfaces/IIlcAppSdk';
 import { Render404 } from './interfaces/common';
 import { OptionsSdk } from './interfaces/OptionsSdk';
+import { ApplicationConfig } from './types';
 
 export * from './types';
 export * from './GlobalBrowserApi';
@@ -57,6 +58,8 @@ export default class IlcAppSdk implements IIlcAppSdk {
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     public appId: string;
 
+    public readonly manifest?: ApplicationConfig;
+
     constructor(
         private adapter: types.AppSdkAdapter,
         private options?: OptionsSdk,
@@ -69,6 +72,7 @@ export default class IlcAppSdk implements IIlcAppSdk {
 
         const intlAdapter = this.adapter.intl ? this.adapter.intl : defaultIntlAdapter;
         this.intl = new IlcIntl(this.appId, intlAdapter, this.options?.i18n);
+        this.manifest = options?.manifest;
     }
     /**
      * Isomorphic method to render 404 page.

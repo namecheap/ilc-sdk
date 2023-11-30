@@ -42,7 +42,7 @@ describe('IlcAppSdk', () => {
             },
             {
                 i18n: { manifestPath: 'value' },
-                manifest: {
+                appConfig: {
                     name: '@portal/news',
                     kind: ApplicationKind.Primary,
                     spaBundle: 'http://localhost:8080/bundle.js',

@@ -1,8 +1,6 @@
-import { ApplicationConfig } from './AppConfig';
-
 export interface OptionsSdk {
     i18n?: OptionsIntl;
-    appConfig?: ApplicationConfig;
+    cssBundle?: string;
 }
 
 export interface OptionsIntl {

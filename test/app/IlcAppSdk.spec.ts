@@ -42,15 +42,7 @@ describe('IlcAppSdk', () => {
             },
             {
                 i18n: { manifestPath: 'value' },
-                appConfig: {
-                    name: '@portal/news',
-                    kind: ApplicationKind.Primary,
-                    spaBundle: 'http://localhost:8080/bundle.js',
-                    cssBundle: 'http://localhost:8080/bundle.css',
-                    props: {
-                        appConfig: {},
-                    },
-                },
+                cssBundle: '',
             },
         );
         expect(appSdk.intl.getLocalisationManifestPath()).equal('value');

@@ -58,7 +58,7 @@ export default class IlcAppSdk implements IIlcAppSdk {
     /** Unique application ID, if same app will be rendered twice on a page - it will get different IDs */
     public appId: string;
 
-    public readonly appConfig?: ApplicationConfig;
+    public readonly cssBundle?: string;
 
     constructor(
         private adapter: types.AppSdkAdapter,
@@ -72,7 +72,7 @@ export default class IlcAppSdk implements IIlcAppSdk {
 
         const intlAdapter = this.adapter.intl ? this.adapter.intl : defaultIntlAdapter;
         this.intl = new IlcIntl(this.appId, intlAdapter, this.options?.i18n);
-        this.appConfig = options?.appConfig;
+        this.cssBundle = options?.cssBundle;
     }
     /**
      * Isomorphic method to render 404 page.

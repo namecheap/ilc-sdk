@@ -1,4 +1,4 @@
-import IlcAppSdk from '../../src/app/index';
+import IlcAppSdk, { ApplicationKind } from '../../src/app/index';
 import { expect } from 'chai';
 
 describe('IlcAppSdk', () => {
@@ -40,8 +40,12 @@ describe('IlcAppSdk', () => {
                 intl: null,
                 trigger404Page: () => {},
             },
-            { i18n: { manifestPath: 'value' } },
+            {
+                i18n: { manifestPath: 'value' },
+                cssBundle: '1.css',
+            },
         );
         expect(appSdk.intl.getLocalisationManifestPath()).equal('value');
+        expect(appSdk.cssBundle).equal('1.css');
     });
 });

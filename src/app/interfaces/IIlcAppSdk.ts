@@ -6,4 +6,5 @@ export interface IIlcAppSdk {
     appId: string;
     intl: IlcIntl;
     render404: Render404;
+    cssBundle?: string;
 }

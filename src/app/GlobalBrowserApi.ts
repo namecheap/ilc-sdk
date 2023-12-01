@@ -2,6 +2,7 @@ import { LifeCycles } from './interfaces/LifeCycles';
 import { ParcelLifecycleFnProps } from './interfaces/ParcelLifecycleFnProps';
 import { MountParcel } from './interfaces/MountParcel';
 import { GetAllSharedLibNames } from './interfaces/GetAllSharedLibNames';
+import { AppLifecycleFnProps, AppWrapperLifecycleFnProps, ApplicationConfig } from './types';
 
 /**
  * ILC exposes some utility APIs globally at `window.ILC`. Here we provide convenience typings to use with typescript.
@@ -19,7 +20,7 @@ export class GlobalBrowserApi {
      * Localization of the URL will be done automatically.
      */
     static navigate(urlWithoutLocale: string): void {
-        return (window as any).ILC.navigate(urlWithoutLocale);
+        return window.ILC.navigate(urlWithoutLocale);
     }
 
     /**
@@ -40,7 +41,7 @@ export class GlobalBrowserApi {
         appName: string,
         parcelName: string,
     ): Promise<LifeCycles<ParcelLifecycleFnProps<ExtraProps>>> {
-        return (window as any).ILC.importParcelFromApp(appName, parcelName);
+        return window.ILC.importParcelFromApp(appName, parcelName);
     }
 
     /**
@@ -55,7 +56,7 @@ export class GlobalBrowserApi {
      * ```
      */
     static mountRootParcel: MountParcel = (parcelConfig, parcelProps) => {
-        return (window as any).ILC.mountRootParcel(parcelConfig, parcelProps);
+        return window.ILC.mountRootParcel(parcelConfig, parcelProps);
     };
 
     /**
@@ -67,6 +68,21 @@ export class GlobalBrowserApi {
      * ```
      */
     static getAllSharedLibNames: GetAllSharedLibNames = () => {
-        return (window as any).ILC.getAllSharedLibNames();
+        return window.ILC.getAllSharedLibNames();
     };
+
+    static loadApp<T>(
+        name: string,
+        options?: { injectGlobalCss?: boolean },
+    ): Promise<T & LifeCycles<AppLifecycleFnProps | AppWrapperLifecycleFnProps | ParcelLifecycleFnProps>> {
+        return window.ILC.loadApp(name, options);
+    }
+
+    static getApplicationConfig<T extends object>(name: string): Promise<ApplicationConfig<T> | undefined> {
+        return window.ILC.getApplicationConfigByName(name);
+    }
+
+    static isIlcEnvironment(): boolean {
+        return Boolean(typeof window !== 'undefined' && window.ILC);
+    }
 }

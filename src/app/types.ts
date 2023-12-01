@@ -11,6 +11,8 @@ export * from './interfaces/ParcelMountProps';
 export * from './interfaces/ParcelObject';
 export * from './interfaces/ParcelSdk';
 export * from './interfaces/SingleSpaLifecycleFnProps';
+export * from './interfaces/AppStatus';
+export * from './interfaces/AppConfig';
 
 export interface IntlUpdateEvent {
     locale: string;

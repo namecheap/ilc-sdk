@@ -42,9 +42,10 @@ describe('IlcAppSdk', () => {
             },
             {
                 i18n: { manifestPath: 'value' },
-                cssBundle: '',
+                cssBundle: '1.css',
             },
         );
         expect(appSdk.intl.getLocalisationManifestPath()).equal('value');
+        expect(appSdk.cssBundle).equal('1.css');
     });
 });

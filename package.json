@@ -1,6 +1,6 @@
 {
   "name": "ilc-sdk",
-  "version": "5.1.4",
+  "version": "5.1.5",
   "description": "SDK for app development with Isomorphic Layout Composer",
   "main": "dist/server/index.js",
   "types": "dist/server/index.d.ts",
@@ -67,7 +67,6 @@
     "memoizee": "^0.4.15",
     "uglify-js": "^3.17.4",
     "url-join": "^4.0.1",
-    "webpack-inject-plugin": "^1.5.5",
     "wrapper-webpack-plugin": "^2.2.2"
   },
   "engines": {

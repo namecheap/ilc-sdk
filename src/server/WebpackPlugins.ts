@@ -1,5 +1,5 @@
-import InjectPlugin, { ENTRY_ORDER } from 'webpack-inject-plugin';
 import UglifyJs from 'uglify-js';
+import webpack from 'webpack'
 
 import { FactoryConfig } from './types';
 import resolveDirectory from '../app/utils/resolveDirectory';
@@ -50,27 +50,29 @@ export function WebpackPluginsFactory(config: RegExp | FactoryConfig = {}) {
         return plugins;
     }
 
+    const client = () => {
+        const minifiedCode = UglifyJs.minify(resolveDirectory.toString()).code;
+        return `${minifiedCode}
+    __webpack_public_path__  = resolveDirectory(__ilc_script_url__, ${conf.publicPathDetection?.rootDirectoryLevel});`;
+    }
+
     plugins.client.push(
-        new InjectPlugin(
-            () => {
-                const minifiedCode = UglifyJs.minify(resolveDirectory.toString()).code;
-                return `${minifiedCode}
-            __webpack_public_path__  = resolveDirectory(__ilc_script_url__, ${conf.publicPathDetection?.rootDirectoryLevel});`;
-            },
-            { entryOrder: ENTRY_ORDER.First },
-        ),
+        new webpack.BannerPlugin({
+            banner: client
+        })
     );
 
+    const server = () => `
+    const pp = \`${conf.publicPathDetection!.ssrPublicPath}\`;
+    if (!pp) {
+        throw new Error('IlcSdk: Unable to determine public path of the application');
+    }
+    __webpack_public_path__  = pp;`
+
     plugins.server.push(
-        new InjectPlugin(
-            () => `
-        const pp = \`${conf.publicPathDetection!.ssrPublicPath}\`;
-        if (!pp) {
-            throw new Error('IlcSdk: Unable to determine public path of the application');
-        }
-        __webpack_public_path__  = pp;`,
-            { entryOrder: ENTRY_ORDER.First },
-        ),
+        new webpack.BannerPlugin({
+            banner: server
+        })
     );
 
     return plugins;

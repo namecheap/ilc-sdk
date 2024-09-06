@@ -78,6 +78,10 @@ export class GlobalBrowserApi {
         return window.ILC.loadApp(name, options);
     }
 
+    static unloadApp(appId: string): void {
+        return window.ILC.unloadApp(appId);
+    }
+
     static getApplicationConfig<T extends object>(name: string): Promise<ApplicationConfig<T> | undefined> {
         return window.ILC.getApplicationConfigByName(name);
     }

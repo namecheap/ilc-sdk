@@ -4,6 +4,7 @@ declare global {
     interface Window {
         ILC: {
             loadApp: (name: string, options?: { injectGlobalCss?: boolean }) => Promise<LifeCycles>;
+            unloadApp: (appId: string) => void;
             navigate: (url: string) => void;
             onIntlChange: (handler: (intlValues: { locale: string; currency: string }) => any) => void;
             onRouteChange: (

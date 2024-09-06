@@ -50,6 +50,7 @@ describe('GlobalBrowserApi', () => {
             getSharedLibConfigByName: () => Promise.resolve([]),
             getSharedLibConfigByNameSync: () => [],
             getApplicationConfigByName: <T>() => Promise.resolve(appConfig as ApplicationConfig<T>),
+            unloadApp: (appId) => Promise.resolve(),
         };
     });
 
@@ -111,6 +112,9 @@ describe('GlobalBrowserApi', () => {
     it('loadApp is correctly typed and callable (no options arg)', async () => {
         const res = await GlobalBrowserApi.loadApp('@portal/news');
         expect(res).to.deep.eq(app);
+    });
+    it('unloadApp is correctly typed and callable (no options arg)', async () => {
+        expect(GlobalBrowserApi.unloadApp('news_at_body')).to.be.fulfilled;
     });
     it('loadApp is correctly typed and callable (empty option arg)', async () => {
         const res = await GlobalBrowserApi.loadApp('@portal/news', {});

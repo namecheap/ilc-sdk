@@ -222,6 +222,13 @@ describe('IlcIntl', () => {
             });
         });
 
+        it('handles URL with multiple slashes and a port', () => {
+            expect(IlcIntl.parseUrl(baseConfig, 'http://tst.com:3000/es///google.com')).to.eql({
+                cleanUrl: 'http://tst.com:3000/google.com',
+                locale: 'es-ES',
+            });
+        });
+
         it('handles corner cases', () => {
             expect(IlcIntl.parseUrl(baseConfig, '/')).to.eql({
                 cleanUrl: '/',

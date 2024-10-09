@@ -149,7 +149,9 @@ describe('IlcIntl', () => {
         });
 
         it('handles multiple slashes in the URL correctly', () => {
-            expect(IlcIntl.localizeUrl(baseConfig, 'http://tst.com/es///google.com', { locale: 'es-ES' })).to.eq('http://tst.com/es/google.com');
+            expect(IlcIntl.localizeUrl(baseConfig, 'http://tst.com/es///google.com', { locale: 'es-ES' })).to.eq(
+                'http://tst.com/es/google.com',
+            );
         });
 
         it('handles special cases', () => {

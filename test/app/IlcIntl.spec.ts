@@ -148,6 +148,12 @@ describe('IlcIntl', () => {
             expect(IlcIntl.localizeUrl(baseConfig, 'http://tst.com/', { locale: 'es-ES' })).to.eq('http://tst.com/es/');
         });
 
+        it('handles multiple slashes in the URL correctly', () => {
+            expect(IlcIntl.localizeUrl(baseConfig, 'http://tst.com/es///google.com', { locale: 'es-ES' })).to.eq(
+                'http://tst.com/es/google.com',
+            );
+        });
+
         it('handles special cases', () => {
             expect(IlcIntl.localizeUrl(baseConfig, '/')).to.equal('/');
             expect(IlcIntl.localizeUrl(baseConfig, '/', { locale: 'es-ES' })).to.equal('/es/');
@@ -207,6 +213,20 @@ describe('IlcIntl', () => {
             });
             expect(IlcIntl.parseUrl(baseConfig, 'http://tst.com/es/')).to.eql({
                 cleanUrl: 'http://tst.com/',
+                locale: 'es-ES',
+            });
+        });
+
+        it('handles multiple slashes in the URL correctly', () => {
+            expect(IlcIntl.parseUrl(baseConfig, 'http://tst.com/es///google.com')).to.eql({
+                cleanUrl: 'http://tst.com/google.com',
+                locale: 'es-ES',
+            });
+        });
+
+        it('handles URL with multiple slashes and a port', () => {
+            expect(IlcIntl.parseUrl(baseConfig, 'http://tst.com:3000/es///google.com')).to.eql({
+                cleanUrl: 'http://tst.com:3000/google.com',
                 locale: 'es-ES',
             });
         });

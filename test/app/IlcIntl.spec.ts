@@ -199,6 +199,13 @@ describe('IlcIntl', () => {
             });
         });
 
+        it('returns locale with normalized route when multiple slashes are present', () => {
+            expect(IlcIntl.parseUrl(baseConfig, '/es///tst.com')).to.eql({
+                cleanUrl: '/tst.com',
+                locale: 'es-ES',
+            });
+        });
+
         it('returns locale with default culture when no culture present in the route', () => {
             expect(IlcIntl.parseUrl(baseConfig, '/es-MX/tst')).to.eql({
                 cleanUrl: '/tst',

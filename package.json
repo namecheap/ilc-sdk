@@ -1,6 +1,6 @@
 {
     "name": "ilc-sdk",
-    "version": "5.2.1",
+    "version": "0.0.0",
     "description": "SDK for app development with Isomorphic Layout Composer",
     "main": "dist/server/index.js",
     "types": "dist/server/index.d.ts",
@@ -75,6 +75,9 @@
         "url-join": "^4.0.1",
         "webpack-inject-plugin": "^1.5.5",
         "wrapper-webpack-plugin": "^2.2.2"
+    },
+    "overrides": {
+        "conventional-changelog-conventionalcommits": ">= 8.0.0"
     },
     "engines": {
         "npm": ">=7"

@@ -25,7 +25,6 @@ const defaultConf: FactoryConfig = {
  */
 export function WebpackPluginsFactory(config: RegExp | FactoryConfig = {}) {
     const WrapperPlugin = require('wrapper-webpack-plugin');
-    const _merge = require('lodash.merge');
 
     if (config instanceof RegExp) {
         config = {
@@ -33,7 +32,11 @@ export function WebpackPluginsFactory(config: RegExp | FactoryConfig = {}) {
         };
     }
 
-    const conf: FactoryConfig = _merge({}, defaultConf, config);
+    const conf: FactoryConfig = {
+        ...defaultConf,
+        ...config,
+        publicPathDetection: { ...defaultConf.publicPathDetection, ...config.publicPathDetection },
+    };
 
     const plugins = {
         client: [

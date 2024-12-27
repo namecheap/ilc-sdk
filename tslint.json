@@ -1,8 +1,9 @@
 {
-  "extends": ["tslint:recommended", "tslint-config-prettier"],
-  "rules": {
-    "no-shadowed-variable": false,
-    "no-empty": false,
-    "ban-types": false
-  }
+    "extends": ["tslint:recommended", "tslint-config-prettier"],
+    "rules": {
+        "no-shadowed-variable": false,
+        "no-empty": false,
+        "ban-types": false,
+        "no-unused-expression": false
+    }
 }

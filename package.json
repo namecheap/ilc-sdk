@@ -66,8 +66,7 @@
         "typedoc-plugin-rename-defaults": "0.6.6",
         "typescript": "~5.0.4",
         "webpack": "^5.96.1",
-        "webpack-inject-plugin": "^1.5.5",
-        "wrapper-webpack-plugin": "^2.2.2"
+        "webpack-inject-plugin": "^1.5.5"
     },
     "dependencies": {
         "@types/url-join": "^4.0.2",

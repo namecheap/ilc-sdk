@@ -15,7 +15,7 @@
         "coverage": "nyc npm run test",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
-        "lint": "tslint",
+        "lint": "tslint -p ./src/app && tslint -p ./src/server",
         "docs": "typedoc",
         "preversion": "npm run format:check && npm run lint && npm test",
         "prepublish": "npm run build",
@@ -43,7 +43,6 @@
         "@types/mocha": "^10.0.3",
         "@types/node": "^20.8.7",
         "@types/sinon": "^10.0.20",
-        "@types/uglify-js": "^3.17.3",
         "chai": "^4.3.10",
         "chai-as-promised": "^7.1.1",
         "chai-snapshot-matcher": "^2.0.3",
@@ -64,17 +63,17 @@
         "typedoc": "~0.23.28",
         "typedoc-plugin-missing-exports": "^1.0.0",
         "typedoc-plugin-rename-defaults": "0.6.6",
-        "typescript": "~5.0.4",
-        "webpack": "^5.96.1",
-        "webpack-inject-plugin": "^1.5.5"
+        "typescript": "~5.0.4"
     },
     "dependencies": {
         "@types/url-join": "^4.0.2",
         "avsc": "^5.7.7",
         "axios": "^1.5.1",
         "memoizee": "^0.4.15",
-        "uglify-js": "^3.17.4",
         "url-join": "^4.0.1"
+    },
+    "peerDependencies": {
+        "webpack": "^5.0.0"
     },
     "overrides": {
         "conventional-changelog-conventionalcommits": ">= 8.0.0"

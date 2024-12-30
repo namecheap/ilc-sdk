@@ -1,10 +1,8 @@
-import UglifyJs from 'uglify-js';
-import InjectPlugin, { ENTRY_ORDER } from 'webpack-inject-plugin';
-
 import { BannerPlugin, WebpackPluginInstance } from 'webpack';
 import resolveDirectory from '../app/utils/resolveDirectory';
 import { publicPathTpl } from './constants';
 import { FactoryConfig } from './types';
+import { ENTRY_ORDER, WebpackInjectPlugin } from './webpack-inject-plugin/plugin';
 
 /* istanbul ignore file */
 
@@ -64,18 +62,16 @@ export function WebpackPluginsFactory(config: RegExp | FactoryConfig = {}): Fact
     }
 
     plugins.client.push(
-        new InjectPlugin(
+        new WebpackInjectPlugin(
             () => {
-                const minifiedCode = UglifyJs.minify(resolveDirectory.toString()).code;
-                return `${minifiedCode}
-            __webpack_public_path__  = resolveDirectory(__ilc_script_url__, ${conf.publicPathDetection?.rootDirectoryLevel});`;
+                return `${resolveDirectory.toString()}\n__webpack_public_path__  = resolveDirectory(__ilc_script_url__, ${conf.publicPathDetection?.rootDirectoryLevel});`;
             },
             { entryOrder: ENTRY_ORDER.First },
         ),
     );
 
     plugins.server.push(
-        new InjectPlugin(
+        new WebpackInjectPlugin(
             () => `
         const pp = \`${conf.publicPathDetection!.ssrPublicPath}\`;
         if (!pp) {

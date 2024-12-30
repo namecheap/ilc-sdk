@@ -34,7 +34,7 @@ function matchBundle(this: Mocha.Context, done: (err?: Error) => void, err: null
     done();
 }
 
-describe.only('WebpackPluginsFactory', () => {
+describe('WebpackPluginsFactory', () => {
     it('should generate client bundle (default)', function (done) {
         const { client } = WebpackPluginsFactory();
         webpack(

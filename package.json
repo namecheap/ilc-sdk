@@ -37,15 +37,15 @@
         "@knodes/typedoc-plugin-pages": "^0.23.4",
         "@types/chai": "^4.3.9",
         "@types/chai-as-promised": "^7.1.7",
+        "@types/chai-snapshot-matcher": "^1.0.4",
         "@types/jsdom": "^21.1.4",
-        "@types/lodash.merge": "^4.6.8",
         "@types/memoizee": "^0.4.10",
         "@types/mocha": "^10.0.3",
         "@types/node": "^20.8.7",
         "@types/sinon": "^10.0.20",
-        "@types/uglify-js": "^3.17.3",
         "chai": "^4.3.10",
         "chai-as-promised": "^7.1.1",
+        "chai-snapshot-matcher": "^2.0.3",
         "husky": "^9.1.6",
         "jsdom": "^22.1.0",
         "jsdom-global": "^3.0.2",
@@ -69,12 +69,11 @@
         "@types/url-join": "^4.0.2",
         "avsc": "^5.7.7",
         "axios": "^1.5.1",
-        "lodash.merge": "^4.6.2",
         "memoizee": "^0.4.15",
-        "uglify-js": "^3.17.4",
-        "url-join": "^4.0.1",
-        "webpack-inject-plugin": "^1.5.5",
-        "wrapper-webpack-plugin": "^2.2.2"
+        "url-join": "^4.0.1"
+    },
+    "peerDependencies": {
+        "webpack": "^5.0.0"
     },
     "overrides": {
         "conventional-changelog-conventionalcommits": ">= 8.0.0"

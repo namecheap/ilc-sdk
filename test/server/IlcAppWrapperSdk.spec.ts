@@ -1,7 +1,6 @@
 import { IlcAppWrapperSdk } from '../../src/server';
 import { expect } from 'chai';
 import { Request as MockReq, Response as MockRes } from 'mock-http';
-import merge from 'lodash.merge';
 
 import fakeCons from '../utils/console';
 
@@ -24,7 +23,7 @@ describe('IlcAppWrapperSdk', () => {
 
     describe('forwardRequest', () => {
         it('should send basic response correctly', () => {
-            const req = new MockReq(merge({}, defReq));
+            const req = new MockReq({ ...defReq });
             const res = new MockRes();
 
             const { requestData } = ilcSdk.processRequest(req);
@@ -38,7 +37,7 @@ describe('IlcAppWrapperSdk', () => {
         });
 
         it('should send x-props-override header if necessary', () => {
-            const req = new MockReq(merge({}, defReq));
+            const req = new MockReq({ ...defReq });
             const res = new MockRes();
 
             const testProps = { test: 1 };
@@ -51,7 +50,7 @@ describe('IlcAppWrapperSdk', () => {
         });
 
         it('should cause an error if headers have already been sent', () => {
-            const req = new MockReq(merge({}, defReq));
+            const req = new MockReq({ ...defReq });
             const res = new MockRes();
             res.end();
 

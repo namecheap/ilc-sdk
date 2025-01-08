@@ -10,6 +10,7 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true
     },
+    "include": ["./**/*.ts"],
     "exclude": ["node_modules", "**/__tests__/*"],
     "ts-node": {
         "files": true

@@ -66,6 +66,7 @@
         "typescript": "~5.0.4"
     },
     "dependencies": {
+        "@namecheap/webpack-inject-plugin": "^2.0.1",
         "@types/url-join": "^4.0.2",
         "avsc": "^5.7.7",
         "axios": "^1.5.1",

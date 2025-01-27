@@ -1,8 +1,8 @@
+import { ENTRY_ORDER, WebpackInjectPlugin } from '@namecheap/webpack-inject-plugin';
 import { BannerPlugin, WebpackPluginInstance } from 'webpack';
 import resolveDirectory from '../app/utils/resolveDirectory';
 import { publicPathTpl } from './constants';
 import { FactoryConfig } from './types';
-import { ENTRY_ORDER, WebpackInjectPlugin } from './webpack-inject-plugin/plugin';
 
 /* istanbul ignore file */
 

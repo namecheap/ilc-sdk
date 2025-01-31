@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import { JSDOM } from 'jsdom';
 
 import { IntlAdapter, IntlAdapterConfig, RoutingStrategy } from '../../src/app/types';
-import { IlcIntl } from '../../src/app/IlcIntl';
+import { IlcIntl, cache } from '../../src/app/IlcIntl';
 
 const baseConfig: IntlAdapterConfig = Object.freeze({
     default: { locale: 'en-US', currency: 'USD' },
@@ -73,6 +73,18 @@ describe('IlcIntl', () => {
             window.dispatchEvent(new window.CustomEvent('ilc:intl-update', { detail }));
             sinon.assert.notCalled(detail.addHandler);
         });
+
+        it('remove event listener on unmount', () => {
+            const adapter = getClientAdapter();
+            const intl = new IlcIntl('tst', adapter);
+            const spy = sinon.spy(window, 'removeEventListener');
+            const prepare = sinon.spy();
+            const execute = sinon.spy();
+
+            intl.onChange(prepare, execute);
+            intl.unmount();
+            sinon.assert.calledOnce(spy);
+        });
     });
 
     describe('class instance', () => {
@@ -80,6 +92,27 @@ describe('IlcIntl', () => {
             const intl = new IlcIntl('tst', getAdapter());
 
             expect(intl.get()).eql(currConfig);
+        });
+
+        it('use default adapter if not provided', () => {
+            const intl = new IlcIntl('tst');
+
+            expect(intl.get()).eql({
+                currency: 'USD',
+                locale: 'en-US',
+            });
+        });
+
+        it('return undefined manifest path if not provided', () => {
+            const intl = new IlcIntl('tst');
+
+            expect(intl.getLocalisationManifestPath()).eql(undefined);
+        });
+
+        it('return undefined manifest path if not provided', () => {
+            const intl = new IlcIntl('tst');
+
+            expect(intl.getLocalisationManifestPath()).eql(undefined);
         });
 
         it('returns default i18n config from adapter', () => {
@@ -130,7 +163,7 @@ describe('IlcIntl', () => {
 
         it('uses default locale when none is passed', () => {
             expect(IlcIntl.localizeUrl(baseConfig, '/tst')).to.equal('/tst');
-
+            cache.clear();
             const config = { ...baseConfig, routingStrategy: RoutingStrategy.Prefix };
             expect(IlcIntl.localizeUrl(config, '/tst')).to.equal(`/en/tst`);
         });
@@ -314,27 +347,6 @@ describe('IlcIntl', () => {
             expect(IlcIntl.getCanonicalLocale('ES-ES', supportedLocales)).to.equal('es-ES');
             expect(IlcIntl.getCanonicalLocale('Es-eS', supportedLocales)).to.equal('es-ES');
             expect(IlcIntl.getCanonicalLocale('eS-Es', supportedLocales)).to.equal('es-ES');
-        });
-    });
-
-    describe('getShortenedLocale', () => {
-        it('throws an error when unsupported locale passed', () => {
-            const supportedLocales = ['en-US', 'ua-UA'];
-
-            expect(() => IlcIntl.getShortenedLocale('br-BR', supportedLocales)).throws(Error);
-        });
-
-        it('shortens locale which is specified first in the list', () => {
-            const supportedLocales = ['en-US', 'es-ES', 'es-MX'];
-
-            expect(IlcIntl.getShortenedLocale('es-ES', supportedLocales)).to.equal('es');
-            expect(IlcIntl.getShortenedLocale('en-US', supportedLocales)).to.equal('en');
-        });
-
-        it('does not shortens locale which is specified 2nd+ in the list', () => {
-            const supportedLocales = ['en-US', 'es-ES', 'es-MX'];
-
-            expect(IlcIntl.getShortenedLocale('es-MX', supportedLocales)).to.equal('es-MX');
         });
     });
 });

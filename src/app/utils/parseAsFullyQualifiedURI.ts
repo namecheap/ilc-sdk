@@ -1,4 +1,9 @@
-export default function parseAsFullyQualifiedURI(uri: string) {
+type ParsedUri = {
+    origin: string;
+    uri: string;
+};
+
+export function parseAsFullyQualifiedURI(uri: string): ParsedUri {
     let origin = '';
     try {
         // Normalize multiple slashes to a single slash, but don't affect the initial "http://" or "https://"

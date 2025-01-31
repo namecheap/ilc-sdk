@@ -3,5 +3,6 @@
  */
 module.exports = {
     '*': 'prettier --ignore-unknown --write',
-    '*.ts': 'npm run lint -- --fix',
+    'src/app/**/*.ts': 'tslint -p src/app --fix',
+    'src/server/**/*.ts': 'tslint -p src/server --fix',
 };

@@ -8,7 +8,7 @@ export function parseAsFullyQualifiedURI(uri: string): ParsedUri {
         // Normalize multiple slashes to a single slash, but don't affect the initial "http://" or "https://"
         const normalizedUri = uri.replace(/([^:])\/{2,}/g, '$1/');
 
-        if (normalizedUri.startsWith('/')) {
+        if (!normalizedUri.startsWith('http://') && !normalizedUri.startsWith('https://')) {
             return { origin: '', path: normalizedUri };
         }
 

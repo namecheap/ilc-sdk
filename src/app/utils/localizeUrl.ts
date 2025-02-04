@@ -14,10 +14,6 @@ export function localizeUrl(config: IntlAdapterConfig, url: string, configOverri
 
     const { path, origin } = parseAsFullyQualifiedURI(url);
 
-    if (!path.startsWith('/')) {
-        throw new Error(`Localization of relative URLs is not supported. Received: "${url}"`);
-    }
-
     const { cleanUrl } = parseUrl(config, path);
 
     const receivedLocale = configOverride.locale ?? config.default.locale;
@@ -32,5 +28,7 @@ export function localizeUrl(config: IntlAdapterConfig, url: string, configOverri
         return origin + cleanUrl;
     }
 
-    return `${origin}/${getShortenedLocale(locale, config.supported.locale)}${cleanUrl}`;
+    const separator = cleanUrl.startsWith('/') ? '' : '/';
+
+    return `${origin}/${getShortenedLocale(locale, config.supported.locale)}${separator}${cleanUrl}`;
 }

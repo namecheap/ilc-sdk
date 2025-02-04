@@ -17,12 +17,9 @@ export function parseUrl(config: IntlAdapterConfig, url: string): ParsedUrl {
     }
 
     const { path, origin } = parseAsFullyQualifiedURI(url);
+    const trimmedPath = path.charAt(0) === '/' ? path.slice(1) : path;
 
-    if (!path.startsWith('/')) {
-        throw new Error(`Localization of relative URLs is not supported. Received: "${url}"`);
-    }
-
-    const [, langPart, ...unlocalizedPath] = path.split('/');
+    const [langPart, ...unlocalizedPath] = trimmedPath.split('/');
     const locale = getCanonicalLocale(langPart, config.supported.locale);
 
     if (locale !== null && config.supported.locale.indexOf(locale) !== -1) {

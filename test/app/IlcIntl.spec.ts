@@ -180,6 +180,13 @@ describe('IlcIntl', () => {
             expect(IlcIntl.localizeUrl(baseConfig, 'http://tst.com', { locale: 'es-ES' })).to.eq('http://tst.com/es/');
             expect(IlcIntl.localizeUrl(baseConfig, 'http://tst.com/', { locale: 'es-ES' })).to.eq('http://tst.com/es/');
         });
+        it('handles relative URI cases', () => {
+            expect(IlcIntl.localizeUrl(baseConfig, 'path/1')).to.eq('path/1');
+            expect(IlcIntl.localizeUrl(baseConfig, 'path/1/')).to.eq('path/1/');
+
+            expect(IlcIntl.localizeUrl(baseConfig, 'path/1', { locale: 'es-ES' })).to.eq('/es/path/1');
+            expect(IlcIntl.localizeUrl(baseConfig, 'path/1/', { locale: 'es-ES' })).to.eq('/es/path/1/');
+        });
 
         it('handles multiple slashes in the URL correctly', () => {
             expect(IlcIntl.localizeUrl(baseConfig, 'http://tst.com/es///google.com', { locale: 'es-ES' })).to.eq(
@@ -212,8 +219,10 @@ describe('IlcIntl', () => {
             expect(IlcIntl.localizeUrl(baseConfig, 'javascript:void(0)', { locale: 'es-ES' })).to.equal(
                 'javascript:void(0)',
             );
+        });
 
-            expect(() => IlcIntl.localizeUrl(baseConfig, 'tst', { locale: 'es-ES' })).throws(Error);
+        it('fallbacks to original value on invalid urls', () => {
+            expect(IlcIntl.localizeUrl(baseConfig, 'http://:')).to.equal('http://:');
         });
     });
 
@@ -253,6 +262,25 @@ describe('IlcIntl', () => {
             });
             expect(IlcIntl.parseUrl(baseConfig, 'http://tst.com/es/')).to.eql({
                 cleanUrl: 'http://tst.com/',
+                locale: 'es-ES',
+            });
+        });
+
+        it('handles relative url cases', () => {
+            expect(IlcIntl.parseUrl(baseConfig, 'path/1')).to.eql({
+                cleanUrl: 'path/1',
+                locale: baseConfig.default.locale,
+            });
+            expect(IlcIntl.parseUrl(baseConfig, 'path/1/')).to.eql({
+                cleanUrl: 'path/1/',
+                locale: baseConfig.default.locale,
+            });
+            expect(IlcIntl.parseUrl(baseConfig, 'es/path/1')).to.eql({
+                cleanUrl: '/path/1',
+                locale: 'es-ES',
+            });
+            expect(IlcIntl.parseUrl(baseConfig, 'es/path/1/')).to.eql({
+                cleanUrl: '/path/1/',
                 locale: 'es-ES',
             });
         });
@@ -306,8 +334,6 @@ describe('IlcIntl', () => {
                 cleanUrl: 'javascript:void(0)',
                 locale: baseConfig.default.locale,
             });
-
-            expect(() => IlcIntl.parseUrl(baseConfig, 'tst')).to.throw(Error);
         });
     });
 

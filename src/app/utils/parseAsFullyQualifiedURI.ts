@@ -1,19 +1,27 @@
 type ParsedUri = {
     origin: string;
-    uri: string;
+    path: string;
 };
 
 export function parseAsFullyQualifiedURI(uri: string): ParsedUri {
-    let origin = '';
     try {
         // Normalize multiple slashes to a single slash, but don't affect the initial "http://" or "https://"
-        uri = uri.replace(/([^:])\/{2,}/g, '$1/');
+        const normalizedUri = uri.replace(/([^:])\/{2,}/g, '$1/');
 
-        const urlObj = new URL(uri);
-        origin = urlObj.origin;
+        if (normalizedUri.startsWith('/')) {
+            return { origin: '', path: normalizedUri };
+        }
 
-        uri = urlObj.pathname + urlObj.search + urlObj.hash;
-    } catch {}
+        const { origin, pathname, search, hash } = new URL(normalizedUri);
 
-    return { origin, uri };
+        return {
+            origin,
+            path: pathname + search + hash,
+        };
+    } catch {
+        return {
+            origin: '',
+            path: uri,
+        };
+    }
 }

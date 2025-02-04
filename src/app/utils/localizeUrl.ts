@@ -12,15 +12,15 @@ export function localizeUrl(config: IntlAdapterConfig, url: string, configOverri
         return url;
     }
 
-    const { uri, origin } = parseAsFullyQualifiedURI(url);
+    const { path, origin } = parseAsFullyQualifiedURI(url);
 
-    if (!uri.startsWith('/')) {
+    if (!path.startsWith('/')) {
         throw new Error(`Localization of relative URLs is not supported. Received: "${url}"`);
     }
 
-    const { cleanUrl } = parseUrl(config, uri);
+    const { cleanUrl } = parseUrl(config, path);
 
-    const receivedLocale = configOverride.locale || config.default.locale;
+    const receivedLocale = configOverride.locale ?? config.default.locale;
 
     const locale = getCanonicalLocale(receivedLocale, config.supported.locale);
 

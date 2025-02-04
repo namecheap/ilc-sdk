@@ -16,18 +16,18 @@ export function parseUrl(config: IntlAdapterConfig, url: string): ParsedUrl {
         };
     }
 
-    const { uri, origin } = parseAsFullyQualifiedURI(url);
+    const { path, origin } = parseAsFullyQualifiedURI(url);
 
-    if (!uri.startsWith('/')) {
-        throw new Error(`Localization of relative URLs is not supported. Received: "${uri}"`);
+    if (!path.startsWith('/')) {
+        throw new Error(`Localization of relative URLs is not supported. Received: "${url}"`);
     }
 
-    const [, langPart, ...path] = uri.split('/');
+    const [, langPart, ...unlocalizedPath] = path.split('/');
     const locale = getCanonicalLocale(langPart, config.supported.locale);
 
     if (locale !== null && config.supported.locale.indexOf(locale) !== -1) {
-        return { cleanUrl: `${origin}/${path.join('/')}`, locale };
+        return { cleanUrl: `${origin}/${unlocalizedPath.join('/')}`, locale };
     }
 
-    return { cleanUrl: origin + uri, locale: config.default.locale };
+    return { cleanUrl: origin + path, locale: config.default.locale };
 }

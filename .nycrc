@@ -7,6 +7,7 @@
   "functions": 90,
   "statements": 90,
   "exclude": [
+    "dist",
     "test/**",
     "src/app/utils/resolveDirectory.ts"
   ]

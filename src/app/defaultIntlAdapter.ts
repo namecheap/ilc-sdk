@@ -1,10 +1,10 @@
-import { IntlAdapter, RoutingStrategy } from './interfaces/common';
+import { type IntlAdapter, RoutingStrategy } from './interfaces/common';
 
 /**
  * Used when i18n capability is disabled in ILC.
  * @internal
  */
-const adapter: IntlAdapter = {
+export const defaultIntlAdapter: IntlAdapter = {
     config: {
         default: { locale: 'en-US', currency: 'USD' },
         supported: { locale: ['en-US'], currency: ['USD'] },
@@ -19,7 +19,7 @@ const adapter: IntlAdapter = {
 const isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
 /* istanbul ignore if */
 if (isBrowser) {
-    adapter.set = () => {};
+    defaultIntlAdapter.set = () => {};
 }
 
-export default adapter;
+export default defaultIntlAdapter;

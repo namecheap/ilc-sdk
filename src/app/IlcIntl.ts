@@ -1,28 +1,25 @@
-import * as types from './types';
-import parseAsFullyQualifiedURI from './utils/parseAsFullyQualifiedURI';
-import defaultIntlAdapter from './defaultIntlAdapter';
-import { isSpecialUrl } from './utils/isSpecialUrl';
+import { defaultIntlAdapter } from './defaultIntlAdapter';
 import { OptionsIntl } from './interfaces/OptionsSdk';
+import type { IntlAdapter, IntlConfig, IntlUpdateEvent, IntlUpdateEventInternal } from './types';
+import { TtlCache } from './utils/TtlCache';
+import { getCanonicalLocale } from './utils/getCanonicalLocale';
+import { localizeUrl } from './utils/localizeUrl';
+import { parseUrl } from './utils/parseUrl';
+
+export const cache = new TtlCache();
 
 /**
  * **WARNING:** this class shouldn't be imported directly in the apps or adapters. Use `IlcAppSdk` instead.
  */
 export class IlcIntl {
-    private adapter: types.IntlAdapter;
-    private listeners: any[] = [];
+    private listeners: ((event: IntlUpdateEventInternal) => void)[] = [];
     private static eventName = 'ilc:intl-update';
 
     constructor(
-        private appId: string,
-        adapter?: types.IntlAdapter,
-        private options?: OptionsIntl,
-    ) {
-        if (!adapter) {
-            adapter = defaultIntlAdapter;
-        }
-
-        this.adapter = adapter;
-    }
+        private readonly appId: string,
+        private readonly adapter: IntlAdapter = defaultIntlAdapter,
+        private readonly options?: OptionsIntl,
+    ) {}
 
     /**
      * Allows to retrieve current i18n configuration
@@ -50,7 +47,7 @@ export class IlcIntl {
      *
      * @param config
      */
-    public set(config: types.IntlConfig): void {
+    public set(config: IntlConfig): void {
         if (!this.adapter.set) {
             throw new Error("Looks like you're trying to call CSR only method during SSR.");
         }
@@ -93,14 +90,14 @@ export class IlcIntl {
      * @returns - callback that can be used to unsubscribe from changes
      */
     public onChange<T>(
-        prepareForChange: (event: types.IntlUpdateEvent) => Promise<T> | T,
-        performChange: (event: types.IntlUpdateEvent, preparedData: T) => Promise<void> | void,
+        prepareForChange: (event: IntlUpdateEvent) => Promise<T> | T,
+        performChange: (event: IntlUpdateEvent, preparedData: T) => Promise<void> | void,
     ) {
         if (!this.adapter.set) {
             return () => {}; // Looks like you're trying to call CSR only method during SSR. Doing nothing...
         }
 
-        const wrappedCb = (e: types.IntlUpdateEventInternal) => {
+        const wrappedCb = (e: IntlUpdateEventInternal) => {
             e.detail.addHandler({
                 actorId: this.appId,
                 prepare: prepareForChange,
@@ -114,7 +111,7 @@ export class IlcIntl {
         return () => {
             for (const row of this.listeners) {
                 if (row === wrappedCb) {
-                    window.removeEventListener(IlcIntl.eventName, row);
+                    window.removeEventListener(IlcIntl.eventName, row as EventListener);
                     this.listeners.slice(this.listeners.indexOf(wrappedCb), 1);
                     break;
                 }
@@ -131,7 +128,7 @@ export class IlcIntl {
         }
 
         for (const callback of this.listeners) {
-            window.removeEventListener(IlcIntl.eventName, callback);
+            window.removeEventListener(IlcIntl.eventName, callback as EventListener);
         }
 
         this.listeners = [];
@@ -142,38 +139,19 @@ export class IlcIntl {
      *
      * @param config
      * @param url - absolute path or absolute URI. Ex: "/test?a=1" or "http://tst.com/"
-     * @param configOverride - allows to override default locale
+     * @param configOverride - allows to override default locales
      *
      * @internal Used internally by ILC
      */
-    static localizeUrl(config: types.IntlAdapterConfig, url: string, configOverride: { locale?: string } = {}): string {
-        if (isSpecialUrl(url)) {
-            return url;
-        }
-
-        const parsedUri = parseAsFullyQualifiedURI(url);
-        url = parsedUri.uri;
-
-        if (!url.startsWith('/')) {
-            throw new Error(`Localization of relative URLs is not supported. Received: "${url}"`);
-        }
-
-        url = IlcIntl.parseUrl(config, url).cleanUrl;
-
-        const receivedLocale = configOverride.locale || config.default.locale;
-
-        const loc = IlcIntl.getCanonicalLocale(receivedLocale, config.supported.locale);
-
-        if (loc === null) {
-            throw new Error(`Unsupported locale passed. Received: "${receivedLocale}"`);
-        }
-
-        if (config.routingStrategy === types.RoutingStrategy.PrefixExceptDefault && loc === config.default.locale) {
-            return parsedUri.origin + url;
-        }
-
-        return `${parsedUri.origin}/${IlcIntl.getShortenedLocale(loc, config.supported.locale)}${url}`;
-    }
+    static localizeUrl = cache.wrap(
+        localizeUrl,
+        /**
+         * supported locales and routing strategy are not expected to change during the runtime frequently
+         * they are not included in the cache key
+         * values will be cleaned up by TTL
+         */
+        (config, url, override) => `${override?.locale ?? config.default.locale}:${url}`,
+    );
 
     /**
      * Allows to parse URL and receive "unlocalized" URL and information about locale that was encoded in URL.
@@ -183,30 +161,7 @@ export class IlcIntl {
      *
      * @internal Used internally by ILC
      */
-    static parseUrl(config: types.IntlAdapterConfig, url: string): { locale: string; cleanUrl: string } {
-        if (isSpecialUrl(url)) {
-            return {
-                cleanUrl: url,
-                locale: config.default.locale,
-            };
-        }
-
-        const parsedUri = parseAsFullyQualifiedURI(url);
-        url = parsedUri.uri;
-
-        if (!url.startsWith('/')) {
-            throw new Error(`Localization of relative URLs is not supported. Received: "${url}"`);
-        }
-
-        const [, langPart, ...path] = url.split('/');
-        const lang = IlcIntl.getCanonicalLocale(langPart, config.supported.locale);
-
-        if (lang !== null && config.supported.locale.indexOf(lang) !== -1) {
-            return { cleanUrl: `${parsedUri.origin}/${path.join('/')}`, locale: lang };
-        }
-
-        return { cleanUrl: parsedUri.origin + url, locale: config.default.locale };
-    }
+    static parseUrl = cache.wrap(parseUrl, (config, url) => url);
 
     /**
      * Returns properly formatted locale string.
@@ -217,56 +172,5 @@ export class IlcIntl {
      *
      * @internal Used internally by ILC
      */
-    static getCanonicalLocale(locale = '', supportedLocales: string[]) {
-        const supportedLangs = supportedLocales.map((v) => v.split('-')[0]).filter((v, i, a) => a.indexOf(v) === i);
-
-        const locData = locale.split('-');
-
-        if (locData.length === 2) {
-            locale = locData[0].toLowerCase() + '-' + locData[1].toUpperCase();
-        } else if (locData.length === 1) {
-            locale = locData[0].toLowerCase();
-        } else {
-            return null;
-        }
-
-        if (supportedLangs.indexOf(locale.toLowerCase()) !== -1) {
-            for (const v of supportedLocales) {
-                if (v.split('-')[0] === locale) {
-                    locale = v;
-                    break;
-                }
-            }
-        } else if (supportedLocales.indexOf(locale) === -1) {
-            return null;
-        }
-
-        return locale;
-    }
-
-    /**
-     * Returns properly formatted short form of locale string.
-     * Ex: en-US -> en, but en-GB -> en-GB
-     *
-     * @internal Used internally by ILC
-     */
-    static getShortenedLocale(canonicalLocale: string, supportedLocales: string[]): string {
-        if (supportedLocales.indexOf(canonicalLocale) === -1) {
-            throw new Error(`Unsupported locale passed. Received: ${canonicalLocale}`);
-        }
-
-        for (const loc of supportedLocales) {
-            if (loc.split('-')[0] !== canonicalLocale.split('-')[0]) {
-                continue;
-            }
-
-            if (loc === canonicalLocale) {
-                return loc.split('-')[0];
-            } else {
-                return canonicalLocale;
-            }
-        }
-
-        return canonicalLocale;
-    }
+    static getCanonicalLocale = cache.wrap(getCanonicalLocale, (locale) => locale);
 }

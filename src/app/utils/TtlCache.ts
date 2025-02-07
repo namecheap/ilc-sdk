@@ -61,6 +61,14 @@ export class TtlCache<K, V> {
     }
 
     private scheduleCleanup(): void {
+        /**
+         * Required due to source code evaluation in vm context compatibility
+         * Temporary workaround until for internal needs
+         * Should be removed soon
+         */
+        if (typeof setTimeout !== 'function') {
+            return;
+        }
         this.timeoutId = setTimeout(() => this.cleanup(), this.cleanupInterval);
         this.timeoutId.unref?.();
     }

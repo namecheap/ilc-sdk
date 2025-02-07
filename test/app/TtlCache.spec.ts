@@ -4,13 +4,16 @@ import sinon from 'sinon';
 
 describe('TtlCache', () => {
     let clock: sinon.SinonFakeTimers;
+    let setTimeoutBackup: typeof setTimeout;
 
     beforeEach(() => {
+        setTimeoutBackup = global.setTimeout;
         clock = sinon.useFakeTimers();
     });
 
     afterEach(() => {
         clock.restore();
+        global.setTimeout = setTimeoutBackup;
     });
 
     it('should set and get a value', () => {
@@ -67,5 +70,14 @@ describe('TtlCache', () => {
         clock.tick(1001);
         clock.tick(500); // Trigger cleanup
         expect(cache.get('key1')).to.be.undefined;
+    });
+
+    it('should not schedule cleanup if setTimeout is not available', () => {
+        const cache = new TtlCache<string, number>({ ttl: 1000, cleanupInterval: 500 });
+        global.setTimeout = undefined as any;
+        cache.set('key1', 123);
+        expect(cache.get('key1')).to.equal(123);
+        clock.tick(1001);
+        expect(cache.get('key1')).to.equal(123);
     });
 });

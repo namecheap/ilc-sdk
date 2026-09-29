@@ -29,6 +29,7 @@ declare global {
             getSharedLibConfigByName: (name: string) => Promise<string[]>;
             getSharedLibConfigByNameSync: (name: string) => string[];
             getApplicationConfigByName<T extends object>(name: string): Promise<ApplicationConfig<T> | undefined>;
+            getExperiments?: () => Readonly<Record<string, string>>;
         };
     }
 }

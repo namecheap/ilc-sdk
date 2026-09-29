@@ -89,4 +89,25 @@ export class GlobalBrowserApi {
     static isIlcEnvironment(): boolean {
         return Boolean(typeof window !== 'undefined' && window.ILC);
     }
+
+    /**
+     * Returns the A/B experiment assignments ILC resolved for the current page, e.g. `{ 'homepage-hero': 'variant-b' }`.
+     * It is the same map ILC passes to route apps as `appProps.experiments`, so apps that ILC does not mount
+     * for a route (embedded apps, parcels, wrapper apps) render the same variant as the rest of the page.
+     * The map is frozen and changes only on the next full page load; `{}` means the visitor has no assignments.
+     *
+     * Returns `undefined` outside ILC, or when the running ILC version does not provide the assignments yet.
+     *
+     * @example
+     * ```javascript
+     * const variant = GlobalBrowserApi.getExperiments()?.['homepage-hero'];
+     * ```
+     */
+    static getExperiments(): Readonly<Record<string, string>> | undefined {
+        if (!GlobalBrowserApi.isIlcEnvironment() || typeof window.ILC.getExperiments !== 'function') {
+            return undefined;
+        }
+
+        return window.ILC.getExperiments();
+    }
 }

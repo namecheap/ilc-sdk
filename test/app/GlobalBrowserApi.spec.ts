@@ -142,4 +142,20 @@ describe('GlobalBrowserApi', () => {
         delete (window as any).ILC;
         expect(GlobalBrowserApi.isIlcEnvironment()).to.equal(false);
     });
+    it('getExperiments returns the page assignments provided by ILC', () => {
+        const experiments = Object.freeze({ 'homepage-hero': 'variant-b' });
+        window.ILC.getExperiments = () => experiments;
+        expect(GlobalBrowserApi.getExperiments()).to.equal(experiments);
+    });
+    it('getExperiments returns an empty object when the visitor has no assignments', () => {
+        window.ILC.getExperiments = () => Object.freeze({});
+        expect(GlobalBrowserApi.getExperiments()).to.deep.equal({});
+    });
+    it('getExperiments returns undefined when ILC does not provide the assignments', () => {
+        expect(GlobalBrowserApi.getExperiments()).to.equal(undefined);
+    });
+    it('getExperiments returns undefined if ILC is not available', () => {
+        delete (window as any).ILC;
+        expect(GlobalBrowserApi.getExperiments()).to.equal(undefined);
+    });
 });

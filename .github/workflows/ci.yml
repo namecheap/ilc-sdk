@@ -20,7 +20,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
               with:
-                fetch-depth: 0
+                  fetch-depth: 0
             - name: Use Node.js ${{ matrix.node-version }}
               uses: actions/setup-node@v4
               with:
@@ -73,4 +73,4 @@ jobs:
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: npx semantic-release
+              run: npx --yes -p semantic-release@24.2.9 -p conventional-changelog-conventionalcommits@8.0.0 semantic-release

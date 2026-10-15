@@ -16,14 +16,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [16.x, 18.x, 20.x, 22.x, 24.x, 26.x]
-                include:
-                    # End-of-life Node.js lines: the linters, nyc and jsdom >= 27 no longer run there,
-                    # so these only build and run the test suite.
-                    - node-version: 16.x
-                      legacy: true
-                    - node-version: 18.x
-                      legacy: true
+                node-version: [20.x, 22.x, 24.x, 26.x]
         steps:
             - name: Set default Git branch name
               run: git config --global init.defaultBranch master
@@ -36,21 +29,13 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   cache: 'npm'
             - run: npm ci
-            - if: matrix.legacy
-              name: Use jsdom 26 (last release supporting Node.js < 20)
-              run: npm install --no-save --no-audit --no-fund jsdom@26.1.0
-            - if: github.event_name == 'pull_request' && !matrix.legacy
+            - if: github.event_name == 'pull_request'
               name: Lint commit messages
               run: npx commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose
-            - if: '!matrix.legacy'
-              run: npm run format:check
-            - if: '!matrix.legacy'
-              run: npm run lint
+            - run: npm run format:check
+            - run: npm run lint
             - run: npm run build
-            - if: matrix.legacy
-              run: npm test
-            - if: '!matrix.legacy'
-              run: npm run coverage
+            - run: npm run coverage
             - if: matrix.node-version == '24.x'
               uses: actions/upload-artifact@v7
               with:

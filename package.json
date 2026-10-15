@@ -51,7 +51,7 @@
         "husky": "^9.1.6",
         "jsdom": "^28.1.0",
         "jsdom-global": "^3.0.2",
-        "lint-staged": "^15.2.10",
+        "lint-staged": "^16.4.0",
         "mocha": "^11.8.0",
         "mock-http": "^1.1.0",
         "nock": "^13.3.6",
@@ -82,6 +82,9 @@
         "mocha": {
             "glob": "^13.0.6",
             "diff": "^8.0.3"
+        },
+        "@istanbuljs/load-nyc-config": {
+            "js-yaml": "^4.1.1"
         }
     },
     "engines": {

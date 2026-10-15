@@ -67,7 +67,7 @@
     "dependencies": {
         "@namecheap/webpack-inject-plugin": "^2.0.1",
         "@types/url-join": "^4.0.2",
-        "avsc": "^5.7.7",
+        "avsc": "^5.7.9",
         "axios": "^1.20.0",
         "memoizee": "^0.4.15",
         "url-join": "^4.0.1"

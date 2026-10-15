@@ -25,6 +25,8 @@ jobs:
                     - node-version: 18.x
                       legacy: true
         steps:
+            - name: Set default Git branch name
+              run: git config --global init.defaultBranch master
             - uses: actions/checkout@v7
               with:
                   fetch-depth: 0
@@ -69,6 +71,8 @@ jobs:
         environment: npm_publish
         if: github.ref == 'refs/heads/master'
         steps:
+            - name: Set default Git branch name
+              run: git config --global init.defaultBranch master
             - uses: actions/download-artifact@v8
               with:
                   name: Documentation

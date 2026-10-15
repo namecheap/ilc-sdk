@@ -21,8 +21,8 @@ const releaseNotesGeneratorConfig = {
  * https://github.com/semantic-release/github
  */
 const githubConfig = {
-    successComment: false,
-    failComment: false,
+    successCommentCondition: false,
+    failCommentCondition: false,
     labels: false,
     releasedLabels: false,
 };

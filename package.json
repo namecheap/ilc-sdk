@@ -15,7 +15,7 @@
         "coverage": "nyc npm run test",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
-        "lint": "tslint -p ./src/app && tslint -p ./src/server",
+        "lint": "eslint src",
         "docs": "typedoc",
         "preversion": "npm run format:check && npm run lint && npm test",
         "prepublish": "npm run build",
@@ -34,11 +34,12 @@
     "devDependencies": {
         "@commitlint/cli": "^19.5.0",
         "@commitlint/config-conventional": "^19.5.0",
+        "@eslint/js": "^10.0.1",
         "@knodes/typedoc-plugin-pages": "^0.23.4",
         "@types/chai": "^4.3.9",
         "@types/chai-as-promised": "^7.1.7",
         "@types/chai-snapshot-matcher": "^1.0.4",
-        "@types/jsdom": "^21.1.4",
+        "@types/jsdom": "^21.1.7",
         "@types/memoizee": "^0.4.10",
         "@types/mocha": "^10.0.3",
         "@types/node": "^20.8.7",
@@ -46,28 +47,28 @@
         "chai": "^4.3.10",
         "chai-as-promised": "^7.1.1",
         "chai-snapshot-matcher": "^2.0.3",
+        "eslint": "^10.12.0",
         "husky": "^9.1.6",
-        "jsdom": "^22.1.0",
+        "jsdom": "^28.1.0",
         "jsdom-global": "^3.0.2",
         "lint-staged": "^15.2.10",
-        "mocha": "^10.2.0",
+        "mocha": "^11.8.0",
         "mock-http": "^1.1.0",
         "nock": "^13.3.6",
-        "nyc": "^15.1.0",
+        "nyc": "^18.0.0",
         "prettier": "^3.0.3",
         "sinon": "^17.0.0",
         "ts-node": "^10.9.1",
-        "tslint": "^6.1.2",
-        "tslint-config-prettier": "^1.18.0",
         "typedoc": "~0.23.28",
         "typedoc-plugin-missing-exports": "^1.0.0",
         "typedoc-plugin-rename-defaults": "0.6.6",
-        "typescript": "~5.0.4"
+        "typescript": "~5.0.4",
+        "typescript-eslint": "^8.71.1"
     },
     "dependencies": {
         "@namecheap/webpack-inject-plugin": "^2.0.1",
         "@types/url-join": "^4.0.2",
-        "avsc": "^5.7.7",
+        "avsc": "^5.7.9",
         "axios": "^1.20.0",
         "memoizee": "^0.4.15",
         "url-join": "^4.0.1"
@@ -78,9 +79,15 @@
     "overrides": {
         "conventional-changelog-conventionalcommits": ">= 8.0.0",
         "serialize-javascript": "^7.0.5",
-        "uuid": "^11.1.1"
+        "mocha": {
+            "glob": "^13.0.6",
+            "diff": "^8.0.3"
+        }
     },
     "engines": {
         "npm": ">=7"
+    },
+    "allowScripts": {
+        "es5-ext": false
     }
 }

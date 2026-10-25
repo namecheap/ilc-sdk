@@ -65,7 +65,7 @@ export class IlcIntl {
     }
 
     /**
-     * Allows to convert plain URL into a one that contains i18n information.
+     * Allows to convert plain URL into one that contains i18n information.
      *
      * @param url - absolute path or absolute URI. Ex: "/test?a=1" or "http://tst.com/"
      * @param configOverride - allows to override current i18n configuration & retrieve localized URL for desired configuration.
@@ -135,7 +135,7 @@ export class IlcIntl {
     }
 
     /**
-     * Allows to convert plain URL into a one that contains i18n information.
+     * Allows to convert plain URL into one that contains i18n information.
      *
      * @param config
      * @param url - absolute path or absolute URI. Ex: "/test?a=1" or "http://tst.com/"

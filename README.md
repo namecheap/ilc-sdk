@@ -1,5 +1,10 @@
 # App development SDK for ILC
 
+> [!IMPORTANT]
+> This package has moved to the [ilc-monorepo](https://github.com/namecheap/ilc-monorepo/tree/master/packages/ilc-sdk) repository.
+> Development continues there, so please open new issues and pull requests in that repository.
+> The npm package name `ilc-sdk` stays the same. This repository is no longer updated.
+
 [![NPM package](https://badgen.net/npm/v/ilc-sdk?color=red&icon=npm&label=)](https://www.npmjs.com/package/ilc-sdk)
 [![NPM downloads](https://badgen.net/npm/dt/ilc-sdk)](https://www.npmjs.com/package/ilc-sdk)
 
